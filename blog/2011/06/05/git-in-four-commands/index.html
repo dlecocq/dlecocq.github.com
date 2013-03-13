@@ -1,0 +1,264 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Git in Four Commands - My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="Git is not a complicated tool for most things. I still find it a little tricky to set up for multiple users, but even that&#8217;s pretty easy. It &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://dlecocq.github.com/blog/2011/06/05/git-in-four-commands">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39246569-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:dlecocq.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Git in Four Commands</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-06-05T00:00:00-07:00" pubdate data-updated="true">Jun 5<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><a href="http://book.git-scm.com/">Git</a> is not a complicated tool for most things. I still find it a little tricky to set up for multiple users, but even that&#8217;s pretty easy. It really caters to the use-case where you&#8217;re just starting a project, or are the sole developer, but just want to keep track of changes and versions, make branches, etc.
+
+The first major point of git is that everyone has their own copy of the repository. When you commit changes, you commit them to your local copy of the repository. If you are working on a group project, there is a shared resource that can be <strong>pushed to</strong> and <strong>pulled from</strong>, but I actually like that it takes an extra command to do that &#8211; it forces me to make sure that it&#8217;s what I actually want to do. Now, to the bare-bones commands:
+<ol>
+	<li><strong>git init</strong> &#8211; Wherever you&#8217;re writing your code, type &#8220;git init&#8221;. It creates an empty repository in that directory (there&#8217;s a magical hidden folder &#8220;.git&#8221; that gets created and knows things).</li>
+	<li><strong>git status</strong> &#8211; Git knows which files have changed since you last saved changes, and it will happily tell you which files are new and changed with this command.</li>
+	<li><strong>git add</strong> &#8211; When you change files and are at a point where it make sense to save changes to your code (a bug fix, a new feature, etc.), then tell git which files you want to put in this commit  with &#8220;git add&#8221;. If committing a set of changes with git is like shooting a gun, then adding files to be committed is like loading that gun. Git knows which files have changed, but it can make sense to group changed files into different logical commits. For example, if you fix two bugs between commits, you might want to add the changes for each bug fix separately.</li>
+	<li><strong>git commit</strong> &#8211; When you have added a bunch of changed files to be committed, now you&#8217;re ready to actually commit those changes. Type &#8220;git commit -m &#8216;A short, meaningful summary of the changes that happened.&#8217;&#8221;</li>
+</ol>
+
+There is a lot more to git, and a <a href="http://www.kernel.org/pub/software/scm/git/docs/gittutorial.html">million tutorials</a>, that will explain things in more detail, but these are the commands I spend 95% of my time using, and enough to at least get you starting tracking changes for anything and everything. It doesn&#8217;t matter very much what version control you use, <strong>just use something.</strong>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-06-05T00:00:00-07:00" pubdate data-updated="true">Jun 5<span>th</span>, 2011</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://dlecocq.github.com/blog/2011/06/05/git-in-four-commands/" data-via="danlecocq" data-counturl="http://dlecocq.github.com/blog/2011/06/05/git-in-four-commands/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/06/02/unfuddle/" title="Previous Post: Unfuddle">&laquo; Unfuddle</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2011/06/16/javascript-unit-testing-with-qunit/" title="Next Post: JavaScript Unit Testing with QUnit">JavaScript Unit Testing with QUnit &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/11/running-sudo-with-pssh/">Running sudo with pssh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/21/rough-array-hash-benchmark/">Rough Array Hash Benchmark</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/20/taskmaster-from-disqus/">Taskmaster from DISQUS</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/18/seomoz-blog-post-introducing-qless/">SEOmoz Blog Post -- Introducing qless</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/11/redis-and-lua-for-robust-portable-libraries/">Redis and Lua for Robust, Portable Libraries</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/dlecocq">@dlecocq</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'dlecocq',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

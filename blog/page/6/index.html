@@ -1,0 +1,649 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="Endianness is one of those things that, as a computer scientist you learn about but rarely have to think about. It does occasionally come into play &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://dlecocq.github.com/blog/page/6">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39246569-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:dlecocq.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/07/01/sockets-endianness-and-your-bluegenep/">Sockets, Endianness and Your BlueGene/P</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-07-01T00:00:00-07:00" pubdate data-updated="true">Jul 1<span>st</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">Endianness is one of those things that, as a computer scientist you learn about but rarely have to think about.  It does occasionally come into play and I recently had some frustration with it.
+
+For the uninitiated, it&#8217;s talking about the <a href="http://en.wikipedia.org/wiki/Endianness">order in which bytes are stored</a> in memory, and unsurprisingly, different processors have different philosophies regarding this.
+
+The term itself comes from Gulliver&#8217;s Travels, when two groups have strongly-held beliefs regarding on which end it was best to crack a hard-boiled egg.  And as in the book, it can cause tension.
+
+I&#8217;m working with a library in which a server and client communicate over sockets, and they tend to prepend their messages with the length of the message to follow.  In the code, it&#8217;s stored as a four-byte integer, and for the most part, it works beautifully.  However, we recently ported it to the BlueGene/P, which uses PowerPC chips.  These, unlike the common Intel chip, are big-endian, and so client and server would hang, waiting for an exceptionally large message when only a small one was sent.  For example, there are some common messages that are 329 bytes long.  If you interpret the value 329 using the alternative endianness, you&#8217;ll expect 1224802304 bytes, or about 1.2 GB.
+
+I&#8217;ll admit that it took a while to catch, but we eventually got it figured out.  We don&#8217;t use sockets much, but couldn&#8217;t imagine that this was a problem that hadn&#8217;t been encountered before.  After all, the internet uses sockets, has been around for a long time, and it&#8217;s not as if big-endian devices aren&#8217;t allowed on.  It turns out that there is in fact a convention - that information sent over sockets ought to be in big-endian format, but networking libraries provide you with functions to help out with this.
+
+The functions <em>htons</em>, <em>htonl</em> and sometimes <em>htonll</em> convert <em>H</em>ost <em>to</em> <em>n</em>etwork two-byte, four-byte and eight-byte messages respectively.  And the inverse functionality is encapsulated by <em>ntohs</em>, <em>ntohl</em> and <em>ntohll</em>.
+
+Lesson learned.
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/06/18/freediving/">Freediving</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-06-18T00:00:00-07:00" pubdate data-updated="true">Jun 18<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">One of the greatest features of KAUST is its proximity to the Red Sea.  In fact, when I look out of my apartment window, I see water in the harbor a mere 30 meters away.  The campus beach is all of a 10-minute ride away.  Countless afternoons friends and I have decided that we don&#8217;t need to go back to the office today and that our time might be better spent snorkeling on the reef.
+
+Skin diving is great by virtue about its accessibility.  Strictly speaking you just need goggles, but that&#8217;s easily augmented with a snorkel and fins - all things you can just throw in a backpack.  And in fact, some people can hold their breath for relatively long periods of time.  At least, long enough to go down, see something interesting and come back up.  However, there are others that take it to a whole different level:
+
+<object width="590" height="332"><param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://vimeo.com/moogaloop.swf?clip_id=12474628&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=0&amp;show_portrait=0&amp;color=00ADEF&amp;fullscreen=1" /><embed src="http://vimeo.com/moogaloop.swf?clip_id=12474628&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=0&amp;show_portrait=0&amp;color=00ADEF&amp;fullscreen=1" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="590" height="332"></embed></object>
+via <a href="http://www.wonderhowto.com/wonderment/base-jumping-freediving-canon-5d-one-spectacularly-scary-show-0117055/">WonderHowTo</a>
+
+While I&#8217;ll continue to work on holding my breath, I think a pony bottle or <a href="http://en.wikipedia.org/wiki/Bailout_bottle">bailout bottle</a> would be an interesting addition to all this.
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/06/16/epics/">EPICS</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-06-16T00:00:00-07:00" pubdate data-updated="true">Jun 16<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">Engineering Practices Introductory Course Sequence.  Every student from the Colorado School of Mines has taken the two-course series, and talks about it with a slight distaste in his mouth.  For some students it&#8217;s a much-needed first pass at writing reports, dressing up, speaking in front of others.  (This is something I&#8217;ve actually come to appreciate about the system - its emphasis on presenting to peers.)
+
+I remember when I took it, we were supposed to design a small device within certain (relatively arbitrary) constraints to collect a soil sample.  The premise was unrelatable - that we might one day be responsible for a subsystem deployed to collect a soil sample on a distant planet, without thought about its return.
+
+It&#8217;s become rather popular lately in certain communities to program and attach digital cameras to weather balloons and take pictures from as high up as 30km (about 20 miles) or so.  The results speak for themselves:
+
+<object width="590" height="332"><param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://vimeo.com/moogaloop.swf?clip_id=12421661&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=0&amp;show_portrait=0&amp;color=00ADEF&amp;fullscreen=1" /><embed src="http://vimeo.com/moogaloop.swf?clip_id=12421661&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=0&amp;show_portrait=0&amp;color=00ADEF&amp;fullscreen=1" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="590" height="332"></embed></object>
+
+What I found regrettable about my EPICS experience was that it was too far removed to really care about the project.  It had its fun moments, and I was glad that for EPICS 2 I got to work on a project I really believed in with some friends (it was a considerable improvement).  But this is an example of a project I contemplate and eye over longingly, even outside the context of a course.  Similar projects can cost on the order of a couple hundred dollars and are relatively feasible, even for freshman engineers.  To have something you built venture farther from the earth than any one of us likely ever will, bring back pictures and live to tell the tale would be extremely rewarding.
+
+Had there been projects like this when I was in school, I know that my experience would have been that much more enriched.
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/05/25/women-drivers/">Women Drivers</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-05-25T00:00:00-07:00" pubdate data-updated="true">May 25<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">Living at KAUST comes with certain privileges not extended to Saudi at large.  For example, women do not have to wear abayas on campus, or even scarves to cover their hair.  Men and women are allowed to talk openly, although there are restrictions on fraternization.  Also, women can drive.
+
+Thus, it occurred to me recently - if you&#8217;re a woman driver in Saudi, you get arrested and then who knows what else.  If you&#8217;re a woman driver in the US, you get a discount on your car insurance.
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/05/18/it-was-a-triumph/">It Was a Triumph</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-05-18T00:00:00-07:00" pubdate data-updated="true">May 18<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">With Steam now available for Mac, I&#8217;ve finally come to 2007 and played Portal.  Now I finally have a context for the internet memes that we all know and love.
+
+As a game, it was fantastic - some of the puzzles are pretty challenging, but the mark of a good game is that it builds you up to make you better.  Each of the test chambers develops a few critical skills or techniques, and these situations can be recognized by type later on and solved analogously.  By the end, you&#8217;ve developed a complete skillset for solving much more complicated puzzles than at the beginning.  It&#8217;s an important difference - a game that develops you and a game that simply gets harder.
+
+One of the things that makes it really enjoyable to play is the quirky commentary provided by GLaDOS.  It is peppered through out with phrases like, &#8220;at this point you&#8217;ve realized that our last statement was of course a complete fabrication,&#8221; and &#8220;did you know that you can donate any of your vital organs to the Aperature Science self-esteem program for girls?&#8221;
+
+I enjoyed it immensely and look forward to playing other titles from Steam, like Half-Life 2 and so forth.  For those of you who missed it, I&#8217;m Still Alive:
+
+<object width="480" height="385" class="aligncenter"><param name="movie" value="http://www.youtube.com/v/Y6ljFaKRTrI&hl=en_US&fs=1&"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/Y6ljFaKRTrI&hl=en_US&fs=1&" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="480" height="385"></embed></object>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/05/18/avogadros-number/">Avogadro&#8217;s Number</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-05-18T00:00:00-07:00" pubdate data-updated="true">May 18<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">Facepalm.
+
+<a href="http://www.toothpastefordinner.com/"><img class="aligncenter" alt="toothpastefordinner.com" src="http://www.toothpastefordinner.com/051910/avogadros-number.gif" width="550" height="462" border=0></a><br /><a href="http://www.toothpastefordinner.com">toothpastefordinner.com</a>
+
+From <a href="http://www.toothpastefordinner.com/">Toothpaste For Dinner</a>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/05/14/heartsaver-course/">Heartsaver Course</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-05-14T00:00:00-07:00" pubdate data-updated="true">May 14<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">A fellow student recently arranged for a number of us to take a CPR and AED (automatic external defibrillator) short course.  I think every one of the 11 KAUST students is either an avid diver and/or snorkeler.
+
+I can&#8217;t speak for everyone, but I know for my personally it was because I wanted to be able to be a better dive buddy. (In PADI and all diving certifications you&#8217;re supposed to dive with a buddy for both safety and fun.)  Although we always take appropriate precautions when diving, it can still be a dangerous sport.  We all feel like learning CPR and how to operate an AED were easy steps to mitigate some of this risk.
+
+During dive training, we have to practice some emergency maneuvers, but I always had this lingering curiosity about whether or not it would come back to you naturally during an emergency situation.  Once while diving, my friend Noah took off his tank and regulator and swam over to our friend Luca and signaled that he was out of air, asking to use his alternate air source.  While it&#8217;s a simple act to share your air, seeing another diver pop up needing air would be quite a surprise.
+
+That said, I realized after the course that we were at least better prepared for unforeseen accidents than we were when we started.
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/05/07/the-life-aquatic/">The Life Aquatic</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-05-07T00:00:00-07:00" pubdate data-updated="true">May 7<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">A while ago, I saw an <a href="http://xkcd.com/731/">xkcd comic</a> about being stranded on a desert island - looking out at the vast, perfectly flat blue infinity, struck by the lack of anything worthwhile.
+
+<img src="http://imgs.xkcd.com/comics/desert_island.png" alt="xkcd's Desert Island" width="590" style="align:center"/>
+
+Had I been stranded on a deserted island six months ago, this would have absolutely been me.  Well, and without goggles, it would still be me, but that&#8217;s neither here nor there.
+
+As I live in Saudi Arabia, activities can be&#8230; sparse.  There&#8217;s cycling and sports, but for the most part it&#8217;s too hot to do anything until the evening.  In January I first joined some of my friends on a dive trip of theirs - I was only snorkeling, but they assured me there would be plenty to see.  Growing up a good 1500km from a large saline body of water, my experience had been rather limited.  When I finally got ready, and put my head under water, my head popped back up about half a second later, shouting to my friends, &#8220;Holy crap!  There&#8217;s fish everywhere!&#8221;
+
+My friends just sort of looked back at me as if to say, &#8220;yeah&#8230; about that - that&#8217;s why we come.&#8221;
+
+From that point on, I&#8217;ve been hooked.  I have since gotten <a href="http://www.padi.com/scuba/">dive-certified</a>, and gone a few trips.  Few things are better than getting to explore a world unseen by most people, sometimes seeing reefs so random and remote that it&#8217;s unlikely that people have even been there at all.  On every boat trip, we pass uncountably many shallow reef patches, that extend for kilometers - they really are sprawling, massive underwater cities.
+
+A few weeks ago, I got to go on a truly fantastic trip.  The Marine Science department at KAUST tags and studies <a href="http://en.wikipedia.org/wiki/Whale_sharks">whale sharks</a>, and every so often they take along &#8220;tourists.&#8221;  We saw between 5 and 7 unique sharks, the longest of which was about 6.5m (20 feet), though apparently they can grow to be over 12m (40 feet).  Roll clip:
+
+<object width="590" height="332"><param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://vimeo.com/moogaloop.swf?clip_id=11734916&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=0&amp;show_portrait=0&amp;color=00ADEF&amp;fullscreen=1" /><embed src="http://vimeo.com/moogaloop.swf?clip_id=11734916&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=0&amp;show_portrait=0&amp;color=00ADEF&amp;fullscreen=1" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="590" height="332"></embed></object>
+
+How this worked is we had two boats (one filled with researchers and one filled with us tourists), and if either boat spotted something, they&#8217;d sound the horn, and everyone jumped in.  As such, we would all sit on the edge of the boat, fins on, masks ready - just in and out of the water all day.  Once in, the sharks tended to swim pretty fast - they seem to be barely exerting themselves and we&#8217;re swimming as fast as we can.  And, if they don&#8217;t care to outrun us and want to get away, they dive beyond our reaches.
+
+On this same trip we saw a lonely sea turtle, about the size of a dinner plate.  We all hopped in the water and had turns getting our pictures taken with him.  Honestly, I felt a little weird about picking him up, but he really did not seem to mind it.  It does violate a widely-followed rule among responsible divers - touch nothing (unless you really know what it is and that it&#8217;s not going to damage you or it).
+
+We also saw a &#8220;pod&#8221; of three dolphins; they often appear briefly on these boat trips, but usually scurry off pretty quickly in our experience.  On this occasion, though, as we were already set up to be hopping in and out of the water at a moment&#8217;s notice, we did try to swim with them.  They mostly stayed about 6m below us, and were much more difficult to keep up with than the whale sharks.  That said, fortune favored the persistent, and after about 15 minutes of some of my hardest swimming, I managed to spot them and get within about 2m (6 feet) of them as they surfaced.  One was badly scarred across his back, but the other two were untouched.  They came up for a quick drink of air, descended a few meters, did a somersault underwater and then looked at me as if to say, &#8220;Oh, you can&#8217;t do that, can you?&#8221;
+
+It&#8217;s hard to take in the incredible gravity and beauty of the sights, let alone when swimming as fast as you can and perpetually out of breath.  I&#8217;m glad I got the chance, and I hope to see more aquatic life, but there is definitely a reason it&#8217;s remote.  Consider this: in hiking, the highest I&#8217;ve been is just over 14,000 feet, but the limits of recreational diving is a mere 40m (130 feet) and that requires even more specialized training.  Consider, too, the <a href="http://i.imgur.com/m3ZxZ.jpg">Mariana Trench</a> - which is less accessible: the deep sea or space?
+
+Since the opening of the KAUST beach, we&#8217;ve explored much of the reef, sometimes to the dismay of the coast guard.  We take precautions - <em>never</em> going alone, bringing a dive flag, and knowing our limits.  Floating along in the warm water, seeing thousands of fishes, swimming around is enough to make anyone want to play Jacques Cousteau.
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/04/24/the-pains-of-nightly-builds/">The Pains of Nightly Builds</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-04-24T00:00:00-07:00" pubdate data-updated="true">Apr 24<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">I&#8217;ve been working with WebKit a lot lately.  Specifically, WebGL.  It&#8217;s fantastic, and it has the potential to change a lot of important applications, but working with nightly builds is&#8230; well, frustrating.
+
+I&#8217;ve been using a revision released in December.  Some later revisions have weird behaviors and draw pixelated, but I&#8217;ve finally come across a problem with r52426 that I just can&#8217;t circumvent - floating-point textures.  They just don&#8217;t seem to work properly.  I had noticed the bug before, but it wasn&#8217;t absolutely crucial before.  Rather, the real bug is that you can&#8217;t initialize floating-point textures from the JavaScript side.
+
+They&#8217;ve fixed this in later versions, but many of these that have this bug fixed also have a problem with gl.viewport, which is pretty mission-critical.  So now I&#8217;m sifting through the changelog, hoping to find a release somewhere in the middle that isn&#8217;t completely broken.
+
+<strong>Update:</strong> Victory! If you&#8217;re going to be developing WebGL stuff on Mac, I&#8217;d recommend WebKit r53036.  It seems to have everything I need (so far) fixed.
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/02/07/tech-addiction/">Tech Addiction</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-02-07T00:00:00-08:00" pubdate data-updated="true">Feb 7<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">Several days ago, Gizmodo posted a quiz about <a href="http://gizmodo.com/5453262/quiz-are-you-addicted-to-technology">technology addiction</a>.  Somewhat nervously / reluctantly looked through the questions, and was pleased to find that I fit into their &#8220;Coffee Fiend&#8221; category.  Well, rather, I was pleased that I didn&#8217;t fall in any of their worse categories, despite working with computers for a living.  There are even some places I could do with shaving down that would get me into their &#8220;Social Drinker&#8221; category; I see this as proof that one still can be in a tech field and not be a total tech fiend.
+
+Some of their more amusing / revealing / interesting questions were:
+
+<blockquote>
+2. Do you sometimes bring your laptop when you sit on the toilet?</blockquote>
+
+Just for the record, I do not.  But, I know people who do, and let&#8217;s face it - that&#8217;s why the iPhone was invented in the first place.
+
+<blockquote>
+8. Have you ever changed vacation plans based on wi-fi availability?</blockquote>
+
+Well, technically yes, I have done that.  But it was deciding between two capsule hotels, and I was going to be there for a week for a tech conference.  I think that&#8217;s justified.
+
+
+<blockquote>
+10. If your house were on fire, would you run in to rescue your laptop?</blockquote>
+
+I have sort of done this already.  Fire alarms are a regular feature of KAUST, and one day we saw smoke coming from the building we were in as one went off.  Ben and I looked at each other for 2 or 3 seconds, then both immediately grabbed our laptops and dashed out.  In all fairness, most of my work is on there (I&#8217;m doing more off-site backups for the important stuff), and it&#8217;s the only computer I have in this country.  What is life without computer?
+
+<blockquote>
+35. Do you tweet or read blogs while watching movies at home?</blockquote>
+
+Well, I do play Tetris.  That&#8217;s my tech meditation time.
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/7/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/5/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/11/running-sudo-with-pssh/">Running sudo with pssh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/21/rough-array-hash-benchmark/">Rough Array Hash Benchmark</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/20/taskmaster-from-disqus/">Taskmaster from DISQUS</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/18/seomoz-blog-post-introducing-qless/">SEOmoz Blog Post &#8211; Introducing qless</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/11/redis-and-lua-for-robust-portable-libraries/">Redis and Lua for Robust, Portable Libraries</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/dlecocq">@dlecocq</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'dlecocq',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

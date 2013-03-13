@@ -1,0 +1,350 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>The Cost of Except in Python - My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="I was curious recently about how much of a performance penalty try/except blocks incur in python. Specifically, 1) does it incur much of a cost if no &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://dlecocq.github.com/blog/2012/01/08/the-cost-of-except-in-python">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39246569-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:dlecocq.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">The Cost of Except in Python</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-01-08T00:00:00-08:00" pubdate data-updated="true">Jan 8<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content">I was curious recently about how much of a performance penalty try/except blocks incur in python. Specifically, 1) does it incur much of a cost if no exception is thrown (accepting only a penalty when something exceptional happens) and 2) how does it compare to if/else statements where possible? A snippet to answer the first question:
+
+<pre lang='python'>
+import timeit
+ 
+withTryNoThrow = '''
+	try:
+		a = int('5')
+	except ValueError:
+		pass
+'''
+ 
+withTryThrow = '''
+	try:
+		a = int('z')
+	except ValueError:
+		pass
+'''
+ 
+withoutTry = '''
+	a = int('5')
+'''
+ 
+results = {
+	'withoutTry'    : timeit.Timer(withoutTry    ).timeit(100000),
+	'withTryNoThrow': timeit.Timer(withTryNoThrow).timeit(100000),
+	'withTryThrow'  : timeit.Timer(withTryThrow  ).timeit(100000)
+}
+ 
+for k, v in results.items():
+	print '%20s => %fs' % (k, v)
+</pre>
+
+For me, the results looked something like this:
+
+<pre>
+      withTryNoThrow => 0.082781s
+          withoutTry => 0.082880s
+        withTryThrow => 0.261147s
+</pre>
+
+It would appear that while catching exceptions is expensive, catching non-exceptions is very cheap. I imagine that the reason is mostly because when you throw an exception, you actually instantiate an exception object of some kind, which necessarily introduces some overhead. In the absence of that object creation, things can be relatively fast.
+
+Now, for the second question. This particular question came up when deciding whether or not I should try fetching a key from a dictionary and catching an exception when it&#8217;s absent, or if I should use the get method and then check if the result is None.
+
+<pre lang='python'>
+import timeit
+
+setup = '''d = dict({
+	'some'   : 1,
+	'keys'   : 2,
+	'are'    : 3,
+	'present': 4,
+	'others' : 5,
+	'arent'  : 6
+})'''
+
+tryExcept = '''
+	try:
+		a = d['doesntexist']
+	except KeyError:
+		pass
+'''
+
+getIfElse = '''
+	a = d.get('doesntexist', None)
+	if a == None:
+		pass
+	else:
+		pass
+'''
+
+getNoIf = '''
+	a = d.get('doesntexist', None)
+'''
+
+results = {
+	'tryExcept' : timeit.Timer(tryExcept, setup).timeit(100000),
+	'getIfElse' : timeit.Timer(getIfElse, setup).timeit(100000),
+	'getNoIf'   : timeit.Timer(getNoIf  , setup).timeit(100000)
+}
+
+for k, v in results.items():
+	print '%20s => %fs' % (k, v)
+</pre>
+
+For this second test, the results looked something like this for me:
+
+<pre>
+             getNoIf => 0.019980s
+           tryExcept => 0.083638s
+           getIfElse => 0.027422s
+</pre>
+
+Obviously, if your program is amenable to just using a default value, then happiness ensues. Failing that, using the get method and then if/else is much faster than the try/except alternative.
+
+<em>Fine Print</em>: I am running Python 2.7.1 on a 2011-ish MacBookPro.
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-01-08T00:00:00-08:00" pubdate data-updated="true">Jan 8<span>th</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://dlecocq.github.com/blog/2012/01/08/the-cost-of-except-in-python/" data-via="danlecocq" data-counturl="http://dlecocq.github.com/blog/2012/01/08/the-cost-of-except-in-python/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/01/06/chef-solo-and-god-a-divine-duo/" title="Previous Post: Chef-Solo and God -- A Divine Duo">&laquo; Chef-Solo and God -- A Divine Duo</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/03/11/redis-and-lua-for-robust-portable-libraries/" title="Next Post: Redis and Lua for Robust, Portable Libraries">Redis and Lua for Robust, Portable Libraries &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/11/running-sudo-with-pssh/">Running sudo with pssh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/21/rough-array-hash-benchmark/">Rough Array Hash Benchmark</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/20/taskmaster-from-disqus/">Taskmaster from DISQUS</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/18/seomoz-blog-post-introducing-qless/">SEOmoz Blog Post -- Introducing qless</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/11/redis-and-lua-for-robust-portable-libraries/">Redis and Lua for Robust, Portable Libraries</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/dlecocq">@dlecocq</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'dlecocq',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

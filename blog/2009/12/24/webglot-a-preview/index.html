@@ -1,0 +1,270 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>webGLot - A Preview - My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="I&#8217;ve mentioned WebGL before, and I think it could be very important. There is a competitor from Google, but like OpenGL and OpenCL, this API is &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://dlecocq.github.com/blog/2009/12/24/webglot-a-preview">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39246569-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:dlecocq.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">webGLot - a Preview</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-12-24T00:00:00-08:00" pubdate data-updated="true">Dec 24<span>th</span>, 2009</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content">I&#8217;ve <a href="http://dan.lecocq.us/wordpress/2009/09/22/the-future-of-the-internet/">mentioned WebGL before</a>, and I think it could be very important.  There is a <a href="http://code.google.com/apis/o3d/">competitor from Google</a>, but like OpenGL and OpenCL, this API is managed by the <a href="http://www.khronos.org/">Khronos Group</a> and that fact appeals to me.  Perhaps it&#8217;s that I&#8217;ve used it fairly extensively, but I really like OpenGL.  Despite its quirks, it&#8217;s quite powerful.
+
+The big &#8220;get&#8221; is that it gives programmers access to hardware-accelerated graphics from directly within the browser.  There&#8217;s a lot of interest in this arena for game development as it would obviate much of the need for separate distributions based on operating system.  (Skip to the end for more of an opinion on this subject.)
+
+As such, I&#8217;ve been working with WebGL as opposed to the Google-proposed O3D.  (I have every intention to explore O3D, time permitting, as there are some jagged edges to the current specification.)  The result of this recent toil is a budding WebGL implementation of my OpenGLot project.  It&#8217;s still in early stages, but in the coming weeks, it should develop even further.  To whet appetites, I have a few pictures.
+
+[caption id=&#8221;attachment_788&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A scalar field, my persistent test function.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/12/Picture-105.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/12/Picture-105-300x182.png" alt="A scalar field, my persistent test function." title="Picture 105" width="300" height="182" class="size-medium wp-image-788" /></a>[/caption]
+
+[caption id=&#8221;attachment_789&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A 3D surface, again one of my usual test functions.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/12/Picture-111.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/12/Picture-111-300x215.png" alt="A 3D surface, again one of my usual test functions." title="Picture 111" width="300" height="215" class="size-medium wp-image-789" /></a>[/caption]
+
+I seriously doubt that WebGL will every match the performance of OpenGL.  Even though JavaScript interpreters are getting faster at a somewhat alarming rate, they won&#8217;t match the speed of C or C++.  That said, if one can appropriately offload work onto the GPU, it won&#8217;t matter as much, but there will always be that overhead.
+
+It won&#8217;t so much be a matter of having the same performance, but <em>enough</em> performance.  If a person can go to a single webpage and get 60 frames per second performance in a game or tool without having to install software, that&#8217;s tremendous.  Currently I&#8217;ve been getting between 60 and 90 frames per second with WebGLot, and I&#8217;m sure I can keep that number up as more features are added.
+
+My hope is that this will be a tool and library that has a wide-enough feature set by the time WebGL is widely adopted that becomes often-used.  But that&#8217;s just ego.  The purer motivation is that if you&#8217;re a math teacher, and you want to have interactive demonstrations of Newton&#8217;s method, or parametric surfaces, or even flow fields, you can write an application in 20 minutes that does all the heavy lifting of graphing it for you.  As long as you can describe the mathematical primitives, you should be able to render it.  Of course there will be a general-purpose grapher available for any calculus student who&#8217;s having trouble visualizing this or that, too.  Or a resourceful PDE student who need to solve his homework (the GPU-based PDE solver will take a little bit more time, but it&#8217;s very nearly complete).
+
+In short, the strength of WebGL is that is has respectable performance, and in a year&#8217;s time, half the browsers (well maybe not half) on computers will support it, giving the average internet-user access to a wealth of media.
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-12-24T00:00:00-08:00" pubdate data-updated="true">Dec 24<span>th</span>, 2009</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://dlecocq.github.com/blog/2009/12/24/webglot-a-preview/" data-via="danlecocq" data-counturl="http://dlecocq.github.com/blog/2009/12/24/webglot-a-preview/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2009/12/22/silly-mistakes/" title="Previous Post: Silly Mistakes">&laquo; Silly Mistakes</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2009/12/25/triangle-strip-for-grids-a-construction/" title="Next Post: Triangle Strip for Grids - A Construction">Triangle Strip for Grids - A Construction &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/11/running-sudo-with-pssh/">Running sudo with pssh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/21/rough-array-hash-benchmark/">Rough Array Hash Benchmark</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/20/taskmaster-from-disqus/">Taskmaster from DISQUS</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/18/seomoz-blog-post-introducing-qless/">SEOmoz Blog Post -- Introducing qless</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/11/redis-and-lua-for-robust-portable-libraries/">Redis and Lua for Robust, Portable Libraries</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/dlecocq">@dlecocq</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'dlecocq',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

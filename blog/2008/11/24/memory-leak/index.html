@@ -1,0 +1,267 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Memory Leak - My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="Memory management is a notoriously difficult aspect of coding in C++. Generally, the problems one runs into with pointers is that you get rid of the &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://dlecocq.github.com/blog/2008/11/24/memory-leak">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39246569-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:dlecocq.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Memory Leak</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-11-24T00:00:00-08:00" pubdate data-updated="true">Nov 24<span>th</span>, 2008</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content">Memory management is a notoriously difficult aspect of coding in C++.  Generally, the problems one runs into with pointers is that you get rid of the data you&#8217;re pointing to while you still need it.  Gdb has become a good friend for finding segmentation faults.
+
+For those of you who aren&#8217;t computer scientists, here&#8217;s a quick explanation - we need space to store variables and information.  So, one way to do this is ask the system for some space, and then the system gives back an address.  Imagine mailboxes at the post office - you don&#8217;t have the stuff stored in your mailbox with you at all times, but rather the way (the key) to access it.  One problem that arises when you tell the post office you don&#8217;t need the mailbox anymore, but you don&#8217;t give back the key.  Someone else is assigned this mailbox, and his mail starts arriving in there, and when you go looking for yours, it&#8217;s not what you expect (this often causes a segmentation fault).  The other problem is when one patron keeps requesting mailboxes, and you&#8217;re only allowed to hold one key at a time, so you discard the old ones.  If you request too many, no mailboxes are left (this is a memory leak)!
+
+At any rate, I don&#8217;t have much experience tracking down memory leaks, and so when I came across this problem, I asked an open question to everyone in the lab of the best way to do this.  Someone suggested I put soapy water on my program and look for bubbles.
+
+I ended up looking through my code for places where this might be happening, and I happened to find it pretty quickly.  That&#8217;s pretty lucky.
+
+[caption id=&#8221;attachment_167&#8221; align=&#8221;aligncenter&#8221; width=&#8221;299&#8221; caption=&#8221;A memory leak gets out of control&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/leak-1.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/leak-1-299x300.png" alt="A memory leak gets out of control" title="Memory Leak" width="299" height="300" class="size-medium wp-image-167" /></a>[/caption]
+
+[caption id=&#8221;attachment_168&#8221; align=&#8221;aligncenter&#8221; width=&#8221;299&#8221; caption=&#8221;We get our memory back when the program is terminated.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/leak-2.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/leak-2-299x300.png" alt="We get our memory back when the program is terminated." title="Memory Leak" width="299" height="300" class="size-medium wp-image-168" /></a>[/caption]
+
+[caption id=&#8221;attachment_171&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;I got gdb to seg fault!&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/picture-3.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/picture-3-300x137.png" alt="I got gdb to seg fault!" title="Broken gdb" width="300" height="137" class="size-medium wp-image-171" /></a>[/caption]
+
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-11-24T00:00:00-08:00" pubdate data-updated="true">Nov 24<span>th</span>, 2008</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://dlecocq.github.com/blog/2008/11/24/memory-leak/" data-via="danlecocq" data-counturl="http://dlecocq.github.com/blog/2008/11/24/memory-leak/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2008/11/19/modified-turing-test/" title="Previous Post: Modified Turing Test">&laquo; Modified Turing Test</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2008/11/24/soda-revelation/" title="Next Post: Soda Revelation">Soda Revelation &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/11/running-sudo-with-pssh/">Running sudo with pssh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/21/rough-array-hash-benchmark/">Rough Array Hash Benchmark</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/20/taskmaster-from-disqus/">Taskmaster from DISQUS</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/18/seomoz-blog-post-introducing-qless/">SEOmoz Blog Post -- Introducing qless</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/11/redis-and-lua-for-robust-portable-libraries/">Redis and Lua for Robust, Portable Libraries</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/dlecocq">@dlecocq</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'dlecocq',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

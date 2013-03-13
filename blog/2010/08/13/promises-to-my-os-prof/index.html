@@ -1,0 +1,264 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Promises to my OS Prof - My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="For me, operating systems was one of the most worth-while courses in my undergraduate career. Not only gaining insight into the black-box that can be &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://dlecocq.github.com/blog/2010/08/13/promises-to-my-os-prof">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39246569-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:dlecocq.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Promises to My OS Prof</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-08-13T00:00:00-07:00" pubdate data-updated="true">Aug 13<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content">For me, operating systems was one of the most worth-while courses in my undergraduate career.  Not only gaining insight into the black-box that can be the operating system, but learning a bunch of skills that I have found invaluable since then.
+
+Even in graduate school, I encounter computer scientists that have never used the command line.  While its all well and good to use your IDE, it is absolutely crippling to not be able to do all the same magics from the command line.  Not only that, but there is a wealth of tools accessible from your favorite shell and bash scripting is a useful piece to keep in one&#8217;s toolbox.  The command line was one thing with which I was better acquainted through operating systems; this was especially true in one project where we had to roll our own shell.  This was particularly good because the shell gives access to a lot of system tools that I&#8217;ve since found I want to use in other programs: forking, dup&#8217;ing, interacting with environment variables, etc.
+
+Other good experiences were working with threading libraries and even booting up EC2 instances and testing out code there.  I am extremely grateful to then-professor Mike Colagrosso for making it such a worthwhile experience.  Lately I&#8217;ve been working with code where I remember quality code promises he made us make:
+
+<strong>ALWAYS save the return value of system calls.</strong>  I try to avoid programming in C as much as possible (after all, C++ is usually an alternative, if not Python), but whenever I do I am constantly reminded of this one.  The most common design for functions that I encounter in that kind of code is to accept the variable that is to be updated, and return instead, a code indicating the success/failure/warnings/etc. of the code.  In some cases, the return value is the only way you&#8217;ll have access to the resource just requested (for example in the case of fork(2) ), but either way it&#8217;s the basic mechanism for getting feedback about how code has executed.
+
+<strong>NEVER use strcpy(3).</strong> I&#8217;ve never used a buffer overflow in a clever way (though this is a someday project), or I should say on purpose.  But I&#8217;ve dealt with enough instances of me being distracted and writing bad code that I&#8217;ve gotten to know gdb (the GNU DeBugger) better than I would like.  The strcpy(3) function relies on null character termination to stop copying memory from one string into another.  If, however, a string isn&#8217;t null terminated or isn&#8217;t terminated before the length of the string buffer being copied into, then the operation will overrun the buffer.  Instead, <strong>ALWAYS use strncpy(3)</strong>.  It allows you to specify the maximum length that should be copied (like, for instance the length of the buffer being copied into) so as to avoid this embarrassing problem.
+
+Despite the taking the class just over three years ago (it&#8217;s unsettling to realize its been so long), these few promises have stuck with me.  So Mike, if you&#8217;re reading this, I&#8217;m doing my part!
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-08-13T00:00:00-07:00" pubdate data-updated="true">Aug 13<span>th</span>, 2010</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://dlecocq.github.com/blog/2010/08/13/promises-to-my-os-prof/" data-via="danlecocq" data-counturl="http://dlecocq.github.com/blog/2010/08/13/promises-to-my-os-prof/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2010/08/04/a-bad-first-instinct/" title="Previous Post: A Bad First Instinct">&laquo; A Bad First Instinct</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2010/08/20/ipad/" title="Next Post: iPad">iPad &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/11/running-sudo-with-pssh/">Running sudo with pssh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/21/rough-array-hash-benchmark/">Rough Array Hash Benchmark</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/20/taskmaster-from-disqus/">Taskmaster from DISQUS</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/18/seomoz-blog-post-introducing-qless/">SEOmoz Blog Post -- Introducing qless</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/11/redis-and-lua-for-robust-portable-libraries/">Redis and Lua for Robust, Portable Libraries</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/dlecocq">@dlecocq</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'dlecocq',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

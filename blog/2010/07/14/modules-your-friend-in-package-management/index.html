@@ -1,0 +1,303 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Modules - Your Friend in Package Management - My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="I&#8217;ve been working with a large shared system at my school, sometimes building packages for myself and sometimes for others. The one thing that &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://dlecocq.github.com/blog/2010/07/14/modules-your-friend-in-package-management">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39246569-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:dlecocq.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Modules - Your Friend in Package Management</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-07-14T00:00:00-07:00" pubdate data-updated="true">Jul 14<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content">I&#8217;ve been working with a large shared system at my school, sometimes building packages for myself and sometimes for others.  The one thing that&#8217;s almost certain across all such installations is that it&#8217;s difficult.  Installing dependencies can be a very deep rabbit hole, and there are seemingly more configuration, build and source control systems than there are atoms in the universe.
+
+On this particular shared system, our awesome sysadmins (these guys are really pretty great!) use a package called <a href="http://modules.sourceforge.net/">modules</a> to set environment variables for use with various packages.  Suppose you have several versions of a library that you&#8217;re working with.  Let&#8217;s say some users need Python 2.4, and other 2.6 and 3.0.  Instead of managing your path yourself, modules can help:
+<code>
+$> module load python-2.4
+$> which python
+/opt/share/python/2.4/ppc64/bin/python
+</code>
+
+One of the really great things about modules is that the way so-called <a href="http://modules.sourceforge.net/man/modulefile.html">modulefiles</a> are written, not only can you load modules easily, but you can also <em>unload</em> them just as easily:
+<code>
+$> which python
+/opt/share/python/2.4/ppc64/bin/python
+$> module unload python-2.4
+$> module load python-2.6
+$> which python
+/opt/share/python/2.6/ppc64/bin/python
+</code>
+
+It&#8217;s of course not limited to any particular environment variable.  The modulefile can specify where the man pages are, what paths to include when using <a href="http://www.cmake.org/">cmake</a>, dynamic library path and whatever you&#8217;d like.
+
+Modulefiles are also extremely convenient places to store information on how you actually built the library.  When you come back to it three months from now to build the next version of some code base, you won&#8217;t remember the complex arguments you had to pass into configure or cmake in order to get the damned thing to build.  Build notes are an essential part of maintaining code, especially if other people will be using the libraries you&#8217;ve built.
+
+Speaking of which, I&#8217;ve worked on other shared systems before where several people need to use the same library and end up building it separately.  Frank and Steve both need libX, and have made their installations accessible to the other users on the system, but who wants to sully their .bash_profile by adding some long and ugly paths to their PATH?  If Steve makes his modulefiles directory public, too, then you can just that directory in MODULEPATH:
+<code>
+# in ~/.bash_profile
+...
+export MODULEPATH=~/modules/:/home/frank/modules/
+...
+</code>
+
+Perhaps it&#8217;s not the best thing since sliced bread, but I like that it affords me a way to bridge the gap between having a convention for where libraries are installed (say, if you use MacPorts, for example?) and being able to easily set all your environment variables to <em>easier</em> if not easy compilation.
+
+By way of a way that its helped me, I&#8217;ve been compiling quite a few projects recently that rely on cmake.  These projects also have a whole lot of dependencies, but my build process is now something along the lines of:
+<code>
+$> module load libxml2
+$> module load vtk
+$> module load osmesa
+$> ...
+$> cmake ~/ParaView
+</code>
+
+This, compared to:
+<code>
+CMAKE_INCLUDE_PATH=$CMAKE_INCLUDE_PATH:/opt/share/libxml2/2.7.7/ppc64/include:/opt/share/vtk/5.6.0/ppc64/include/:...\
+CMAKE_LIBRARY_PATH=$CMAKE_LIBRARY_PATH:/opt/share/libxml2/2.7.7/ppc64/include:/opt/share/vtk/5.6.0/ppc64/lib/:...\
+cmake ~/ParaView
+</code>
+
+Computers aren&#8217;t perfect, but they are experts at remembering the details.  Almost to a fault.  Modules helps my interactions to be a little more equitable where I have to remember the important parts (the names of the modules I need, for example) and the computer can keep track of where the hell I put everything!
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-07-14T00:00:00-07:00" pubdate data-updated="true">Jul 14<span>th</span>, 2010</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://dlecocq.github.com/blog/2010/07/14/modules-your-friend-in-package-management/" data-via="danlecocq" data-counturl="http://dlecocq.github.com/blog/2010/07/14/modules-your-friend-in-package-management/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2010/07/13/delicious-sushi/" title="Previous Post: Delicious Sushi">&laquo; Delicious Sushi</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2010/07/15/an-explanation-of-gpus-anyone-would-love/" title="Next Post: An Explanation of GPUs Anyone Would Love">An Explanation of GPUs Anyone Would Love &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/11/running-sudo-with-pssh/">Running sudo with pssh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/21/rough-array-hash-benchmark/">Rough Array Hash Benchmark</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/20/taskmaster-from-disqus/">Taskmaster from DISQUS</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/18/seomoz-blog-post-introducing-qless/">SEOmoz Blog Post -- Introducing qless</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/11/redis-and-lua-for-robust-portable-libraries/">Redis and Lua for Robust, Portable Libraries</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/dlecocq">@dlecocq</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'dlecocq',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

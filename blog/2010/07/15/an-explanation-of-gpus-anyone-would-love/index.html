@@ -1,0 +1,272 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>An Explanation of GPUs Anyone Would Love - My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="It&#8217;s a question that comes up often in conversation, and especially when meeting new people. The normal pleasantries of where one is from and &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://dlecocq.github.com/blog/2010/07/15/an-explanation-of-gpus-anyone-would-love">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39246569-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:dlecocq.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">An Explanation of GPUs Anyone Would Love</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-07-15T00:00:00-07:00" pubdate data-updated="true">Jul 15<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content">It&#8217;s a question that comes up often in conversation, and especially when meeting new people.  The normal pleasantries of where one is from and what one does naturally lead there.  &#8220;High-Performance Computing, eh?  What&#8217;s that?&#8221;
+
+I sometimes feel it a mission to dispel myths about supercomputing that the layperson might have.  Pop culture is full of stern-looking authority figures leering at a screen, looking over the shoulder of an endearingly-disheveled nerd.  Or I think Chuck represents this well:
+
+<object width="600" height="475"><param name="movie" value="http://www.youtube.com/v/hNYbw3ZqzQw&amp;hl=en_US&amp;fs=1?rel=0"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/hNYbw3ZqzQw&amp;hl=en_US&amp;fs=1?rel=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="600" height="475"></embed></object>
+
+So when answering this seemingly question about what exactly my job entails, I have to start at the bottom, explaining how processors aren&#8217;t getting any faster (and haven&#8217;t been for quite a while, relatively speaking).  And how this fact necessitates a different way of looking at programming tasks, moving from &#8220;fast&#8221; or &#8220;deep&#8221; to &#8220;wide.&#8221;  Supercomputers aren&#8217;t single small boxes in the middle of a vast room covered in billions of pixels, as Chuck would seem to suggest.  No, nothing so glamorous.  In fact, seeing a rack of IBM&#8217;s Blue Gene is more akin to <em>2001: A Space Odyssey</em> - being confronted with a towering black monolith:
+
+[caption id=&#8221;attachment_875&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;The BlueGene/P system at Argonne National Lab.  The man in the picture is actually now an awesome system administrator for the KAUST Supercomputing Lab!&#8221;]<a href="http://www.alcf.anl.gov/news/media_files/bluegene_p.jpg"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2010/07/bluegene_p-300x198.jpg" alt="" title="bluegene_p" width="300" height="198" class="size-medium wp-image-875" /></a>[/caption]
+
+So modern supercomputers are not a single chip that can perform trillions of calculations per second, but are rather a set of relatively simple processors that each perform modestly.  Though when working in concert, the results are astounding.  Not long ago a supercomputer sustained calculations at a rate of 1 <a href="http://en.wikipedia.org/wiki/Petaflop">petaflop</a>, or a million billion operations every second.  If we were to compare that to a relatively modern desktop, a second on that computer is the equivalent of about <em>four days</em> of computation on your desktop.  If the same code were to run on the <a href="http://en.wikipedia.org/wiki/Apollo_Guidance_Computer">computers used in the Apollo missions</a>, it would take approximately 630 years (this is a rough approximation based on a figure of 20 microseconds per add).
+
+The reason for the modest clock rates of each processor in modern devices is power.  Intel successfully grew processor performance by increasing the rate at which operations were performed (among other advances), but at a great cost in power.  For example, a chip on a BlueGene/P compute node runs at a mere 850MHz, though it&#8217;s impossible to use this number alone to compare performance.  In fact, of the budget allocated for the purchase of a system like that, only half that money goes towards actual equipment.  The rest goes towards the power of not only running it, but cooling the damn thing off.
+
+Graphics cards have become an unlikely source of high-performance computing in the last ten years or so.  It&#8217;s seen many struggles, from being difficult to program and even harder to debug, to early cards not supporting floating-point calculations and not supporting certain types of loops.  And yet NVIDIA now markets a graphics card with as many as 480 cores.
+
+I recently happened upon this video of Jamie Hyneman and Adam Savage of Myth Busters explaining the difference between a CPU (the brain of your computer for the uninitiated) and a GPU (the part the handles much of the graphics).  When presented with explosions, robots and paintballs, the difference really lights up (skip to 8 minutes in for the <em>really</em> good bit, but the whole thing is worth a watch):
+
+<object width="600" height="475"><param name="movie" value="http://www.youtube.com/v/XtGf0HaW7x4&amp;hl=en_US&amp;fs=1?rel=0"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/XtGf0HaW7x4&amp;hl=en_US&amp;fs=1?rel=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="600" height="475"></embed></object>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-07-15T00:00:00-07:00" pubdate data-updated="true">Jul 15<span>th</span>, 2010</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://dlecocq.github.com/blog/2010/07/15/an-explanation-of-gpus-anyone-would-love/" data-via="danlecocq" data-counturl="http://dlecocq.github.com/blog/2010/07/15/an-explanation-of-gpus-anyone-would-love/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2010/07/14/modules-your-friend-in-package-management/" title="Previous Post: Modules - Your Friend in Package Management">&laquo; Modules - Your Friend in Package Management</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2010/07/25/siggraph-2010/" title="Next Post: SIGGRAPH 2010">SIGGRAPH 2010 &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/11/running-sudo-with-pssh/">Running sudo with pssh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/21/rough-array-hash-benchmark/">Rough Array Hash Benchmark</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/20/taskmaster-from-disqus/">Taskmaster from DISQUS</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/18/seomoz-blog-post-introducing-qless/">SEOmoz Blog Post -- Introducing qless</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/11/redis-and-lua-for-robust-portable-libraries/">Redis and Lua for Robust, Portable Libraries</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/dlecocq">@dlecocq</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'dlecocq',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

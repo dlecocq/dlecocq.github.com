@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="Blog Archives Recent Posts GitHub Repos Status updating&#8230; @dlecocq on GitHub $(document).ready(function(){ if (!window.jXHR){ var jxhr = &hellip;">
+  <meta name="description" content="The pssh tool is great. Just great. At SEOmoz we use a number of deployment schemes, but every so often I find myself needing to log into 50 machines &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -78,7 +78,594 @@
       <div class="blog-index">
   
   
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/10/11/running-sudo-with-pssh/">Running Sudo With Pssh</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-10-11T00:00:00-07:00" pubdate data-updated="true">Oct 11<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">The <a href="http://www.theether.org/pssh/" title="pssh" target="_blank">pssh</a> tool is great. Just great. At SEOmoz we use a number of deployment schemes, but every so often I find myself needing to log into 50 machines and perform some simple one-off command. I&#8217;ve written such a line many times:
+<code>
+for i in {01..05}; do ssh -t ec2-user@some-host-$i 'sudo ...'; done
+</code>
+
+This is fine if the command is quick, but it <em>really</em> sucks if it&#8217;s something that takes more than just a few seconds. So in the absence of needing to use sudo (and thus the &#8216;-t&#8217; flag), pssh makes it easy to run these all in parallel:
+<code>
+pssh -i --host=some-host-{01..50} -l ec2-user 'hostname'
+</code>
+
+Coercing pssh to create a pseudo-tty to enable sudo commands was a little tricky, though:
+<code>
+# And now I can sudo!
+pssh -x '-t -t' -i --host=some-host-{01..50} -l ec2-user 'sudo hostname'
+</code>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/07/21/rough-array-hash-benchmark/">Rough Array Hash Benchmark</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-21T00:00:00-07:00" pubdate data-updated="true">Jul 21<span>st</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">I recently went on a mission to find (and perhaps build) a better dictionary. I&#8217;ve been looking at <a href="http://www.naskitis.com/" title="Dr. Askitis">Dr. Askitis&#8217; work</a> on so-called HAT-tries, which are something akin to a burst trie. It all seems reasonable enough, and his experimental results seem very promising. In particular, I was looking for an open source version of this data structure that didn&#8217;t preclude commercial use (as Askitis&#8217; version does).
+
+HAT-tries rely on another of Askitis&#8217; data structures, the <a href="http://crpit.com/confpapers/CRPITV91Askitis.pdf">hash array map</a>. Essentially, it&#8217;s a hash table, but instead of using linked lists to store nodes containing the various key/value pairs stored in a particular slot, each slot is actually a buffer that stores a bunch of packed information, including the number of items in the buffer, the length of the string key, and the value itself. The idea is that this arrangement is much more conducive to caching (and hardware prefetches out of memory since each slot is a contiguous slab of memory). Contrast this to a more conventional approach in which each slot is a linked list that must be traversed to find the actual key/value pair that&#8217;s being retrieved.
+
+I should note that there are a <a href="https://github.com/dcjones/hat-trie" target="_blank">couple</a> of <a href="https://github.com/chris-vaszauskas/hat-trie" target="_blank">implementations</a> that I looked at before venturing out to <a href="https://github.com/dlecocq/hat-trie" target="_blank">make my own</a>. The design is actually relatively simple: hash a provided key to map it onto one of many internal buckets. If that bucket is empty, allocate enough memory to store an 1) integer counter of the number of pairs in this buffer, 2) integer length of the provided key, 3) a byte copy of the key itself, and 4) a byte copy of the value.
+
+For the hash, I chose my personal favorite, <a href="http://www.azillionmonkeys.com/qed/hash.html">superfasthash</a>. I actually began by having my implementation follow the STL style of being able to provide a memory allocator, and when I didn&#8217;t see the performance I wanted, I switched to `malloc` and `realloc` as prescribed in the paper. Even then, I did not see the performance I wanted. Of course, I imagine that my implementation could be improved, but I felt like it was certainly at least reasonable. I tried a number of alterations, including preallocating more memory than was needed in each slot with hopes that realloc would save me. No dice.
+
+My benchmark was focused on speed. Memory was less of a concern for my needs, and so long as it stayed mostly unnoticeable (say, less than a couple hundred megabytes for a million keys), I was happy. I decided to give it a run against `std::map` (mostly to feel better about myself), and then `tr1::unordered_map` (mostly out of hubris). Although my rough implementation doesn&#8217;t (yet) include fancy-schmancy features like iterators, it <em>barely</em> edged out `tr1::unordered_map` for a small number of keys (less than 10k). When scaling up, however, the story was less than impressive.
+
+This benchmark was performed using the first <em>k</em> words from Askitis&#8217; `distinct_1` data set, and the strings were loaded into memory before running the tests. These numbers are each the best of 10 consecutive runs (hoping to warm the cache and cast each of these in the best possible light), with each of these containers being a mapping of `std::string` to `size_t`. Each key was associated with the value 1, and when querying, it was verified that the resulting value was still 1. The query was performed on the same input set of keys, and random query was run exactly the same, but after performing `std::random_shuffle` on the vector. It was compiled with `g++-4.2` with flags `-O3 -Wall` (though other optimization levels had almost no impact). I also tried with `clang-2.1` and the results were very similar. I encourage you to run the same bench on your own system and your own compiler version.
+
+[caption id=&#8221;attachment_1073&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Insertion Time Relative to std::tr1::unordered_map&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2012/07/insert.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2012/07/insert-300x200.png" alt="Insertion Time Relative to std::tr1::unordered_map" title="Insertion Time" width="300" height="200" class="size-medium wp-image-1073" /></a>[/caption]
+
+[caption id=&#8221;attachment_1074&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Query Time Relative to std::tr1::unordered_map&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2012/07/query.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2012/07/query-300x200.png" alt="Query Time Relative to std::tr1::unordered_map" title="Query Time" width="300" height="200" class="size-medium wp-image-1074" /></a>[/caption]
+
+[caption id=&#8221;attachment_1075&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Random Query Time Relative to std::tr1::unordered_map&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2012/07/random.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2012/07/random-300x200.png" alt="Random Query Time Relative to std::tr1::unordered_map" title="Random Query Time" width="300" height="200" class="size-medium wp-image-1075" /></a>[/caption]
+
+While `tr1::unordered_map` scaled better, at least for the purposes of HAT-trie, the number of items in the hash is relatively limited (roughly in the range of 10k). When testing the HAT-trie itself, I think the hash array map has earned at least a chance for a trial. For those curious, <a href="https://github.com/dlecocq/hat-trie" target="_blank">my source is available on github</a>.
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/05/20/taskmaster-from-disqus/">Taskmaster From DISQUS</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-20T00:00:00-07:00" pubdate data-updated="true">May 20<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">I have been waiting for an occasion to use <a href="https://github.com/dcramer/taskmaster" target="_blank">dcramer&#8217;s taskmaster</a>, which is a queueing system meant for large, infrequently-invoked (even one-off) tasks. In his <a href="http://justcramer.com/2012/05/04/distributing-work-without-celery/" target="_blank">original blog post</a> brings up one of the features that was particularly striking to me &#8211; you don&#8217;t put jobs into the queue per se, but you describe a generator that yields all the jobs that should be put in the queue.
+
+Occasionally at SEOmoz, we want to perform sanity checks on customer accounts, or transitioning from one backend to another, etc. In particular, we&#8217;ve been transitioning to a new queueing system, and we wanted to go through every customer and ensure that they had a recent crawl, and further, were definitely in the new system. Unfortunately, much of the data we have to check involves a lookup into Cassandra (that can&#8217;t be turned into a bulk operation very easily). Cassandra&#8217;s not necessarily the problem, but just the latency between requests. So, spawn off 20 or so workers with taskmaster, each given the details about the customer that we needed to verify.
+
+The serial version takes 4-5 hours. It took 15 minutes to get taskmaster installed and grokked, and then the task itself took an hour. Already a win!
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/05/18/seomoz-blog-post-introducing-qless/">SEOmoz Blog Post &#8211; Introducing Qless</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-05-18T00:00:00-07:00" pubdate data-updated="true">May 18<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">I recently wrote a new <a href="http://devblog.seomoz.org/2012/05/introducing-qless-our-new-job-queue/">dev blog post</a> at SEOmoz about <a href="https://github.com/seomoz/qless">qless</a>, a project I&#8217;ve been working on. It&#8217;s a queueing system that takes advantage of Redis 2.6&#8217;s server-side Lua scripting.
+
+Happy queueing!
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/03/11/redis-and-lua-for-robust-portable-libraries/">Redis and Lua for Robust, Portable Libraries</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-03-11T00:00:00-08:00" pubdate data-updated="true">Mar 11<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">Redis 2.6 has support for server-side Lua scripting. Off hand, this may not seem like a big deal, but it offers some surprisingly powerful features. I&#8217;ll give a little bit of background on why I&#8217;m interested in this in the first place, and then I&#8217;ll show why this unassuming feature is so extremely useful for <strong>otherwise impossible atomic operations</strong>, as well as for <strong>easy language portability</strong> and <strong>performance</strong>.
+
+For example, I&#8217;ve recently been working on a Redis-based queueing system (heavily inspired by Resque, but with some added twists) and a lot of functionality that I wanted to support would have been prohibitively difficult without Redis&#8217; support for Lua. For example, I want to make sure that jobs submitted to this queueing system do not simply get dropped on the floor. A worker is given a temporary exclusive lock on a job, and must either complete it or heartbeat it within a certain amount of time. If that worker does not, it&#8217;s presumed that the worker dropped the job and it can be given to a new worker.
+
+Now let&#8217;s imagine what this locking mechanism would have to look like in order to be correct. First, we&#8217;d probably maintain a list of jobs in a queue that have been popped off, but not yet completed, sorted by when their lock expires. When a client tries to get a job, it should first check for expired locks, and if it finds any, it should assume responsibility for those jobs. So this client sees an expired lock, and attempts to update the metadata associated with the job to reflect that it now has that job. In the mean time, the original client has swooped in and tried to complete the job despite the expired lock, removes the entry for the lock, and updates the job data to reflect its completion. It&#8217;s possible that the second client updates the job data after this, and inserts a new lock for itself, putting the system into an inconsistent state.
+
+Yes, Redis has a mechanism for this, but it&#8217;s only so strong. There&#8217;s the `MULTI`, `WATCH` and `EXEC` combo, which allows you to detect the situation when another client has tried to modify a key for which you&#8217;re trying to perform an atomic operation and allows you to try the operation again. But for highly contentious keys, you can spend a lot of time backing off and failing. That&#8217;s frustrating.
+
+Redis&#8217; Lua support has an interesting guarantee: <strong>Lua scripts in Redis are guaranteed to be executed atomically</strong>. No other commands can be run on the Redis instance while the Lua script is running. With that in place, you are free to no worry in the slightest about these sorts of race conditions, because they just won&#8217;t happen. You can access as many keys as you&#8217;d like, without having to worry about `WATCH`-ing them for changes, and implement as simple or complex a locking mechanism as you&#8217;d like.
+
+Another interesting feature that comes out of this is that if you implement your next Redis-based library as a collection of Lua scripts, then you can write bindings in other languages in a flash. The only requirement is that those new bindings must be able to read in a file, load the script, and then have Redis bindings to invoke those scripts. Clients no longer have to worry about mimicking any arbitrarily complex logic in their own language &#8211; they just rely on these Lua scripts that can be shared across all the bindings! This may go without saying, but maintaining bindings is something that can be a bit of a nuisance. One example that jumps to mind immediately is working with Redis from Node.js if a lot of successive commands have to be chained together. It can get extremely messy.
+
+Not only this laundry list of wonderful features spring out of this Lua support, but it&#8217;s surprisingly performant. Without giving too much away, at SEOmoz, I recently implemented the queueing system I mentioned to support scheduled work items, heartbeating, priority and statistics collection in a collection of about 10-12 Lua scripts. Initial benchmarks have hit 4500 job pop/complete transactions per second on a 2011-ish MacBook Pro. At least for our purposes, this is <em>plenty</em> of room to roam. And let me assure you, these scripts are not always simple, and so the fact that Redis can still maintain good performance in the face of arbitrary scripts speaks volumes about the quality of Redis.
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/01/08/the-cost-of-except-in-python/">The Cost of Except in Python</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-01-08T00:00:00-08:00" pubdate data-updated="true">Jan 8<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">I was curious recently about how much of a performance penalty try/except blocks incur in python. Specifically, 1) does it incur much of a cost if no exception is thrown (accepting only a penalty when something exceptional happens) and 2) how does it compare to if/else statements where possible? A snippet to answer the first question:
+
+<pre lang='python'>
+import timeit
+ 
+withTryNoThrow = '''
+	try:
+		a = int('5')
+	except ValueError:
+		pass
+'''
+ 
+withTryThrow = '''
+	try:
+		a = int('z')
+	except ValueError:
+		pass
+'''
+ 
+withoutTry = '''
+	a = int('5')
+'''
+ 
+results = {
+	'withoutTry'    : timeit.Timer(withoutTry    ).timeit(100000),
+	'withTryNoThrow': timeit.Timer(withTryNoThrow).timeit(100000),
+	'withTryThrow'  : timeit.Timer(withTryThrow  ).timeit(100000)
+}
+ 
+for k, v in results.items():
+	print '%20s => %fs' % (k, v)
+</pre>
+
+For me, the results looked something like this:
+
+<pre>
+      withTryNoThrow => 0.082781s
+          withoutTry => 0.082880s
+        withTryThrow => 0.261147s
+</pre>
+
+It would appear that while catching exceptions is expensive, catching non-exceptions is very cheap. I imagine that the reason is mostly because when you throw an exception, you actually instantiate an exception object of some kind, which necessarily introduces some overhead. In the absence of that object creation, things can be relatively fast.
+
+Now, for the second question. This particular question came up when deciding whether or not I should try fetching a key from a dictionary and catching an exception when it&#8217;s absent, or if I should use the get method and then check if the result is None.
+
+<pre lang='python'>
+import timeit
+
+setup = '''d = dict({
+	'some'   : 1,
+	'keys'   : 2,
+	'are'    : 3,
+	'present': 4,
+	'others' : 5,
+	'arent'  : 6
+})'''
+
+tryExcept = '''
+	try:
+		a = d['doesntexist']
+	except KeyError:
+		pass
+'''
+
+getIfElse = '''
+	a = d.get('doesntexist', None)
+	if a == None:
+		pass
+	else:
+		pass
+'''
+
+getNoIf = '''
+	a = d.get('doesntexist', None)
+'''
+
+results = {
+	'tryExcept' : timeit.Timer(tryExcept, setup).timeit(100000),
+	'getIfElse' : timeit.Timer(getIfElse, setup).timeit(100000),
+	'getNoIf'   : timeit.Timer(getNoIf  , setup).timeit(100000)
+}
+
+for k, v in results.items():
+	print '%20s => %fs' % (k, v)
+</pre>
+
+For this second test, the results looked something like this for me:
+
+<pre>
+             getNoIf => 0.019980s
+           tryExcept => 0.083638s
+           getIfElse => 0.027422s
+</pre>
+
+Obviously, if your program is amenable to just using a default value, then happiness ensues. Failing that, using the get method and then if/else is much faster than the try/except alternative.
+
+<em>Fine Print</em>: I am running Python 2.7.1 on a 2011-ish MacBookPro.
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2012/01/06/chef-solo-and-god-a-divine-duo/">Chef-Solo and God &#8211; a Divine Duo</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-01-06T00:00:00-08:00" pubdate data-updated="true">Jan 6<span>th</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">I recently wrote a new post on the <a href="http://devblog.seomoz.org/2012/01/chef-solo-and-god-a-divine-duo/" title="SEOmoz Dev Blog Post">SEOmoz dev blog</a> about our deployment with chef-solo and god on EC2.
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/19/pythons-logging-module-exceptions/">Python&#8217;s Logging Module - Exceptions</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-19T00:00:00-07:00" pubdate data-updated="true">Oct 19<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">I&#8217;m a big fan of python&#8217;s <a href="http://docs.python.org/library/logging.html" title="Python Logging" target="_blank">logging</a> module. It supports configuration files, multiple handlers (for both writing to the screen while writing to a file, for example), output formatting like crazy, and many other delicious features. One that I&#8217;ve only recently encountered is <strong>its exception method.</strong>
+
+The basic idea of the logging module is that you can get a logger from a factory (that allows multiple pieces of code to easily access the same logical logging entity). From there, you add handlers that output messages to various places (files, screen, sockets, HTTP endpoints, etc.). Every message you log is done at a specific level, and then the configuration of the logger determines whether or not to record messages of a certain severity:
+
+<pre lang='python'>
+import logging
+
+# Get a logger instance
+logger = logging.getLogger('testing')
+
+# Some initialization of handlers here, 
+# unimportant in this context
+
+# Print out at various levels
+logger.warn('Oops! Something happened')
+logger.info('Did you know that X?')
+logger.debug('Index is : %i' % ...)
+</pre>
+
+What&#8217;s great about the module is that it <strong>separates your messages from how they&#8217;re displayed and where.</strong> For debugging, it&#8217;s nice to be able to flip a switch and turn on a more verbose mode. Or for production to tell it to shut up and only log messages that are really critical. What the &#8216;exception&#8217; method does is to not only <strong>log a message as an error, but to also print a nice backtrace of where the error took place</strong>!
+
+<pre lang='python'>
+try:
+	# So something here
+	raise Exception('oops!')
+except:
+	logger.exception('Such-and-such failed! Stack trace to follow:')
+	# Stack trace appears in the log
+</pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/10/16/never-trust-callbacks/">Never Trust Callbacks</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-10-16T00:00:00-07:00" pubdate data-updated="true">Oct 16<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">It&#8217;s a lesson that has now been hammered home repeatedly in my head: never trust callbacks. Just don&#8217;t. Go ahead and execute them, but if you trust them to not throw exceptions or errors, you are in for a world of unhappiness.
+
+For me, I first learned this lesson when making use of twisted, writing some convenience classes to help with some of the somewhat odd class structure they have. (Sidebar: twisted is an extremely powerful framework, but their naming schemes are not what they could be.) Twisted makes heavy use of a deferred model where callbacks are executed in separate threads, while mission-critical operations run in the main thread. My convenience classes exposed further callbacks that could be overridden in subclasses, but I made the critical mistake of not executing that code inside of a try/except block.
+
+Twisted has learned this lesson. In fact, their deferred model makes it very hard to throw a real exception. If your callbacks fail, execution takes a different path &#8211; calling errback functions. In fact, twisted is so pessimistic about callbacks (rightly so) that you just can&#8217;t make enough exceptions to break out of errback functions. However, wrapped in my convenience classes were pieces of code that were mission critical, and my not catching exceptions in the callbacks I provided was causing me a world of hurt.
+
+That whole experience was enough to make me learn my lesson. Then, a few days ago I encountered it again in a different library, in a different language, in a different project, where I was exposing callbacks for user interface code in JavaScript. The logical / functional chunk of code exposed events that the UI would be interested in, but was too trusting, leading to errors in callbacks skipping over critical parts of the code.
+
+All in all, <strong>when exposing callbacks, never trust a callback to not throw an exception.</strong> Even if you wrote the callbacks it&#8217;s executing (as was the case with both of these instances, at least in the beginning). <strong>Callbacks are a courtesy &#8211; a chance for code to be notified of an event,</strong> but like many courtesies, they can be abused.
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/09/14/python-and-arbitrary-function-arguments-kwargs/">Python and Arbitrary Function Arguments - **kwargs</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-09-14T00:00:00-07:00" pubdate data-updated="true">Sep 14<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">Python has a pretty useful policy: named arguments. When you call a function, you can explicitly say that such-and-such value is what you&#8217;re providing for a particular argument, and can even include them in any order:
+
+<pre lang='python'>
+def hello(first, last):
+	print 'Hello %s %s' % (first, last)
+
+hello(last='Lecocq', first='Dan')
+</pre>
+
+In fact, you can programmatically gain insight into functions with the <a href="http://docs.python.org/library/inspect.html" title="inspect" target="_blank">inspect module</a>. But suppose you want to be able to accept an arbitrary number of parameters. For example, for a printf equivalent. Or where I encountered it in wanting to read a module name from a configuration file, as well as the arguments to instantiate it. In this case, you&#8217;d get the module and class as a string and then a dictionary of the arguments to make an instance of it. Of course, Python always has a way. In this case, **kwargs.
+
+This is actually dictionary unpacking, taking all the keys in a dictionary and mapping them to argument names. For example, in the above example, I could say:
+
+<pre lang='python'>
+hello(**{'last':'Lecocq', 'first':'Dan'})
+</pre>
+
+Of course, in that case it&#8217;s a little verbose, but if you&#8217;re getting a dictionary of arguments programmatically, then it&#8217;s invaluable. But wait, there&#8217;s more! Not only can you use the **dict operator to map a dictionary into parameters, but you can accept arbitrary parameters with it, too!
+
+<pre lang='python'>
+def kw(**kwargs):
+	for key, value in kwargs.items():
+		print '%s => %s' % (key, value)
+
+kw(**{'hello':'Howdy!', 'first':'Dan'})
+kw(hello='Howdy!', first='Dan')
+</pre>
+
+Magic! <strong>No matter how you invoke the function, it has access to the parameters.</strong>  You can even split the difference, making some parameters named and some parameters variable. For example, if you wanted to create an instance of a class that you passed a name in for, initialized with the arguments you give it:
+
+<pre lang='python'>
+def factory(module, cls, **kwargs):
+	# The built-in __import__ does just what it sounds like
+	m = __import__(module)
+	# Now get the class in that module
+	c = getattr(m, cls)
+	# Now make an instance of it, given the args
+	return c(**kwargs)
+
+factory('datetime', 'datetime', year=2011, month=11, day=8)
+factory('decimal', 'Decimal', value=7)
+</pre>
+
+This is one place where Python&#8217;s flexibility is extremely useful.
+</div>
+  
+  
+
+
+    </article>
+  
   <div class="pagination">
+    
+      <a class="prev" href="/blog/page/2/">&larr; Older</a>
     
     <a href="/blog/archives">Blog Archives</a>
     
@@ -89,6 +676,26 @@
     <section>
   <h1>Recent Posts</h1>
   <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/11/running-sudo-with-pssh/">Running sudo with pssh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/21/rough-array-hash-benchmark/">Rough Array Hash Benchmark</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/20/taskmaster-from-disqus/">Taskmaster from DISQUS</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/18/seomoz-blog-post-introducing-qless/">SEOmoz Blog Post &#8211; Introducing qless</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/11/redis-and-lua-for-robust-portable-libraries/">Redis and Lua for Robust, Portable Libraries</a>
+      </li>
     
   </ul>
 </section>

@@ -1,0 +1,279 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Boost, typedef, #define and GCC Pain - My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="Recently I&#8217;ve been working on porting some code to Mac, and yesterday I ran into a bug that stumped me for a little bit. Compiling against &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://dlecocq.github.com/blog/2011/08/04/boost-typedef-define-and-gcc-pain">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39246569-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:dlecocq.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Boost, Typedef, #define and GCC Pain</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-08-04T00:00:00-07:00" pubdate data-updated="true">Aug 4<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content">Recently I&#8217;ve been working on porting some code to Mac, and yesterday I ran into a bug that stumped me for a little bit. Compiling against Boost was raising a bunch of errors, specifically in lines that seemed pretty innocuous (from cstdint.hpp):
+<code>
+  using ::int8_t;
+  using ::int_least8_t;
+  using ::int_fast8_t;
+  using ::uint8_t;
+  using ::uint_least8_t;
+  using ::uint_fast8_t;
+</code>
+
+G++ kept giving me errors for each of those lines: &#8220;error: expected unqualified-id before ‘signed’,&#8221; referring to the line &#8220;using ::int8_t.&#8221; I&#8217;m a little embarrassed that I couldn&#8217;t figure it out right away, but eventually I figured out that it was caused by int8_t being #define&#8217;d somewhere else. For those of you that don&#8217;t know, #define really just takes one term and substitutes every subsequent occurrence of that term with one you provide. 
+<code>
+// If you define it as a macro
+#define int8_t signed char
+// Then this line will be interpreted very differently from how you expect
+using ::int8_t;
+// Gets interpreted as "using ::signed char"!!!
+</code>
+
+And this is what g++ had been complaining about. That is not legal C++ syntax; I&#8217;m sorry I doubted you, g++! But there still remained a larger question: where were these types getting defined? I didn&#8217;t want to be in the business of &#8220;patching&#8221; a library, and especially the largely impeccable Boost library. Typically these types (int8_t, uint8_t, etc.) are defined in cstdint or stdint.h, but looking at the system&#8217;s version, I found to my surprise that they were not macro-defined, but typedef&#8217;d, which is the right way to do it.
+
+<strong>Sidebar:</strong> In general, you should be using typedef instead of #define for this reason, and another very good reason. Because #define macros just go through code and blindly replace references, it can be difficult to trace the origin of a type, but typedefs are carried through, and so even after preprocessing, you can still see what the semantic meaning was (that you wanted int8_t specifically, not just something that happens to be the same type). And when debugging, this extra type information can be helpful. Similarly, you should generally also use const to define constants in your code, instead of #define macros, because while you might remember what a magic number is when you write it into your library, the meaning of that particular constant becomes unclear when you encounter it&#8217;s value when debugging. (If you haven&#8217;t, read <a href="http://www.aristeia.com/books.html">Scott Meyer&#8217;s Effective C++</a>.)
+
+Getting back to the morality tale, the library I was porting wasn&#8217;t macro-defining int8_t, and stdint.h wasn&#8217;t, so where was the culprit? Clearly there are potentially hundreds of places it could be, and I was running out of good guesses. Luckily, SEOmoz C++ shaman Martin taught me a little <strong>ninja magic</strong>: use the -E flag with g++ to only run the preprocessor stage, and redirect the output into a file! When compiling with &#8216;make,&#8217; it typically spits out the offending g++ command, so rerun it to just pass that one through the preprocessor, which reaches out and fetches the header files and gloms them in order into one giant input file. Then, step through <em>this</em> file to see where &#8220;define&#8221; and &#8220;int8_t&#8221; occur on the same line! In two minutes we were able to find the header that was causing all this trouble, where I had spent two hours learning and reading about where the problem might be.
+
+In the end we found it in a very small library that we happened to use, and on Mac we had just been using a slightly old version and this problem had been fixed in subsequent releases. Still, I&#8217;m glad to have added this preprocessor trick to my toolkit.
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-08-04T00:00:00-07:00" pubdate data-updated="true">Aug 4<span>th</span>, 2011</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://dlecocq.github.com/blog/2011/08/04/boost-typedef-define-and-gcc-pain/" data-via="danlecocq" data-counturl="http://dlecocq.github.com/blog/2011/08/04/boost-typedef-define-and-gcc-pain/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/06/29/a-sign-that-youre-doing-it-wrong/" title="Previous Post: A Sign That You're Doing it Wrong">&laquo; A Sign That You're Doing it Wrong</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2011/08/04/command-line-stopwatch-time-cat/" title="Next Post: Command Line Stopwatch (time cat)">Command Line Stopwatch (time cat) &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/11/running-sudo-with-pssh/">Running sudo with pssh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/21/rough-array-hash-benchmark/">Rough Array Hash Benchmark</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/20/taskmaster-from-disqus/">Taskmaster from DISQUS</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/18/seomoz-blog-post-introducing-qless/">SEOmoz Blog Post -- Introducing qless</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/11/redis-and-lua-for-robust-portable-libraries/">Redis and Lua for Robust, Portable Libraries</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/dlecocq">@dlecocq</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'dlecocq',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,736 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="It is extremely easy for computer scientists (well, and the rest of humanity) to get entrenched in their ways. You&#8217;ve learned and taken the &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://dlecocq.github.com/blog/page/7">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39246569-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:dlecocq.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/02/02/delicious-sshfs/">Delicious Sshfs</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-02-02T00:00:00-08:00" pubdate data-updated="true">Feb 2<span>nd</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">It is extremely easy for computer scientists (well, and the rest of humanity) to get entrenched in their ways.  You&#8217;ve learned and taken the time to become a master of a programming language, or tool, and it&#8217;s a serious time investment.  As such, new tools generally have to be very compelling in order to get someone to switch.  For example, I&#8217;m a recent svn-to-git convert, and am often met with horrified looks when I suggest others give it a shot.  A visiting professor I spoke to yesterday said that it would be years before they stopped using svn.
+
+Recently, I&#8217;ve begun using sshfs.  It mounts a volume over ssh and appears as any normal folder on your computer.  It behaves that way at the command line, or your text editor, or as far as VLC is concerned.  For development, I had always maintained a local copy and rsync&#8217;d changes to the remote machine I was using.  It worked well enough, and was often more convenient than using a tool like Cyberduck.
+
+Aron recommended sshfs, and though it took me a while to try it out, I&#8217;m hooked.  No more trying to remember if I&#8217;ve synchronized my code with the other machine I&#8217;m using, only editing and saving.  It&#8217;s really easy when you have ssh keys set up as well.  To mount your home directory on a remote machine:
+<code>
+$> mkdir datastore_mount
+$> sshfs datastore: datastore_mount
+</code>
+
+And now, I&#8217;ve got access to remote files on datastore as if they lived in the directory datastore_mount.  Unmounting is business as usual:
+<code>
+$> umount datastore_mount
+</code>
+
+Try it, use it, live it.  You won&#8217;t regret it.
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/01/25/snorkeling/">Snorkeling</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-01-25T00:00:00-08:00" pubdate data-updated="true">Jan 25<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">For the past semester, many of my friends here have been enjoying the Red Sea, diving regularly.  One even went on a two-week research cruise, making three to four dives a day.
+
+&#8216;What,&#8217; I wondered, &#8216;could possibly be the fascination?&#8217;
+
+Growing up in Colorado, playing around on the beach meant going to Boulder Reservoir, which isn&#8217;t much more than an enormous swimming pool.  Just not much remarkable about it.  The only <em>real</em> beaches I had been to until now were in San Francisco and Japan, and the novelty wore off pretty quickly.
+
+This last weekend, I decided that I ought to give it a try, and not being certified for diving I went snorkeling with my friends.  We drove to a private beach (which was a treat in itself - men and women can mix, and music plays over the loudspeakers.  These are things I&#8217;ve learned to not take for granted), rented gear and got in the water.  On the dock, I was excited when I saw a small coral growing in the shallows.  It couldn&#8217;t have been more than 10 centimeters in diameter but thinking about exploring the beach for more such treasures was enticing.
+
+We waded out and put on our flippers, and then our masks.  I dipped my head down, ready to explore, and instantly my head popped right back out of the water.  &#8220;Guys! Guys!&#8221; I shouted to my friends.  &#8220;There&#8217;s a freakin&#8217; million fish here!&#8221;  They chuckled knowingly, and I realized this is what they came for.
+
+I just could not get in the water fast enough.  There were so many fish I had never seen except for in aquariums, brightly colored, quick, and just stunning.  Thousands of them from deep blues to iridescent purples, all swarming around beautifully-colored coral and anemones.  All told, I spent about four hours tooling around the reef, examining fish at the cleaning station, clownfish in their anemones and predators lurking near the surface.
+
+On leaving I instantly felt like a tree-hugging hippie, and felt a need to protect the ocean.  Ok, sure, it was a bit short-lived and I feel like someone who&#8217;s hopped on a bandwagon, but it&#8217;s an incredible world down there.  You see shadows off in the &#8220;distance&#8221; (though it&#8217;s usually only 30 feet away) shimmering and swimming around.  Floating in the sea, weightless, above the sheer cliff faces of 20, 30 or 40 feet is a unique sensation.  I tried to compare it to hiking and climbing mountains, but it occurred to me that unless I learn to base jump, I will never see that kind of geographical structure from the same relative perspective - hovering above it.
+
+Between dives (well, my friends were diving while I was snorkeling) we&#8217;d pull out a book of Red Sea fish and try to find all the ones we&#8217;d seen.  The camaraderie of stories of dives past and fish seen was nearly as satisfying as the experience of being in the water like that.
+
+I&#8217;m exploring getting certified (either through PADI or BSAC - we have both available here) so that I can join my friends on deeper adventures, but in the mean time I&#8217;m going snorkeling as often as I can.  Forgive the pun, but I think I&#8217;m hooked. 
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/12/29/monkey-business/">Monkey Business</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-12-29T00:00:00-08:00" pubdate data-updated="true">Dec 29<span>th</span>, 2009</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">Nagano (well, Yudanaka) is famous for it&#8217;s &#8220;Monkey Park,&#8221; an open space where <a href="http://en.wikipedia.org/wiki/Japanese_macaque">Japanese Macaque</a>s relax in large groups in the natural hot springs.  Visitors can walk among them as they graze, groom, and occasionally, fight.
+
+<img class="aligncenter" src='http://farm3.static.flickr.com/2511/4217485993_8969cc8ea8.jpg' alt='DSC_0023.NEF'/>
+
+The younger monkeys are pretty playful, climbing ropes and poles, and rough-housing with one another.  The adult monkeys seem more interested in eating the food provided to them, a mix of barley and other grains.  There seemed to be some areas used mostly by families (these were inaccessible to human visitors) and others that seemed to be dominated by younger bachelors.  Fights would break out from time to time, but nothing too serious.
+
+<img class="aligncenter" src='http://farm3.static.flickr.com/2691/4224513729_55efd61bcd.jpg' alt='DSC_0052.NEF'/>
+
+Japan is known for their natural hot springs, and the monkeys take full advantage.  The day I was there, it was about 3 degrees Celsius, and the water was pretty tempting.
+
+You can get pretty close to these brazen animals, but do not touch.  Occasionally they will grab onto you, but I only saw one instance of this; a group of us were watching a couple monkeys playing and banging against a sign, when an attention-starved lad came up and tugged on one man&#8217;s coat to get his attention.  Still, they&#8217;re pretty aloof to our presence for the most part, and will walk and eat within a few feet of you.
+
+<img class="aligncenter" src='http://farm5.static.flickr.com/4009/4224517839_eb60b58eda.jpg' alt='DSC_0106.NEF'/>
+
+I kept thinking of them as terrestrial Ewoks, or furry seven-year-old human children, but the opposable toes are kind of unnerving.  They often appear so human that it&#8217;s hard to remember that they&#8217;re still very wild.
+
+<img class="aligncenter" src='http://farm5.static.flickr.com/4063/4225295600_2584689363.jpg' alt='DSC_0239.NEF'/>
+
+They cry and scream at one another, but these noises serve as low-priority warnings more than anything else.
+
+If you even get a chance to visit, take full advantage.  Best US$5 I spent in Japan.  More photos on <a href="http://www.flickr.com/photos/danlecocq/sets/72157623077596510/">flickr</a>.
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/12/25/triangle-strip-for-grids-a-construction/">Triangle Strip for Grids - a Construction</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-12-25T00:00:00-08:00" pubdate data-updated="true">Dec 25<span>th</span>, 2009</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">I&#8217;m working with WebGL and as such, I&#8217;m discovering some quirks about OpenGL ES 2.0.  I have been using display lists as long as I&#8217;ve been using OpenGL, but WebGL doesn&#8217;t have support for them.  So, I&#8217;m buckled down and familiarized myself with vertex buffer objects, the (perhaps better) alternative.
+
+At any rate, I need to render a regular 2D grid, and as it doesn&#8217;t support quads, either, I was forced to use triangles.  In the interest of getting things running, I just provided a wasteful list of discrete triangles.  This is wasteful because it references many more vertices than necessary - I ended up declaring $$6n^2$$ vertices when in reality there are only $$n^2 + n + 1$$ unique vertices.  This worked fine, until I wanted to increase the resolution.  It turns out, JavaScript doesn&#8217;t like large arrays.
+
+That&#8217;s fair, because the implementation was pretty wasteful.  A triangle strip was the best choice anyway.  <strong><em>A triangle strip is a highly compact form of representing a mesh.  For $$n$$ triangles, it requires only $$n + 2$$ vertices defined.</em></strong>  Well, that&#8217;s roughly true.  We&#8217;ll see another case in a minute.  It&#8217;s useful when many triangles share vertices, and perhaps I&#8217;ll let <a href="http://en.wikipedia.org/wiki/Triangle_strip">Wikipedia&#8217;s explanation</a> stand.
+
+It wasn&#8217;t immediately obvious how to define a grid out of a single triangle strip and so I got out a pen and paper.  I kept in mind a neat trick: <strong><em>if in a triangle strip, you need to skip the use of a vertex, a vertex can be introduced twice in a row.</em></strong>  That is, if I need triangles (6, 3, 7) and (7, 11, 6) in that order, you can just make your strip with 6, 3, 7, 7, 11, 6.  You can think of it as if there are two triangles created (3, 7, 7) and (7, 7, 11), but they have no area and a degenerate case - a line.  Furthermore, these lines lie on triangles already defined.
+
+Perhaps the obvious choice doesn&#8217;t yield any results, and in fact in this layout, it can&#8217;t be easily done (you have to have vertices appear three times in a row):
+
+[caption id=&#8221;attachment_792&#8221; align=&#8221;aligncenter&#8221; width=&#8221;207&#8221; caption=&#8221;This is a bad idea for a topology if you want to use a single triangle strip.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/12/mesh_bad.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/12/mesh_bad.png" alt="" title="mesh_bad" width="207" height="193" class="size-full wp-image-792" /></a>[/caption]
+
+To better convince yourself, try to come up with a good way to put this in a triangle strip.  I&#8217;ll make the case that it is pretty difficult with a claim from graph theory.  In order for a triangle mesh to be turned into a triangle strip, each consecutive triangle must share an edge.  We can then think of the mesh as a connectivity graph (the <a href="http://en.wikipedia.org/wiki/Dual_graph">dual</a> of the mesh) and then the problem will emerge more clearly:
+
+[caption id=&#8221;attachment_794&#8221; align=&#8221;aligncenter&#8221; width=&#8221;207&#8221; caption=&#8221;The dual graph of the bad idea.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/12/mesh_bad_dual.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/12/mesh_bad_dual.png" alt="" title="mesh_bad_dual" width="207" height="193" class="size-full wp-image-794" /></a>[/caption]
+
+To make the triangle strip &#8220;nice,&#8221; we ought to be able to visit each node once and exactly once.  There&#8217;s good and bad news in this - it&#8217;s the same problem as finding a <a href="http://en.wikipedia.org/wiki/Hamiltonian_path">Hamlitonian path</a> which is NP complete.  The good news is that if we find a solution to our small problem, we&#8217;ve found a solution to all such grids (with arbitrarily many triangles).  Note that we don&#8217;t need an Eulerian path.
+
+If you stare long enough at the above connectivity graph, you&#8217;ll hopefully convince yourself that there&#8217;s no way to traverse it visiting each node once and exactly once.  Go ahead and try - it&#8217;s pretty infuriating.
+
+Looking at how we would traverse one strip (triangles a, b, c, d, e and f) actually gives us a clue.  A triangular strip for that case would be 0, 4, 1, 5, 2, 6, 3, 7, and happiness ensues and we should move onto the next row.  Unfortunately, in the context of this new row, we&#8217;re starting in a different place (topologically) than we started with the first strip.  Vertex 0 has two connected neighbors in its row - 1 and 4.  Vertex 7 has three in its row: 6, 10 and 11.  It turns out we can change up the topology to remedy this simply:
+
+[caption id=&#8221;attachment_795&#8221; align=&#8221;aligncenter&#8221; width=&#8221;207&#8221; caption=&#8221;A much better topology for drawing this with a single triangle strip.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/12/mesh_good.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/12/mesh_good.png" alt="A much better topology for drawing this with a single triangle strip." title="mesh_good" width="207" height="193" class="size-full wp-image-795" /></a>[/caption]
+
+We can also see that this is a much better solution by looking at this new graph&#8217;s dual:
+
+[caption id=&#8221;attachment_796&#8221; align=&#8221;aligncenter&#8221; width=&#8221;207&#8221; caption=&#8221;The dual of the better topological choice.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/12/mesh_good_dual.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/12/mesh_good_dual.png" alt="" title="mesh_good_dual" width="207" height="193" class="size-full wp-image-796" /></a>[/caption]
+
+You can probably easily find a Hamlitonian path in this case.  But this still leaves us with how to determine the vertex orderings.  We decided that the first row ought to be 0, 4, 1, 5, 2, 6, 3, 7, but moving on from there we need a bit of &#8220;glue&#8221; to move onto the next row.  We insert 7 again, and then continue on from there: 7, 11, 6, 10, 5, 9, 4, 8.  A bit more glue for the third row: 8, 12, 9, 13, 10, 14, 11, and 15:
+
+[caption id=&#8221;attachment_797&#8221; align=&#8221;aligncenter&#8221; width=&#8221;251&#8221; caption=&#8221;An alternative representation of the vertex ordering&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/12/strip.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/12/strip.png" alt="" title="strip" width="251" height="193" class="size-full wp-image-797" /></a>[/caption]
+
+Looking at the indices from the first row, starting at 0, we can get the next index by alternately adding 4 and then subtracting 3.  On the next row, we&#8217;ll continue to add 4, but then alternately subtract 5.  The 4 is derived as being the number of vertices on a side (if there are $$n$$ divisions, then there are $$n+1$$ vertices), and the 3 and 5 are explained by the fact that we need to change columns in the mesh, by one step at a time.
+
+An clean implementation is not trivial, but not extremely difficult.  In terms of results, I can fit more than 4 times as many vertices into the mesh than with a per-triangle implementation.  And to boot, it has cut the work of the vertex shader a great deal.
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/12/24/webglot-a-preview/">webGLot - a Preview</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-12-24T00:00:00-08:00" pubdate data-updated="true">Dec 24<span>th</span>, 2009</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">I&#8217;ve <a href="http://dan.lecocq.us/wordpress/2009/09/22/the-future-of-the-internet/">mentioned WebGL before</a>, and I think it could be very important.  There is a <a href="http://code.google.com/apis/o3d/">competitor from Google</a>, but like OpenGL and OpenCL, this API is managed by the <a href="http://www.khronos.org/">Khronos Group</a> and that fact appeals to me.  Perhaps it&#8217;s that I&#8217;ve used it fairly extensively, but I really like OpenGL.  Despite its quirks, it&#8217;s quite powerful.
+
+The big &#8220;get&#8221; is that it gives programmers access to hardware-accelerated graphics from directly within the browser.  There&#8217;s a lot of interest in this arena for game development as it would obviate much of the need for separate distributions based on operating system.  (Skip to the end for more of an opinion on this subject.)
+
+As such, I&#8217;ve been working with WebGL as opposed to the Google-proposed O3D.  (I have every intention to explore O3D, time permitting, as there are some jagged edges to the current specification.)  The result of this recent toil is a budding WebGL implementation of my OpenGLot project.  It&#8217;s still in early stages, but in the coming weeks, it should develop even further.  To whet appetites, I have a few pictures.
+
+[caption id=&#8221;attachment_788&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A scalar field, my persistent test function.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/12/Picture-105.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/12/Picture-105-300x182.png" alt="A scalar field, my persistent test function." title="Picture 105" width="300" height="182" class="size-medium wp-image-788" /></a>[/caption]
+
+[caption id=&#8221;attachment_789&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A 3D surface, again one of my usual test functions.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/12/Picture-111.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/12/Picture-111-300x215.png" alt="A 3D surface, again one of my usual test functions." title="Picture 111" width="300" height="215" class="size-medium wp-image-789" /></a>[/caption]
+
+I seriously doubt that WebGL will every match the performance of OpenGL.  Even though JavaScript interpreters are getting faster at a somewhat alarming rate, they won&#8217;t match the speed of C or C++.  That said, if one can appropriately offload work onto the GPU, it won&#8217;t matter as much, but there will always be that overhead.
+
+It won&#8217;t so much be a matter of having the same performance, but <em>enough</em> performance.  If a person can go to a single webpage and get 60 frames per second performance in a game or tool without having to install software, that&#8217;s tremendous.  Currently I&#8217;ve been getting between 60 and 90 frames per second with WebGLot, and I&#8217;m sure I can keep that number up as more features are added.
+
+My hope is that this will be a tool and library that has a wide-enough feature set by the time WebGL is widely adopted that becomes often-used.  But that&#8217;s just ego.  The purer motivation is that if you&#8217;re a math teacher, and you want to have interactive demonstrations of Newton&#8217;s method, or parametric surfaces, or even flow fields, you can write an application in 20 minutes that does all the heavy lifting of graphing it for you.  As long as you can describe the mathematical primitives, you should be able to render it.  Of course there will be a general-purpose grapher available for any calculus student who&#8217;s having trouble visualizing this or that, too.  Or a resourceful PDE student who need to solve his homework (the GPU-based PDE solver will take a little bit more time, but it&#8217;s very nearly complete).
+
+In short, the strength of WebGL is that is has respectable performance, and in a year&#8217;s time, half the browsers (well maybe not half) on computers will support it, giving the average internet-user access to a wealth of media.
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/12/22/silly-mistakes/">Silly Mistakes</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-12-22T00:00:00-08:00" pubdate data-updated="true">Dec 22<span>nd</span>, 2009</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">Every programmer has had this, or at least I like to think that every programmer has experienced this - you compile, press &#8220;go,&#8221; and epic failure.  And the joy doesn&#8217;t stop there - then the debugging begins.  Occasionally, one encounters a bug that gets the better of them, sometimes for hours, sometimes for days, and sometimes for <a href="http://en.wikipedia.org/wiki/Pentium_FDIV_bug">months</a>.
+
+Hairs is pulled, teeth are gnashed, and eyeballs strain, scouring line after line.  You try to convince yourself that your algorithm is correct, and that each line of code is justified.  And yet, it still gets the better of you.
+
+After perhaps eight hours, you swallow your pride, and ask a trusted friend to take a look.  Often the very act of explaining things to another human being is helpful, but sometimes you both have to dig into the code.  Maybe a third friend happens upon the two of you, and joins in.
+
+Then, a light bulb goes off.  If you&#8217;re lucky, it&#8217;s a massive structural change that&#8217;s required, but sometimes, it&#8217;s a single line, or a single word or character, and you suddenly find yourself embarrassed.  But do not be.  Every programmer I&#8217;ve ever met, no matter how qualified has run into these problems.  Still, I find it easy to doubt my competence afterwards.
+
+There are rare and beautiful moments when not only does code compile on the first try, but it runs as expected.  Few and far between, cherish these when they come.
+
+This is all inspired from a recent bug I tracked down.  An embarrassing one.  Sure, had I read the 350 or so pages of the OpenGL ES 2.0 specification, I may have caught it earlier, but this was one of those times when it was a single word that had to change.  <strong>I tell myself that I won&#8217;t keep making these kinds of mistakes, and with each conquered bug I gain a tool, an experience point, and that&#8217;s what makes one&#8217;s craft.</strong>
+
+I&#8217;ve looked at the time I spend debugging, and I&#8217;ve noticed that the time it takes to solve a bug can often be reduced by leaving the problem for a bit.  Taking a walk, getting a cup of coffee, or sometimes watching an episode of Arrested Development.  <strong>The desire to find and fix a bug is a siren&#8217;s song - nearly impossible to walk away from, but often a bad idea.</strong>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/12/20/computers-totally-work-this-way/">Computers Totally Work This Way</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-12-20T00:00:00-08:00" pubdate data-updated="true">Dec 20<span>th</span>, 2009</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">Mom, Dad, relatives.  All who will ask any computer-scientist friends for help with their computers, or who put any stock in prime-time shows.
+
+This is not how computers work.  Just&#8230; just&#8230; no.
+
+<object width="425" height="344" class="aligncenter"><param name="movie" value="http://www.youtube.com/v/Vxq9yj2pVWk&hl=en_US&feature=player_embedded&fs=1"></param><param name="allowFullScreen" value="true"></param><param name="allowScriptAccess" value="always"></param><embed src="http://www.youtube.com/v/Vxq9yj2pVWk&color1=0xcc2550&color2=0xe87a9f&hl=en_US&feature=player_embedded&fs=1" type="application/x-shockwave-flash" allowfullscreen="true" allowScriptAccess="always" width="425" height="344"></embed></object>
+
+But seriously, if you need me to &#8220;vector in on that guy,&#8221; or &#8220;find the right <a href="http://en.wikipedia.org/wiki/Eigenvalue">eigenvalue</a>&#8221; or perhaps &#8220;apply the right algorithms,&#8221; think again.
+
+Found at <a href="http://www.unplggd.com/unplggd/enhance-it-the-myths-of-how-computers-work-104541">Unplggd</a>.
+
+From my friend Tyler, Red Dwarf has something to say on the subject:
+
+<object width="560" height="340" class="aligncenter"><param name="movie" value="http://www.youtube.com/v/6i3NWKbBaaU&hl=en_US&fs=1&"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/6i3NWKbBaaU&hl=en_US&fs=1&" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="560" height="340"></embed></object>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/12/15/nihon/">日本！</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-12-15T00:00:00-08:00" pubdate data-updated="true">Dec 15<span>th</span>, 2009</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">I arrived in Japan yesterday for SIGGRAPH Asia 2009.  It&#8217;s been a long time since I&#8217;ve been here, and it&#8217;s nice to be back.
+
+It turned out that a few KAUSTicans were on the same flight as me, and we had a good time talking shop while waiting for flights.  Good guys - I look forward to hanging out with them at the conference.
+
+It wasn&#8217;t until I stepped off the plane and saw that my travel companions didn&#8217;t look to be immediately at ease in this country that I realized that Japan is almost a second home.  Outside of the US, it&#8217;s the country in which I&#8217;ve spent the most time, though Japanese is not my strongest second language.  Still, I was able to pick up right where I left off in terms of daily life without missing a beat - it&#8217;s a different city, but the people and places are recognizable.
+
+Glad to be back, Japan.
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/12/06/a-little-challenge-part-1-of-2/">A Little Challenge (Part 1 of 2)</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-12-06T00:00:00-08:00" pubdate data-updated="true">Dec 6<span>th</span>, 2009</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">Several months ago, I was given credentials to download a piece of software, and I needed to download another copy only to find that I had forgotten the password.  I anticipated it would take quite a while to email the people in charge, and on a whim I decided to take action.  Right click, view source.
+
+To my surprise, all the authentication was done in JavaScript, though in all fairness it was &#8220;encrypted.&#8221;  I&#8217;ve changed the underlying keyphrase in a code example, and I pose a small puzzle - find the password.
+
+You may find <a href="http://www.jconsole.com/">jconsole</a> helpful.
+<code>
+var pass=new Array()
+var t3=""
+var lim=8
+pass[0]="fE13Cw9emtKIg1F"
+pass[1]="wKTuZEy387Im8b2"
+pass[2]="3NKevEgjpWWwmSE"
+pass[3]="CryO6BmP9XpUlke"
+pass[4]="8R4Gf2sgs5Xs5KI3"
+pass[5]="62GZJ9Dzc2y8lBTU"
+
+var extension=".html"
+var enablelocking=0
+var numletter="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
+var temp3=''
+var cur=0
+
+function max(which){
+return (pass[Math.ceil(which)+(3&15)].substring(0,1))
+}
+
+function testit(input){
+temp=numletter.indexOf(input)
+var temp2=temp^parseInt(pass[phase1-1+(1|3)].substring(0,2))
+temp2=numletter.substring(temp2,temp2+1)
+return (temp2)
+}
+
+
+function submitentry(){
+t3=''
+verification=document.password1.password2.value
+phase1=Math.ceil(Math.random())-6+(2&lt;&lt;2)
+var indicate=true
+for (i=(1&2);i&lt;window.max(Math.LOG10E);i++)
+t3+=testit(verification.charAt(i))
+for (i=(1&2);i&lt;lim;i++){
+if (t3.charAt(i)!=pass[phase1+Math.round(Math.sin(Math.PI/2)-1)].charAt(i))
+indicate=false
+}
+if (verification.length!=window.max(Math.LOG10E))
+indicate=false
+if (indicate)
+alert("Correct password.")
+else
+alert("Invalid password. Please try again")
+}
+</code>
+
+You can also get it in a <a href='http://dan.lecocq.us/wordpress/wp-content/uploads/2009/12/authentication.html'>testable html page</a>.
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/12/05/siggraph-asia-2009/">SIGGRAPH Asia 2009</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-12-05T00:00:00-08:00" pubdate data-updated="true">Dec 5<span>th</span>, 2009</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">My numerical linear algebra professor is sponsoring me to join him at SIGGRAPH Asia this year in Yokohama, which conveniently affords me the opportunity to return to Japan.
+
+I went to SIGGRAPH for the first time this year, and am really excited to get a chance to go to another, especially in Japan.  Thanks to Mrs. Redman, who arranged my flight.  I&#8217;ll arrive about a day early, and then I&#8217;ve got about a week to myself after it.  I&#8217;m planning to take full advantage of the snow, going to Nagano for five of those days - just booked the hotel.
+
+I left Japan a few years ago not eager to return, but I&#8217;ve been feeling very nostalgic for it lately.  And hey, it will be my second Christmas there!
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/8/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/6/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/11/running-sudo-with-pssh/">Running sudo with pssh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/21/rough-array-hash-benchmark/">Rough Array Hash Benchmark</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/20/taskmaster-from-disqus/">Taskmaster from DISQUS</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/18/seomoz-blog-post-introducing-qless/">SEOmoz Blog Post &#8211; Introducing qless</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/11/redis-and-lua-for-robust-portable-libraries/">Redis and Lua for Robust, Portable Libraries</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/dlecocq">@dlecocq</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'dlecocq',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

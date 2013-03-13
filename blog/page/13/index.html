@@ -1,0 +1,662 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="Up to this point, my ray tracer had been limited to rendering spheres and triangles, and, while there&#8217;s a lot you can do with these primitives &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://dlecocq.github.com/blog/page/13">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39246569-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:dlecocq.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div class="blog-index">
+  
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/04/04/ray-tracer-feature-lathes/">Ray Tracer Feature: Lathes</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-04-04T00:00:00-07:00" pubdate data-updated="true">Apr 4<span>th</span>, 2009</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">Up to this point, my ray tracer had been limited to rendering spheres and triangles, and, while there&#8217;s a lot you can do with these primitives, it&#8217;s often more efficient and effective to use a lathe or surface or rotation.  Imagine you&#8217;ve got a curve, and you rotate it around some axis, keeping track of the surface it swept out.
+
+Alternatively, imagine a lump of clay on a clay wheel.  As the wheel rotates, if you hold some shape against the clay, it will become a solid that&#8217;s symmetrical about the vertical axis.  Here&#8217;s a sine curve rotated about $$x = 0$$:
+[caption id=&#8221;attachment_489&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A sinusoidal lathe and a sphere.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output3.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output3-300x300.png" alt="A sinusoidal lathe and a sphere." title="Lathe" width="300" height="300" class="size-medium wp-image-489" /></a>[/caption]
+
+[caption id=&#8221;attachment_491&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A polynomial curve rotated about x=0.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/poly_lathe_1_reflect.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/poly_lathe_1_reflect-300x300.png" alt="A polynomial curve rotated about x=0." title="Polynomial Lathe" width="300" height="300" class="size-medium wp-image-491" /></a>[/caption]
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/04/04/parallel-ray-tracer/">Parallel Ray Tracer</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-04-04T00:00:00-07:00" pubdate data-updated="true">Apr 4<span>th</span>, 2009</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">This afternoon I was able to successfully parallelize the ray tracer I wrote for Graphics II to run on the Alamode cluster at Mines.  Using 17 machines, I was able to render a 4,096 x 4,096 pixel image with 25 passes and up to 5 reflections.  It took only 1 minute and 20 seconds.
+[caption id=&#8221;attachment_481&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Reflective spheres rendered at high resolution on a small cluster.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output-300x300.png" alt="Reflective spheres rendered at high resolution on a small cluster." title="Spheres" width="300" height="300" class="size-medium wp-image-481" /></a>[/caption]
+[caption id=&#8221;&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Another image rendered on the same cluster&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output1.png"><img alt="Another image rendered on the same cluster" src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output8-300x300.png" title="Sphere and Triangles" width="300" height="300" /></a>[/caption]
+
+For the benefit of those who are not computer scientists, this is what the input file looks like:
+<code>
+8192 8192
+0 0 20
+-1 -1 1
+2 0 0
+0 2 0
+3 10 10 0.8
+0.2
+9
+# These next few lines will define a triangle
+T
+# With one of the points at (1, 1, 1)
+1 1 1
+# and the next point here:
+0.12321 0.12321 -1
+# and the last point here:
+-1 1 1
+# and with this color setting
+1 1 1 1 1 1 0 1 0.7
+T
+-1 1 1
+-0.12321 0.12321 -1
+0.12321 0.12321 -1
+1 1 1 1 1 1 0 1 0
+T
+1 -1 1
+0.12321 -0.12321 -1
+-1 -1 1
+1 1 1 1 1 1 0 1 0
+T
+-1 -1 1
+-0.12321 -0.12321 -1
+0.12321 -0.12321 -1
+1 1 1 1 1 1 0 1 0
+T
+1 1 1
+0.12321 0.12321 -1
+1 -1 1
+1 0 0 1 0 0 0 1 0
+T
+1 -1 1
+0.12321 -0.12321 -1
+0.12321 0.12321 -1
+1 0 0 1 0 0 0 1 0
+T
+-1 1 1
+-0.12321 0.12321 -1
+-1 -1 1
+1 1 0 1 1 0 0 1 0
+T
+-1 -1 1
+-0.12321 -0.12321 -1
+-0.12321 0.12321 -1
+1 1 0 1 1 0 0 1 0
+S
+0 0 0 0.5
+1 0 1 1 0 1 0 1 0.3
+</code>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/03/27/mandelbrot-set/">Mandelbrot Set</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-03-27T00:00:00-07:00" pubdate data-updated="true">Mar 27<span>th</span>, 2009</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">I take another look at my Mandelbrot code because we recently did a project with antialiasing in a raytracer.  I updated my project so that instead of bouncing light, it would instead sample a point on the complex plane, and determine if it was in the Mandelbrot set, and so on and so forth.
+
+I ran the code with 10 passes and 16,384 by 16,384 pixels (~27 megapixels) on my desktop.  It took about an hour and a half, but this is the picture that came out of it (it&#8217;s a little big):
+
+[caption id=&#8221;&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A recent rendering of mine of the Mandelbrot set.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/mandelbrot.png"><img alt="A recent rendering of mine of the Mandelbrot set." src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/mandelbrot-300x300.png" title="Mandelbrot Set" width="300" height="300" /></a>[/caption]
+
+I also have a couple of extra pictures that show portions of the set in their detail:
+[caption id=&#8221;attachment_475&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A region of the Mandelbrot set.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/zoom.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/zoom-300x172.png" alt="A region of the Mandelbrot set." title="Zoomed In" width="300" height="172" class="size-medium wp-image-475" /></a>[/caption]
+[caption id=&#8221;attachment_476&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Another zoomed-in portion of the set.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/zoom2.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/zoom2-300x172.png" alt="Another zoomed-in portion of the set." title="Zoomed In" width="300" height="172" class="size-medium wp-image-476" /></a>[/caption]
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/03/06/critical-language-scholarship-results/">Critical Language Scholarship - Results</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-03-06T00:00:00-08:00" pubdate data-updated="true">Mar 6<span>th</span>, 2009</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">I was notified today that I was not accepted into the CLS program for Intermediate Arabic.  While I am disappointed and frankly a little surprised, it is a competitive scholarship with acceptance rates under 10%.
+
+To those of you who were accepted, congratulations.
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/03/04/raytracer-with-anti-aliasing-and-reflection/">Raytracer With Anti-aliasing and Reflection</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-03-04T00:00:00-08:00" pubdate data-updated="true">Mar 4<span>th</span>, 2009</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">For Graphics II, we had to implement a raytracer, and then add anti-aliasing and a feature of our choice.  I selected mirrored surfaces.
+
+First, anti-aliasing.  Here are a few pictures of the same image rendered with a different number of passes to change the smoothness.
+
+[caption id=&#8221;attachment_459&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Using one pass&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/anti-alias-1.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/anti-alias-1-300x300.png" alt="Using one pass" title="anti-alias-1" width="300" height="300" class="size-medium wp-image-459" /></a>[/caption]
+[caption id=&#8221;attachment_460&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Using 5 passes.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/anti-alias-5.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/anti-alias-5-300x300.png" alt="Using 5 passes." title="anti-alias-5" width="300" height="300" class="size-medium wp-image-460" /></a>[/caption]
+[caption id=&#8221;attachment_461&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Using 50 passes.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/anti-alias-50.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/anti-alias-50-300x300.png" alt="Using 50 passes." title="anti-alias-50" width="300" height="300" class="size-medium wp-image-461" /></a>[/caption]
+
+And lastly, here&#8217;s a scene of several spheres, some of which are reflective.
+[caption id=&#8221;attachment_462&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A set of spheres, some of which are mirror-like.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/output.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/output-300x300.png" alt="A set of spheres, some of which are mirror-like." title="Spheres" width="300" height="300" class="size-medium wp-image-462" /></a>[/caption]
+[caption id=&#8221;attachment_467&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A reflective sphere next to some triangles.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/input8r.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/input8r-300x300.png" alt="A reflective sphere next to some triangles." title="input8r" width="300" height="300" class="size-medium wp-image-467" /></a>[/caption]
+[caption id=&#8221;attachment_469&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A mirrored sphere in the center of four other sphere.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/input12r.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/input12r-300x300.png" alt="A mirrored sphere in the center of four other sphere." title="input12r" width="300" height="300" class="size-medium wp-image-469" /></a>[/caption]
+[caption id=&#8221;attachment_470&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;More spheres!&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/input16r.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/input16r-300x300.png" alt="More spheres!" title="input16r" width="300" height="300" class="size-medium wp-image-470" /></a>[/caption]
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/02/21/lamp/">Lamp</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-02-21T00:00:00-08:00" pubdate data-updated="true">Feb 21<span>st</span>, 2009</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">I made a lamp this weekend for Rachel as a belated Valentine&#8217;s Day gift.  Made from balsa wood, vellum, hot glue and the electrical components, I got my inspiration from <a href="http://www.instructables.com/id/5-Japanese-lamp-from-recycled-materials/">Instructables</a>.  It didn&#8217;t look well put-together, and so I made my own interpretation:
+
+[gallery link=&#8221;file&#8221; orderby=&#8221;ID&#8221;]
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/02/17/raytracer/">Raytracer</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-02-17T00:00:00-08:00" pubdate data-updated="true">Feb 17<span>th</span>, 2009</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">Last semester for Graphics, we each wrote raytracers, and this semester for Graphics II, we&#8217;ve been asked to add more advanced features to them.
+
+I had written mine in Ruby for its short development cycle, but raytracers aren&#8217;t the most efficient renderers on the planet, and it would take hours to run on a single input on occasion.  So, not wanting to deal with that this semester, I rewrote it in C++.  Much faster.  The most difficult input (same set) now takes about a minute.  I finished it up today, and here are some pretty pictures to sate you:
+
+[gallery link=&#8221;file&#8221; orderby=&#8221;ID&#8221;]
+
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/02/12/texttwist/">Texttwist</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-02-12T00:00:00-08:00" pubdate data-updated="true">Feb 12<span>th</span>, 2009</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">Anyone who knows me knows my obsessions with anagrams and this game, Texttwist.  At one point it actually became relatively problematic - hours and hours spent playing it with Rachel.
+
+Like sudoku before it, I set out on a quest to conquer it.
+
+I downloaded an open-source dictionary, took an hour to parse it out, code a program to compute unique permutations of the input words and see which ones are valid words in English.
+
+Dan - 1; Texttwist - 0
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/02/11/when-rarers-hate-you/">When Rar&#8217;ers Hate You</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-02-11T00:00:00-08:00" pubdate data-updated="true">Feb 11<span>th</span>, 2009</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">There are few things that I absolutely loathe more in coding than when someone rars a set of files instead of a folder.  It&#8217;s as if they&#8217;re saying, &#8220;whatever you had in this folder is completely worthless, and I&#8217;m going to dump 1000 byzantine files here for your to sift through.  Oh, and have a nice day.&#8221;
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/02/07/vector/">Vector</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-02-07T00:00:00-08:00" pubdate data-updated="true">Feb 7<span>th</span>, 2009</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content">Had a bizarre C.S. / kitten related dream.  Apparently I was giving way kittens, and I wanted to make sure I had one left for myself, and so I thought it would be a good idea to declare a standard template library vector of kittens, fill it with my kittens, and only give away more kittens while there was still more than one left:
+
+<pre lang='cpp'>
+vector<kitten> kitties;
+
+# Put kittens in vector
+# ...
+
+while(kitties.length() > 1) {
+	give_away(kitties.pop());
+}
+</pre>
+</div>
+  
+  
+
+
+    </article>
+  
+  <div class="pagination">
+    
+      <a class="prev" href="/blog/page/14/">&larr; Older</a>
+    
+    <a href="/blog/archives">Blog Archives</a>
+    
+    <a class="next" href="/blog/page/12/">Newer &rarr;</a>
+    
+  </div>
+</div>
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/11/running-sudo-with-pssh/">Running sudo with pssh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/21/rough-array-hash-benchmark/">Rough Array Hash Benchmark</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/20/taskmaster-from-disqus/">Taskmaster from DISQUS</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/18/seomoz-blog-post-introducing-qless/">SEOmoz Blog Post &#8211; Introducing qless</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/11/redis-and-lua-for-robust-portable-libraries/">Redis and Lua for Robust, Portable Libraries</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating&#8230;</li>
+  </ul>
+  
+  <a href="https://github.com/dlecocq">@dlecocq</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'dlecocq',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

@@ -1,0 +1,288 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Injection Attack - My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="For those of us familiar with SQL, we&#8217;re almost certainly familiar with SQL injection attacks. We&#8217;ve talked about them in class, and &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://dlecocq.github.com/blog/2008/08/22/injection-attack">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39246569-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:dlecocq.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Injection Attack</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-08-22T00:00:00-07:00" pubdate data-updated="true">Aug 22<span>nd</span>, 2008</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content">For those of us familiar with SQL, we&#8217;re almost certainly familiar with SQL injection attacks.  We&#8217;ve talked about them in class, and maybe the more nefarious of us has even tried it on a form or two.  There are vulnerable ones out there - I remember having to tell an experienced programmer about sanitizing his form input.  If you&#8217;re reading this, you know who you are.
+
+For those of you who don&#8217;t know about SQL injection attacks, the long and short of it is you try to give input in a form that will be interpreted as SQL and executed.  So, for example (see comic link below), you might try to give input that deletes records, or inserts malformed records.  For example, a simple, well-formed request to insert a comment might be:
+
+<code>
+INSERT INTO `comments` (`name`, `comment`) VALUES ('Bob', 'My comment');
+</code>
+
+If Bob&#8217;s comment has a quote in it, though, if you haven&#8217;t sanitized the input, you&#8217;ll get something that doesn&#8217;t make any sense to the interpreter:
+
+<code>
+INSERT INTO `comments` (`name`, `comment`) VALUES ('Bob', 'It's my comment');
+</code>
+
+Say Bob were feeling malicious, part of his comment could be an entirely new command that the interpreter would deem valid.  If his comment were &#8220;Haha suckers!&#8217;); DROP TABLE `comments`;&#8221;, then we&#8217;d get two well-formed commands that would get executed:
+
+<code>
+INSERT INTO `comments` (`name`, `comment`) VALUES ('Bob', 'Haha suckers!'); DROP TABLE `comments`;');
+</code>
+
+This, as you can imagine, is not desirable.  So, part of sanitizing input is to escape out characters that are normally recognized by the interpreter:
+
+<code>
+INSERT INTO `comments` (`name`, `comment`) VALUES ('Bob', 'Haha suckers!<strong>'</strong>); DROP TABLE `comments`;');
+</code>
+
+At any rate, a few months ago, I actually had an attempt more or less &#8216;caught on tape&#8217; in the comments section of my blog.  I got an email that there was a new comment awaiting moderation, and it was this:
+
+<code>
+Bill164415140′,’311521868billy@msn.com’,”,’30.68.179.4′,’2008-03-12 16:12:16′,’2008-03-12 16:12:16′,”,’0′,’lynx’,'comment’,'0′,’0′),(’0′, ”, ”, ”, ”, ‘2008-03-13 16:12:16′, ‘2008-03-13 16:12:16′, ”, ’spam’, ”, ‘comment’, ‘0′,’0′ )
+</code>
+
+Not exactly the most harmful stuff.  Still, it was nice to see an attempt in the wild.
+
+Another good example is <a href="http://xkcd.com/327/">this xkcd comic</a>.
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2008-08-22T00:00:00-07:00" pubdate data-updated="true">Aug 22<span>nd</span>, 2008</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://dlecocq.github.com/blog/2008/08/22/injection-attack/" data-via="danlecocq" data-counturl="http://dlecocq.github.com/blog/2008/08/22/injection-attack/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2008/08/10/coffee-and-cigarettes/" title="Previous Post: Coffee and Cigarettes">&laquo; Coffee and Cigarettes</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2008/08/22/woots-10-things/" title="Next Post: Woot's 10 Things">Woot's 10 Things &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/11/running-sudo-with-pssh/">Running sudo with pssh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/21/rough-array-hash-benchmark/">Rough Array Hash Benchmark</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/20/taskmaster-from-disqus/">Taskmaster from DISQUS</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/18/seomoz-blog-post-introducing-qless/">SEOmoz Blog Post -- Introducing qless</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/11/redis-and-lua-for-robust-portable-libraries/">Redis and Lua for Robust, Portable Libraries</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/dlecocq">@dlecocq</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'dlecocq',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

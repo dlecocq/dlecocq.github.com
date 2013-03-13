@@ -1,0 +1,272 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Rough Array Hash Benchmark - My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="I recently went on a mission to find (and perhaps build) a better dictionary. I&#8217;ve been looking at Dr. Askitis&#8217; work on so-called HAT- &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://dlecocq.github.com/blog/2012/07/21/rough-array-hash-benchmark">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39246569-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:dlecocq.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Rough Array Hash Benchmark</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-21T00:00:00-07:00" pubdate data-updated="true">Jul 21<span>st</span>, 2012</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content">I recently went on a mission to find (and perhaps build) a better dictionary. I&#8217;ve been looking at <a href="http://www.naskitis.com/" title="Dr. Askitis">Dr. Askitis&#8217; work</a> on so-called HAT-tries, which are something akin to a burst trie. It all seems reasonable enough, and his experimental results seem very promising. In particular, I was looking for an open source version of this data structure that didn&#8217;t preclude commercial use (as Askitis&#8217; version does).
+
+HAT-tries rely on another of Askitis&#8217; data structures, the <a href="http://crpit.com/confpapers/CRPITV91Askitis.pdf">hash array map</a>. Essentially, it&#8217;s a hash table, but instead of using linked lists to store nodes containing the various key/value pairs stored in a particular slot, each slot is actually a buffer that stores a bunch of packed information, including the number of items in the buffer, the length of the string key, and the value itself. The idea is that this arrangement is much more conducive to caching (and hardware prefetches out of memory since each slot is a contiguous slab of memory). Contrast this to a more conventional approach in which each slot is a linked list that must be traversed to find the actual key/value pair that&#8217;s being retrieved.
+
+I should note that there are a <a href="https://github.com/dcjones/hat-trie" target="_blank">couple</a> of <a href="https://github.com/chris-vaszauskas/hat-trie" target="_blank">implementations</a> that I looked at before venturing out to <a href="https://github.com/dlecocq/hat-trie" target="_blank">make my own</a>. The design is actually relatively simple: hash a provided key to map it onto one of many internal buckets. If that bucket is empty, allocate enough memory to store an 1) integer counter of the number of pairs in this buffer, 2) integer length of the provided key, 3) a byte copy of the key itself, and 4) a byte copy of the value.
+
+For the hash, I chose my personal favorite, <a href="http://www.azillionmonkeys.com/qed/hash.html">superfasthash</a>. I actually began by having my implementation follow the STL style of being able to provide a memory allocator, and when I didn&#8217;t see the performance I wanted, I switched to `malloc` and `realloc` as prescribed in the paper. Even then, I did not see the performance I wanted. Of course, I imagine that my implementation could be improved, but I felt like it was certainly at least reasonable. I tried a number of alterations, including preallocating more memory than was needed in each slot with hopes that realloc would save me. No dice.
+
+My benchmark was focused on speed. Memory was less of a concern for my needs, and so long as it stayed mostly unnoticeable (say, less than a couple hundred megabytes for a million keys), I was happy. I decided to give it a run against `std::map` (mostly to feel better about myself), and then `tr1::unordered_map` (mostly out of hubris). Although my rough implementation doesn&#8217;t (yet) include fancy-schmancy features like iterators, it <em>barely</em> edged out `tr1::unordered_map` for a small number of keys (less than 10k). When scaling up, however, the story was less than impressive.
+
+This benchmark was performed using the first <em>k</em> words from Askitis&#8217; `distinct_1` data set, and the strings were loaded into memory before running the tests. These numbers are each the best of 10 consecutive runs (hoping to warm the cache and cast each of these in the best possible light), with each of these containers being a mapping of `std::string` to `size_t`. Each key was associated with the value 1, and when querying, it was verified that the resulting value was still 1. The query was performed on the same input set of keys, and random query was run exactly the same, but after performing `std::random_shuffle` on the vector. It was compiled with `g++-4.2` with flags `-O3 -Wall` (though other optimization levels had almost no impact). I also tried with `clang-2.1` and the results were very similar. I encourage you to run the same bench on your own system and your own compiler version.
+
+[caption id=&#8221;attachment_1073&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Insertion Time Relative to std::tr1::unordered_map&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2012/07/insert.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2012/07/insert-300x200.png" alt="Insertion Time Relative to std::tr1::unordered_map" title="Insertion Time" width="300" height="200" class="size-medium wp-image-1073" /></a>[/caption]
+
+[caption id=&#8221;attachment_1074&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Query Time Relative to std::tr1::unordered_map&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2012/07/query.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2012/07/query-300x200.png" alt="Query Time Relative to std::tr1::unordered_map" title="Query Time" width="300" height="200" class="size-medium wp-image-1074" /></a>[/caption]
+
+[caption id=&#8221;attachment_1075&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Random Query Time Relative to std::tr1::unordered_map&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2012/07/random.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2012/07/random-300x200.png" alt="Random Query Time Relative to std::tr1::unordered_map" title="Random Query Time" width="300" height="200" class="size-medium wp-image-1075" /></a>[/caption]
+
+While `tr1::unordered_map` scaled better, at least for the purposes of HAT-trie, the number of items in the hash is relatively limited (roughly in the range of 10k). When testing the HAT-trie itself, I think the hash array map has earned at least a chance for a trial. For those curious, <a href="https://github.com/dlecocq/hat-trie" target="_blank">my source is available on github</a>.
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2012-07-21T00:00:00-07:00" pubdate data-updated="true">Jul 21<span>st</span>, 2012</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://dlecocq.github.com/blog/2012/07/21/rough-array-hash-benchmark/" data-via="danlecocq" data-counturl="http://dlecocq.github.com/blog/2012/07/21/rough-array-hash-benchmark/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2012/05/20/taskmaster-from-disqus/" title="Previous Post: Taskmaster from DISQUS">&laquo; Taskmaster from DISQUS</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2012/10/11/running-sudo-with-pssh/" title="Next Post: Running sudo with pssh">Running sudo with pssh &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/11/running-sudo-with-pssh/">Running sudo with pssh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/21/rough-array-hash-benchmark/">Rough Array Hash Benchmark</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/20/taskmaster-from-disqus/">Taskmaster from DISQUS</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/18/seomoz-blog-post-introducing-qless/">SEOmoz Blog Post -- Introducing qless</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/11/redis-and-lua-for-robust-portable-libraries/">Redis and Lua for Robust, Portable Libraries</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/dlecocq">@dlecocq</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'dlecocq',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

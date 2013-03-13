@@ -1,0 +1,297 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Python and Arbitrary Function Arguments - **kwargs - My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="Python has a pretty useful policy: named arguments. When you call a function, you can explicitly say that such-and-such value is what you&#8217;re &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://dlecocq.github.com/blog/2011/09/14/python-and-arbitrary-function-arguments-kwargs">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39246569-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:dlecocq.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Python and Arbitrary Function Arguments - **kwargs</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-09-14T00:00:00-07:00" pubdate data-updated="true">Sep 14<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content">Python has a pretty useful policy: named arguments. When you call a function, you can explicitly say that such-and-such value is what you&#8217;re providing for a particular argument, and can even include them in any order:
+
+<pre lang='python'>
+def hello(first, last):
+	print 'Hello %s %s' % (first, last)
+
+hello(last='Lecocq', first='Dan')
+</pre>
+
+In fact, you can programmatically gain insight into functions with the <a href="http://docs.python.org/library/inspect.html" title="inspect" target="_blank">inspect module</a>. But suppose you want to be able to accept an arbitrary number of parameters. For example, for a printf equivalent. Or where I encountered it in wanting to read a module name from a configuration file, as well as the arguments to instantiate it. In this case, you&#8217;d get the module and class as a string and then a dictionary of the arguments to make an instance of it. Of course, Python always has a way. In this case, **kwargs.
+
+This is actually dictionary unpacking, taking all the keys in a dictionary and mapping them to argument names. For example, in the above example, I could say:
+
+<pre lang='python'>
+hello(**{'last':'Lecocq', 'first':'Dan'})
+</pre>
+
+Of course, in that case it&#8217;s a little verbose, but if you&#8217;re getting a dictionary of arguments programmatically, then it&#8217;s invaluable. But wait, there&#8217;s more! Not only can you use the **dict operator to map a dictionary into parameters, but you can accept arbitrary parameters with it, too!
+
+<pre lang='python'>
+def kw(**kwargs):
+	for key, value in kwargs.items():
+		print '%s => %s' % (key, value)
+
+kw(**{'hello':'Howdy!', 'first':'Dan'})
+kw(hello='Howdy!', first='Dan')
+</pre>
+
+Magic! <strong>No matter how you invoke the function, it has access to the parameters.</strong>  You can even split the difference, making some parameters named and some parameters variable. For example, if you wanted to create an instance of a class that you passed a name in for, initialized with the arguments you give it:
+
+<pre lang='python'>
+def factory(module, cls, **kwargs):
+	# The built-in __import__ does just what it sounds like
+	m = __import__(module)
+	# Now get the class in that module
+	c = getattr(m, cls)
+	# Now make an instance of it, given the args
+	return c(**kwargs)
+
+factory('datetime', 'datetime', year=2011, month=11, day=8)
+factory('decimal', 'Decimal', value=7)
+</pre>
+
+This is one place where Python&#8217;s flexibility is extremely useful.
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-09-14T00:00:00-07:00" pubdate data-updated="true">Sep 14<span>th</span>, 2011</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://dlecocq.github.com/blog/2011/09/14/python-and-arbitrary-function-arguments-kwargs/" data-via="danlecocq" data-counturl="http://dlecocq.github.com/blog/2011/09/14/python-and-arbitrary-function-arguments-kwargs/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/09/12/kevin-mitnicks-ghost-in-the-wires/" title="Previous Post: Kevin Mitnick's Ghost in the Wires">&laquo; Kevin Mitnick's Ghost in the Wires</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2011/10/16/never-trust-callbacks/" title="Next Post: Never Trust Callbacks">Never Trust Callbacks &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/11/running-sudo-with-pssh/">Running sudo with pssh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/21/rough-array-hash-benchmark/">Rough Array Hash Benchmark</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/20/taskmaster-from-disqus/">Taskmaster from DISQUS</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/18/seomoz-blog-post-introducing-qless/">SEOmoz Blog Post -- Introducing qless</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/11/redis-and-lua-for-robust-portable-libraries/">Redis and Lua for Robust, Portable Libraries</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/dlecocq">@dlecocq</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'dlecocq',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

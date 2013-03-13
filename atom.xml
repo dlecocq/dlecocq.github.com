@@ -4,7 +4,7 @@
   <title><![CDATA[My Octopress Blog]]></title>
   <link href="http://dlecocq.github.com/atom.xml" rel="self"/>
   <link href="http://dlecocq.github.com/"/>
-  <updated>2013-03-12T23:30:30-07:00</updated>
+  <updated>2013-03-12T23:37:10-07:00</updated>
   <id>http://dlecocq.github.com/</id>
   <author>
     <name><![CDATA[Your Name]]></name>
@@ -12,5 +12,595 @@
   </author>
   <generator uri="http://octopress.org/">Octopress</generator>
 
+  
+  <entry>
+    <title type="html"><![CDATA[Running sudo with pssh]]></title>
+    <link href="http://dlecocq.github.com/blog/2012/10/11/running-sudo-with-pssh/"/>
+    <updated>2012-10-11T00:00:00-07:00</updated>
+    <id>http://dlecocq.github.com/blog/2012/10/11/running-sudo-with-pssh</id>
+    <content type="html"><![CDATA[The <a href="http://www.theether.org/pssh/" title="pssh" target="_blank">pssh</a> tool is great. Just great. At SEOmoz we use a number of deployment schemes, but every so often I find myself needing to log into 50 machines and perform some simple one-off command. I&#8217;ve written such a line many times:
+<code>
+for i in {01..05}; do ssh -t ec2-user@some-host-$i 'sudo ...'; done
+</code>
+
+This is fine if the command is quick, but it <em>really</em> sucks if it&#8217;s something that takes more than just a few seconds. So in the absence of needing to use sudo (and thus the &#8216;-t&#8217; flag), pssh makes it easy to run these all in parallel:
+<code>
+pssh -i --host=some-host-{01..50} -l ec2-user 'hostname'
+</code>
+
+Coercing pssh to create a pseudo-tty to enable sudo commands was a little tricky, though:
+<code>
+# And now I can sudo!
+pssh -x '-t -t' -i --host=some-host-{01..50} -l ec2-user 'sudo hostname'
+</code>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Rough Array Hash Benchmark]]></title>
+    <link href="http://dlecocq.github.com/blog/2012/07/21/rough-array-hash-benchmark/"/>
+    <updated>2012-07-21T00:00:00-07:00</updated>
+    <id>http://dlecocq.github.com/blog/2012/07/21/rough-array-hash-benchmark</id>
+    <content type="html"><![CDATA[I recently went on a mission to find (and perhaps build) a better dictionary. I&#8217;ve been looking at <a href="http://www.naskitis.com/" title="Dr. Askitis">Dr. Askitis&#8217; work</a> on so-called HAT-tries, which are something akin to a burst trie. It all seems reasonable enough, and his experimental results seem very promising. In particular, I was looking for an open source version of this data structure that didn&#8217;t preclude commercial use (as Askitis&#8217; version does).
+
+HAT-tries rely on another of Askitis&#8217; data structures, the <a href="http://crpit.com/confpapers/CRPITV91Askitis.pdf">hash array map</a>. Essentially, it&#8217;s a hash table, but instead of using linked lists to store nodes containing the various key/value pairs stored in a particular slot, each slot is actually a buffer that stores a bunch of packed information, including the number of items in the buffer, the length of the string key, and the value itself. The idea is that this arrangement is much more conducive to caching (and hardware prefetches out of memory since each slot is a contiguous slab of memory). Contrast this to a more conventional approach in which each slot is a linked list that must be traversed to find the actual key/value pair that&#8217;s being retrieved.
+
+I should note that there are a <a href="https://github.com/dcjones/hat-trie" target="_blank">couple</a> of <a href="https://github.com/chris-vaszauskas/hat-trie" target="_blank">implementations</a> that I looked at before venturing out to <a href="https://github.com/dlecocq/hat-trie" target="_blank">make my own</a>. The design is actually relatively simple: hash a provided key to map it onto one of many internal buckets. If that bucket is empty, allocate enough memory to store an 1) integer counter of the number of pairs in this buffer, 2) integer length of the provided key, 3) a byte copy of the key itself, and 4) a byte copy of the value.
+
+For the hash, I chose my personal favorite, <a href="http://www.azillionmonkeys.com/qed/hash.html">superfasthash</a>. I actually began by having my implementation follow the STL style of being able to provide a memory allocator, and when I didn&#8217;t see the performance I wanted, I switched to `malloc` and `realloc` as prescribed in the paper. Even then, I did not see the performance I wanted. Of course, I imagine that my implementation could be improved, but I felt like it was certainly at least reasonable. I tried a number of alterations, including preallocating more memory than was needed in each slot with hopes that realloc would save me. No dice.
+
+My benchmark was focused on speed. Memory was less of a concern for my needs, and so long as it stayed mostly unnoticeable (say, less than a couple hundred megabytes for a million keys), I was happy. I decided to give it a run against `std::map` (mostly to feel better about myself), and then `tr1::unordered_map` (mostly out of hubris). Although my rough implementation doesn&#8217;t (yet) include fancy-schmancy features like iterators, it <em>barely</em> edged out `tr1::unordered_map` for a small number of keys (less than 10k). When scaling up, however, the story was less than impressive.
+
+This benchmark was performed using the first <em>k</em> words from Askitis&#8217; `distinct_1` data set, and the strings were loaded into memory before running the tests. These numbers are each the best of 10 consecutive runs (hoping to warm the cache and cast each of these in the best possible light), with each of these containers being a mapping of `std::string` to `size_t`. Each key was associated with the value 1, and when querying, it was verified that the resulting value was still 1. The query was performed on the same input set of keys, and random query was run exactly the same, but after performing `std::random_shuffle` on the vector. It was compiled with `g++-4.2` with flags `-O3 -Wall` (though other optimization levels had almost no impact). I also tried with `clang-2.1` and the results were very similar. I encourage you to run the same bench on your own system and your own compiler version.
+
+[caption id=&#8221;attachment_1073&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Insertion Time Relative to std::tr1::unordered_map&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2012/07/insert.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2012/07/insert-300x200.png" alt="Insertion Time Relative to std::tr1::unordered_map" title="Insertion Time" width="300" height="200" class="size-medium wp-image-1073" /></a>[/caption]
+
+[caption id=&#8221;attachment_1074&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Query Time Relative to std::tr1::unordered_map&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2012/07/query.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2012/07/query-300x200.png" alt="Query Time Relative to std::tr1::unordered_map" title="Query Time" width="300" height="200" class="size-medium wp-image-1074" /></a>[/caption]
+
+[caption id=&#8221;attachment_1075&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Random Query Time Relative to std::tr1::unordered_map&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2012/07/random.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2012/07/random-300x200.png" alt="Random Query Time Relative to std::tr1::unordered_map" title="Random Query Time" width="300" height="200" class="size-medium wp-image-1075" /></a>[/caption]
+
+While `tr1::unordered_map` scaled better, at least for the purposes of HAT-trie, the number of items in the hash is relatively limited (roughly in the range of 10k). When testing the HAT-trie itself, I think the hash array map has earned at least a chance for a trial. For those curious, <a href="https://github.com/dlecocq/hat-trie" target="_blank">my source is available on github</a>.
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Taskmaster from DISQUS]]></title>
+    <link href="http://dlecocq.github.com/blog/2012/05/20/taskmaster-from-disqus/"/>
+    <updated>2012-05-20T00:00:00-07:00</updated>
+    <id>http://dlecocq.github.com/blog/2012/05/20/taskmaster-from-disqus</id>
+    <content type="html"><![CDATA[I have been waiting for an occasion to use <a href="https://github.com/dcramer/taskmaster" target="_blank">dcramer&#8217;s taskmaster</a>, which is a queueing system meant for large, infrequently-invoked (even one-off) tasks. In his <a href="http://justcramer.com/2012/05/04/distributing-work-without-celery/" target="_blank">original blog post</a> brings up one of the features that was particularly striking to me &#8211; you don&#8217;t put jobs into the queue per se, but you describe a generator that yields all the jobs that should be put in the queue.
+
+Occasionally at SEOmoz, we want to perform sanity checks on customer accounts, or transitioning from one backend to another, etc. In particular, we&#8217;ve been transitioning to a new queueing system, and we wanted to go through every customer and ensure that they had a recent crawl, and further, were definitely in the new system. Unfortunately, much of the data we have to check involves a lookup into Cassandra (that can&#8217;t be turned into a bulk operation very easily). Cassandra&#8217;s not necessarily the problem, but just the latency between requests. So, spawn off 20 or so workers with taskmaster, each given the details about the customer that we needed to verify.
+
+The serial version takes 4-5 hours. It took 15 minutes to get taskmaster installed and grokked, and then the task itself took an hour. Already a win!
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[SEOmoz Blog Post -- Introducing qless]]></title>
+    <link href="http://dlecocq.github.com/blog/2012/05/18/seomoz-blog-post-introducing-qless/"/>
+    <updated>2012-05-18T00:00:00-07:00</updated>
+    <id>http://dlecocq.github.com/blog/2012/05/18/seomoz-blog-post-introducing-qless</id>
+    <content type="html"><![CDATA[I recently wrote a new <a href="http://devblog.seomoz.org/2012/05/introducing-qless-our-new-job-queue/">dev blog post</a> at SEOmoz about <a href="https://github.com/seomoz/qless">qless</a>, a project I&#8217;ve been working on. It&#8217;s a queueing system that takes advantage of Redis 2.6&#8217;s server-side Lua scripting.
+
+Happy queueing!
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Redis and Lua for Robust, Portable Libraries]]></title>
+    <link href="http://dlecocq.github.com/blog/2012/03/11/redis-and-lua-for-robust-portable-libraries/"/>
+    <updated>2012-03-11T00:00:00-08:00</updated>
+    <id>http://dlecocq.github.com/blog/2012/03/11/redis-and-lua-for-robust-portable-libraries</id>
+    <content type="html"><![CDATA[Redis 2.6 has support for server-side Lua scripting. Off hand, this may not seem like a big deal, but it offers some surprisingly powerful features. I&#8217;ll give a little bit of background on why I&#8217;m interested in this in the first place, and then I&#8217;ll show why this unassuming feature is so extremely useful for <strong>otherwise impossible atomic operations</strong>, as well as for <strong>easy language portability</strong> and <strong>performance</strong>.
+
+For example, I&#8217;ve recently been working on a Redis-based queueing system (heavily inspired by Resque, but with some added twists) and a lot of functionality that I wanted to support would have been prohibitively difficult without Redis&#8217; support for Lua. For example, I want to make sure that jobs submitted to this queueing system do not simply get dropped on the floor. A worker is given a temporary exclusive lock on a job, and must either complete it or heartbeat it within a certain amount of time. If that worker does not, it&#8217;s presumed that the worker dropped the job and it can be given to a new worker.
+
+Now let&#8217;s imagine what this locking mechanism would have to look like in order to be correct. First, we&#8217;d probably maintain a list of jobs in a queue that have been popped off, but not yet completed, sorted by when their lock expires. When a client tries to get a job, it should first check for expired locks, and if it finds any, it should assume responsibility for those jobs. So this client sees an expired lock, and attempts to update the metadata associated with the job to reflect that it now has that job. In the mean time, the original client has swooped in and tried to complete the job despite the expired lock, removes the entry for the lock, and updates the job data to reflect its completion. It&#8217;s possible that the second client updates the job data after this, and inserts a new lock for itself, putting the system into an inconsistent state.
+
+Yes, Redis has a mechanism for this, but it&#8217;s only so strong. There&#8217;s the `MULTI`, `WATCH` and `EXEC` combo, which allows you to detect the situation when another client has tried to modify a key for which you&#8217;re trying to perform an atomic operation and allows you to try the operation again. But for highly contentious keys, you can spend a lot of time backing off and failing. That&#8217;s frustrating.
+
+Redis&#8217; Lua support has an interesting guarantee: <strong>Lua scripts in Redis are guaranteed to be executed atomically</strong>. No other commands can be run on the Redis instance while the Lua script is running. With that in place, you are free to no worry in the slightest about these sorts of race conditions, because they just won&#8217;t happen. You can access as many keys as you&#8217;d like, without having to worry about `WATCH`-ing them for changes, and implement as simple or complex a locking mechanism as you&#8217;d like.
+
+Another interesting feature that comes out of this is that if you implement your next Redis-based library as a collection of Lua scripts, then you can write bindings in other languages in a flash. The only requirement is that those new bindings must be able to read in a file, load the script, and then have Redis bindings to invoke those scripts. Clients no longer have to worry about mimicking any arbitrarily complex logic in their own language &#8211; they just rely on these Lua scripts that can be shared across all the bindings! This may go without saying, but maintaining bindings is something that can be a bit of a nuisance. One example that jumps to mind immediately is working with Redis from Node.js if a lot of successive commands have to be chained together. It can get extremely messy.
+
+Not only this laundry list of wonderful features spring out of this Lua support, but it&#8217;s surprisingly performant. Without giving too much away, at SEOmoz, I recently implemented the queueing system I mentioned to support scheduled work items, heartbeating, priority and statistics collection in a collection of about 10-12 Lua scripts. Initial benchmarks have hit 4500 job pop/complete transactions per second on a 2011-ish MacBook Pro. At least for our purposes, this is <em>plenty</em> of room to roam. And let me assure you, these scripts are not always simple, and so the fact that Redis can still maintain good performance in the face of arbitrary scripts speaks volumes about the quality of Redis.
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[The Cost of Except in Python]]></title>
+    <link href="http://dlecocq.github.com/blog/2012/01/08/the-cost-of-except-in-python/"/>
+    <updated>2012-01-08T00:00:00-08:00</updated>
+    <id>http://dlecocq.github.com/blog/2012/01/08/the-cost-of-except-in-python</id>
+    <content type="html"><![CDATA[I was curious recently about how much of a performance penalty try/except blocks incur in python. Specifically, 1) does it incur much of a cost if no exception is thrown (accepting only a penalty when something exceptional happens) and 2) how does it compare to if/else statements where possible? A snippet to answer the first question:
+
+<pre lang='python'>
+import timeit
+ 
+withTryNoThrow = '''
+	try:
+		a = int('5')
+	except ValueError:
+		pass
+'''
+ 
+withTryThrow = '''
+	try:
+		a = int('z')
+	except ValueError:
+		pass
+'''
+ 
+withoutTry = '''
+	a = int('5')
+'''
+ 
+results = {
+	'withoutTry'    : timeit.Timer(withoutTry    ).timeit(100000),
+	'withTryNoThrow': timeit.Timer(withTryNoThrow).timeit(100000),
+	'withTryThrow'  : timeit.Timer(withTryThrow  ).timeit(100000)
+}
+ 
+for k, v in results.items():
+	print '%20s => %fs' % (k, v)
+</pre>
+
+For me, the results looked something like this:
+
+<pre>
+      withTryNoThrow => 0.082781s
+          withoutTry => 0.082880s
+        withTryThrow => 0.261147s
+</pre>
+
+It would appear that while catching exceptions is expensive, catching non-exceptions is very cheap. I imagine that the reason is mostly because when you throw an exception, you actually instantiate an exception object of some kind, which necessarily introduces some overhead. In the absence of that object creation, things can be relatively fast.
+
+Now, for the second question. This particular question came up when deciding whether or not I should try fetching a key from a dictionary and catching an exception when it&#8217;s absent, or if I should use the get method and then check if the result is None.
+
+<pre lang='python'>
+import timeit
+
+setup = '''d = dict({
+	'some'   : 1,
+	'keys'   : 2,
+	'are'    : 3,
+	'present': 4,
+	'others' : 5,
+	'arent'  : 6
+})'''
+
+tryExcept = '''
+	try:
+		a = d['doesntexist']
+	except KeyError:
+		pass
+'''
+
+getIfElse = '''
+	a = d.get('doesntexist', None)
+	if a == None:
+		pass
+	else:
+		pass
+'''
+
+getNoIf = '''
+	a = d.get('doesntexist', None)
+'''
+
+results = {
+	'tryExcept' : timeit.Timer(tryExcept, setup).timeit(100000),
+	'getIfElse' : timeit.Timer(getIfElse, setup).timeit(100000),
+	'getNoIf'   : timeit.Timer(getNoIf  , setup).timeit(100000)
+}
+
+for k, v in results.items():
+	print '%20s => %fs' % (k, v)
+</pre>
+
+For this second test, the results looked something like this for me:
+
+<pre>
+             getNoIf => 0.019980s
+           tryExcept => 0.083638s
+           getIfElse => 0.027422s
+</pre>
+
+Obviously, if your program is amenable to just using a default value, then happiness ensues. Failing that, using the get method and then if/else is much faster than the try/except alternative.
+
+<em>Fine Print</em>: I am running Python 2.7.1 on a 2011-ish MacBookPro.
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Chef-Solo and God -- A Divine Duo]]></title>
+    <link href="http://dlecocq.github.com/blog/2012/01/06/chef-solo-and-god-a-divine-duo/"/>
+    <updated>2012-01-06T00:00:00-08:00</updated>
+    <id>http://dlecocq.github.com/blog/2012/01/06/chef-solo-and-god-a-divine-duo</id>
+    <content type="html"><![CDATA[I recently wrote a new post on the <a href="http://devblog.seomoz.org/2012/01/chef-solo-and-god-a-divine-duo/" title="SEOmoz Dev Blog Post">SEOmoz dev blog</a> about our deployment with chef-solo and god on EC2.
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Python's Logging Module - Exceptions]]></title>
+    <link href="http://dlecocq.github.com/blog/2011/10/19/pythons-logging-module-exceptions/"/>
+    <updated>2011-10-19T00:00:00-07:00</updated>
+    <id>http://dlecocq.github.com/blog/2011/10/19/pythons-logging-module-exceptions</id>
+    <content type="html"><![CDATA[I&#8217;m a big fan of python&#8217;s <a href="http://docs.python.org/library/logging.html" title="Python Logging" target="_blank">logging</a> module. It supports configuration files, multiple handlers (for both writing to the screen while writing to a file, for example), output formatting like crazy, and many other delicious features. One that I&#8217;ve only recently encountered is <strong>its exception method.</strong>
+
+The basic idea of the logging module is that you can get a logger from a factory (that allows multiple pieces of code to easily access the same logical logging entity). From there, you add handlers that output messages to various places (files, screen, sockets, HTTP endpoints, etc.). Every message you log is done at a specific level, and then the configuration of the logger determines whether or not to record messages of a certain severity:
+
+<pre lang='python'>
+import logging
+
+# Get a logger instance
+logger = logging.getLogger('testing')
+
+# Some initialization of handlers here, 
+# unimportant in this context
+
+# Print out at various levels
+logger.warn('Oops! Something happened')
+logger.info('Did you know that X?')
+logger.debug('Index is : %i' % ...)
+</pre>
+
+What&#8217;s great about the module is that it <strong>separates your messages from how they&#8217;re displayed and where.</strong> For debugging, it&#8217;s nice to be able to flip a switch and turn on a more verbose mode. Or for production to tell it to shut up and only log messages that are really critical. What the &#8216;exception&#8217; method does is to not only <strong>log a message as an error, but to also print a nice backtrace of where the error took place</strong>!
+
+<pre lang='python'>
+try:
+	# So something here
+	raise Exception('oops!')
+except:
+	logger.exception('Such-and-such failed! Stack trace to follow:')
+	# Stack trace appears in the log
+</pre>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Never Trust Callbacks]]></title>
+    <link href="http://dlecocq.github.com/blog/2011/10/16/never-trust-callbacks/"/>
+    <updated>2011-10-16T00:00:00-07:00</updated>
+    <id>http://dlecocq.github.com/blog/2011/10/16/never-trust-callbacks</id>
+    <content type="html"><![CDATA[It&#8217;s a lesson that has now been hammered home repeatedly in my head: never trust callbacks. Just don&#8217;t. Go ahead and execute them, but if you trust them to not throw exceptions or errors, you are in for a world of unhappiness.
+
+For me, I first learned this lesson when making use of twisted, writing some convenience classes to help with some of the somewhat odd class structure they have. (Sidebar: twisted is an extremely powerful framework, but their naming schemes are not what they could be.) Twisted makes heavy use of a deferred model where callbacks are executed in separate threads, while mission-critical operations run in the main thread. My convenience classes exposed further callbacks that could be overridden in subclasses, but I made the critical mistake of not executing that code inside of a try/except block.
+
+Twisted has learned this lesson. In fact, their deferred model makes it very hard to throw a real exception. If your callbacks fail, execution takes a different path &#8211; calling errback functions. In fact, twisted is so pessimistic about callbacks (rightly so) that you just can&#8217;t make enough exceptions to break out of errback functions. However, wrapped in my convenience classes were pieces of code that were mission critical, and my not catching exceptions in the callbacks I provided was causing me a world of hurt.
+
+That whole experience was enough to make me learn my lesson. Then, a few days ago I encountered it again in a different library, in a different language, in a different project, where I was exposing callbacks for user interface code in JavaScript. The logical / functional chunk of code exposed events that the UI would be interested in, but was too trusting, leading to errors in callbacks skipping over critical parts of the code.
+
+All in all, <strong>when exposing callbacks, never trust a callback to not throw an exception.</strong> Even if you wrote the callbacks it&#8217;s executing (as was the case with both of these instances, at least in the beginning). <strong>Callbacks are a courtesy &#8211; a chance for code to be notified of an event,</strong> but like many courtesies, they can be abused.
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Python and Arbitrary Function Arguments - **kwargs]]></title>
+    <link href="http://dlecocq.github.com/blog/2011/09/14/python-and-arbitrary-function-arguments-kwargs/"/>
+    <updated>2011-09-14T00:00:00-07:00</updated>
+    <id>http://dlecocq.github.com/blog/2011/09/14/python-and-arbitrary-function-arguments-kwargs</id>
+    <content type="html"><![CDATA[Python has a pretty useful policy: named arguments. When you call a function, you can explicitly say that such-and-such value is what you&#8217;re providing for a particular argument, and can even include them in any order:
+
+<pre lang='python'>
+def hello(first, last):
+	print 'Hello %s %s' % (first, last)
+
+hello(last='Lecocq', first='Dan')
+</pre>
+
+In fact, you can programmatically gain insight into functions with the <a href="http://docs.python.org/library/inspect.html" title="inspect" target="_blank">inspect module</a>. But suppose you want to be able to accept an arbitrary number of parameters. For example, for a printf equivalent. Or where I encountered it in wanting to read a module name from a configuration file, as well as the arguments to instantiate it. In this case, you&#8217;d get the module and class as a string and then a dictionary of the arguments to make an instance of it. Of course, Python always has a way. In this case, **kwargs.
+
+This is actually dictionary unpacking, taking all the keys in a dictionary and mapping them to argument names. For example, in the above example, I could say:
+
+<pre lang='python'>
+hello(**{'last':'Lecocq', 'first':'Dan'})
+</pre>
+
+Of course, in that case it&#8217;s a little verbose, but if you&#8217;re getting a dictionary of arguments programmatically, then it&#8217;s invaluable. But wait, there&#8217;s more! Not only can you use the **dict operator to map a dictionary into parameters, but you can accept arbitrary parameters with it, too!
+
+<pre lang='python'>
+def kw(**kwargs):
+	for key, value in kwargs.items():
+		print '%s => %s' % (key, value)
+
+kw(**{'hello':'Howdy!', 'first':'Dan'})
+kw(hello='Howdy!', first='Dan')
+</pre>
+
+Magic! <strong>No matter how you invoke the function, it has access to the parameters.</strong>  You can even split the difference, making some parameters named and some parameters variable. For example, if you wanted to create an instance of a class that you passed a name in for, initialized with the arguments you give it:
+
+<pre lang='python'>
+def factory(module, cls, **kwargs):
+	# The built-in __import__ does just what it sounds like
+	m = __import__(module)
+	# Now get the class in that module
+	c = getattr(m, cls)
+	# Now make an instance of it, given the args
+	return c(**kwargs)
+
+factory('datetime', 'datetime', year=2011, month=11, day=8)
+factory('decimal', 'Decimal', value=7)
+</pre>
+
+This is one place where Python&#8217;s flexibility is extremely useful.
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Kevin Mitnick's Ghost in the Wires]]></title>
+    <link href="http://dlecocq.github.com/blog/2011/09/12/kevin-mitnicks-ghost-in-the-wires/"/>
+    <updated>2011-09-12T00:00:00-07:00</updated>
+    <id>http://dlecocq.github.com/blog/2011/09/12/kevin-mitnicks-ghost-in-the-wires</id>
+    <content type="html"><![CDATA[I recently finished reading one of <a href="http://en.wikipedia.org/wiki/Kevin_mitnick" title="Kevin Mitnick" target="_blank">Kevin Mitnick</a>&#8217;s books, <a href="http://www.amazon.com/Ghost-Wires-Adventures-Worlds-Wanted/dp/0316037702/" title="Ghost in the Wires" target="_blank">Ghost in the Wires</a>. Fantastic. I constantly found it amazing that someone had lived that life, hacking, evading capture, changing identities. Reads like an action movie at many points, and in fact, <a href="http://www.imdb.com/title/tt0159784/" title="Takedown" target="_blank">several</a> <a href="http://www.imdb.com/title/tt0086567/" title="War Games" target="_blank">movies</a> have been made loosely (and one very loosely) based on his life. Mitnick often talks about how much the &#8220;myth of Mitnick&#8221; is inflated or distorted, especially in the media and particularly with the movies.
+
+As it turns out, Mitnick lived briefly in Seattle, and with my interest piqued, I figured I might be able to track down his old apartment. He describes going home one day before realizing his was being followed, and in the course of the description he mentions a few street names and the part of town he lived in. And at the end of the book, there&#8217;s a photo of the apartment, slightly too grainy to read the name of the building. But clear enough to read the number. A little time with Google Maps and <a href="http://maps.google.com/maps?q=5227+brooklyn+ave,+seattle&ll=47.66676,-122.313173&spn=0.008425,0.019205&t=m&z=16&vpsrc=0&layer=c&cbll=47.667291,-122.314173&panoid=KavdrrIXVgsQzdBGPyfBvg&cbp=12,281.94,,1,0.79" title="Kevin Mitnick's old apartment" target="_blank">found it</a>! Being so close, I figured I&#8217;d drop by to take a picture:
+
+<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2011/09/photo-1.jpg"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2011/09/photo-1-300x224.jpg" alt="" title="Kevin Mitnick&#039;s Old Apartment" width="300" height="224" class="aligncenter size-medium wp-image-1031" /></a>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Named Pipes]]></title>
+    <link href="http://dlecocq.github.com/blog/2011/09/11/named-pipes/"/>
+    <updated>2011-09-11T00:00:00-07:00</updated>
+    <id>http://dlecocq.github.com/blog/2011/09/11/named-pipes</id>
+    <content type="html"><![CDATA[Yesterday I encountered a concept I hadn&#8217;t known about: named pipes. They&#8217;re essentially a <strong>path that acts as a pipe</strong> for reading from / writing to. In that sense, you work with them like with file redirection and traditional files. But that data doesn&#8217;t get stored anywhere really permanent. All data that goes through it is meat to be written once, and read once, and it comes with a performance boost of not having to write large chunks to disk.
+
+ Pipes, for those who don&#8217;t know, are the bees knees. They&#8217;re the cat&#8217;s meow. They allow you to (as the name implies) make a pipeline between one or more programs, with the output of one feeding into the input of others. Suppose, for example, that we want to find out how many files that contain &#8216;.a&#8217; there are in a directory. There&#8217;s a tool you might know, &#8216;ls,&#8217; that lists all the files in a directory. And &#8216;grep&#8217; is a tool to search for lines of text that match a regular expression. And &#8216;wc&#8217; is a tool that can count the number of bytes, words, lines, etc. in a file.
+
+Typically, each of these <strong>operates in isolation</strong>, reading from a file (in the case of grep and wc), or&#8230; standard input. And they all write to standard output. A pipe is away to hook up one&#8217;s process&#8217; standard output file descriptor to the standard input file descriptor of the another, making one the <strong>producer of information and the other the consumer</strong>:
+
+<pre lang='bash'>
+ls -l /path/to/some/directory | grep '.a' | wc -l
+</pre>
+
+This is typical of the design of many command line utilities. Most either come with an option to read from standard in (usually either the absence of a filename or a single &#8216;-&#8216;). <strong>And most do exactly one task well</strong>. Each has one very specific purpose, but is generally happy to play along with others.
+
+File redirection is another handy tool that is related to named pipes. File redirection lets you either read the contents of a file as if it were standard input, or have a process write to it as if it were standard output. Going back to the earlier example, if we wanted to store a list of the all such files in our own file called &#8216;list&#8217;:
+
+<pre lang='bash'>
+ls | grep '.a' > list
+</pre>
+
+Easy as pie. Now&#8230; for named pipes. They&#8217;re also called &#8217;<strong>FIFO</strong>&#8217;s for their first-in-first-out behavior. You can make one with &#8216;mkfifo &lt;filename&gt;&#8217;. And then, feel free to read from it and write to it. Perhaps in two different terminals:
+
+<pre lang='bash'>
+# In one terminal:
+mkfifo test
+cat < test
+
+# In another terminal:
+echo 'hello' > test
+</pre>
+
+The first terminal, cat plugs along doing the one thing it knows how to do: display what it reads in out to standard out. Take a minute for what has just happened to sink in. You were able to have one process wait around until it had something read&#8230; from a pipe. And in a completely different terminal, you had a <em>different</em> process communicate with the first one through opening a file. This is a mechanism that&#8217;s commonly used for <strong>inter-process communication</strong> (IPC) for obvious reasons &#8211; everyone knows how to read from and write to a file, so it makes use of a known paradigm. But wait &#8211; it gets even better.
+
+Suppose you want to aggregate some statistics about how many different types of requests your application serves, but you don&#8217;t want to have to write that in. Or maybe it&#8217;s an application that you know already just writes to a log file. Of course, you could trawl the log file, but there are conceivably cases where you don&#8217;t want the overhead of keeping around huge files, so you&#8217;d rather avoid it if possible. You have to be careful when doing this (not all applications play nicely with named pipes &#8211; mostly surrounding blocking described below), but chances are you might be able to dupe the application into just logging to a named pipe! If you remove the log file and in that same path you make a pipe, then your work is done &#8211; just read from that pipe to aggregate your statistics periodically. <strong>This works particularly well with the python logging module.</strong>
+
+Reading from and writing to a named pipe can be a little more nuanced, however. Some things to bear in mind:
+
+<ul>
+<li><strong>Opening a named pipe can block</strong>, so consider opening them non-blocking. Of course, it depends on your access pattern, but if you&#8217;re not sure if another process has written to the pipe and you don&#8217;t want that to trip up your reading, non-blocking is the way to go.</li>
+
+<li><strong>Named pipes have &#8216;no size.&#8217;</strong> If you write to a pipe, data gets queued up for the other end to read, but even before that gets read, stat(1) reports that the file has a size of 0 bytes. So, you can&#8217;t rely on a change in file size to know it&#8217;s ready for reading.</li>
+
+<li><strong>Instead, use select, poll, epoll, etc. to detect read/write-ability on the pipe.</strong> If you&#8217;re only interested in one file descriptor, then you can go ahead and use select, but if you&#8217;re starting to listen to too many, perhaps one of the others is a better idea</li>
+</ul>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[System Stats in Python]]></title>
+    <link href="http://dlecocq.github.com/blog/2011/09/07/system-stats-in-python/"/>
+    <updated>2011-09-07T00:00:00-07:00</updated>
+    <id>http://dlecocq.github.com/blog/2011/09/07/system-stats-in-python</id>
+    <content type="html"><![CDATA[Turns out, there&#8217;s a pretty handy package called <a href="http://code.google.com/p/psutil/" title="psutil" target="_blank">psutil</a> that allows you to not only gain insight into the currently-running process, but other processes, physical and virtual memory usage, and CPU usage. For example:
+
+<pre lang='python'>
+import psutil
+
+psutil.phymem_usage().percent
+# 31.2
+psutil.virtmem_usage().percent
+# 0.0
+</pre>
+
+Pretty handy tool if you&#8217;re doing any sort of monitoring!
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[SEOmoz and Dev Blog Post]]></title>
+    <link href="http://dlecocq.github.com/blog/2011/08/31/seomoz-and-dev-blog-post/"/>
+    <updated>2011-08-31T00:00:00-07:00</updated>
+    <id>http://dlecocq.github.com/blog/2011/08/31/seomoz-and-dev-blog-post</id>
+    <content type="html"><![CDATA[I began work almost a month ago at a Seattle company, <a href="http://www.seomoz.org/" title="SEOmoz" target="_blank">SEOmoz</a>. Interesting projects, talented people, and a good place to be. Today I posted my first contribution to their <a href="http://devblog.seomoz.org/" title="Dev Blog" target="_blank">Dev Blog</a> talking about <a href="http://devblog.seomoz.org/2011/08/launching-and-deploying-instances-with-boto-and-fabric/" title="Launching and Deploying Instances with Boto and Fabric" target="_blank">scripting the launching  and deployment of EC2 instances with boto and frabric</a>.
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[yes(1)]]></title>
+    <link href="http://dlecocq.github.com/blog/2011/08/18/yes1/"/>
+    <updated>2011-08-18T00:00:00-07:00</updated>
+    <id>http://dlecocq.github.com/blog/2011/08/18/yes1</id>
+    <content type="html"><![CDATA[Yes, yes(1) is built-in to Mac and Linux (at least OS X Lion and Ubuntu 11.04). And, as you might guess, it repeatedly prints a string of your choice (&#8216;y&#8217; by default) followed by a newline to stdout. Its sole purpose in life is to automate agreeing to prompts. I encountered it recently in a script that was automating RAID array deployment on EC2 ephemeral disks:
+<code>
+# mdadm doesn't let you automate by default, so pipe in 'y'!
+yes | mdadm ...
+</code>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Keeping Build Notes]]></title>
+    <link href="http://dlecocq.github.com/blog/2011/08/14/keeping-build-notes/"/>
+    <updated>2011-08-14T00:00:00-07:00</updated>
+    <id>http://dlecocq.github.com/blog/2011/08/14/keeping-build-notes</id>
+    <content type="html"><![CDATA[I initial put off upgrading to Snow Leopard until almost a year after its release because I was worried about rebuilding my development environment. It&#8217;s amazing how many packages one accumulates over time without thinking about it, and when you have deadlines to meet it can be disastrous to risk your current working setup.
+
+But rebuilding your development environment comes up more than just upgrading your OS. If you need to migrate to that new computer you got, or that work gave you, or help someone else get up and running with a project you&#8217;re thinking about releasing. Admittedly, it took me a little while to learn this lesson, but finally it&#8217;s drilled into my head: <strong>keep build notes!</strong>
+
+A couple weeks ago I was trying to install an internal package whose docs hadn&#8217;t been updated in a very long time. After struggling and hitting countless snags, I finally got it up and running when I got an email that was along the lines of, &#8220;Oh, if you could write down what problems you ran into, that would be great.&#8221; Fortunately, I just made notes of what I had done in order to get it built, and I was able to whip off a reply with speed that surprised the recipient.
+
+Even at a system-wide level, I try to make it a habit to record every package I install/build associated with development. It makes it extremely easy to get set up on the next system, even if the instructions have to be updated for a new environment. I call it a manifest and I manage it as a flat file, though I know there are package managers that can do a lot of heavy lifting for me. However, I find that no package manager is perfect and so even if I make use of one for certain libraries, it&#8217;s important to me to have everything documented in one place. At a minimum (and you probably don&#8217;t need more than this) keep the following:
+<ol>
+	<li><strong>Package name and version</strong> - Maybe you needed readline 6.1 to get your project running, or you know that such-and-such version is buggy for your purposes.</li>
+	<li><strong>Why you installed it</strong> - I find that many libraries I install are used for a particular project, and so it&#8217;s useful to have the motivation for getting it.</li>
+	<li><strong>How you installed it</strong> - Whether it was macports or a typical configure, make and install, how did you build it? Did you need special flags to make it go? You will absolutely forget these, so why not write them down? Even just copy and paste from your history!</li>
+</ol>
+
+I can&#8217;t stress enough how much easier this has made my development life in a lot of ways, and how little a time investment it is.
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Conditional Compilation]]></title>
+    <link href="http://dlecocq.github.com/blog/2011/08/08/conditional-compilation/"/>
+    <updated>2011-08-08T00:00:00-07:00</updated>
+    <id>http://dlecocq.github.com/blog/2011/08/08/conditional-compilation</id>
+    <content type="html"><![CDATA[Last week I had the (dis)pleasure of porting some code to Mac, and today it came time to merge with the original codebase. As helpful as it was to use macros for different code paths, we needed something in the makefile to optionally add flags when compiling on Mac.
+<code>
+// This is all well and good
+#ifndef __APPLE__
+    // Do your Linux-y includes here
+#else
+    // Do your Apple-y includes here
+#endif
+</code>
+
+Apparently, there are a couple conventions for doing this. First, you can inject a configuration step (à la autoconf, for example) which would detect what platform you&#8217;re building on in a robust way and build a Makefile for you. Second, if you&#8217;re lazy or autoconf would be like hitting a fly with a hammer, you can use make&#8217;s conditionals:
+<code>
+# Ensure that this gets declared in time,
+# and fill it with the result of `uname`
+UNAME := $(shell uname)
+
+# If the environment is Darwin...
+ifeq ($(UNAME), Darwin)
+    CXXFLAGS = # Something Apple-y
+else
+    CXXFLAGS = # Something Linux-y
+endif
+</code>
+
+Simple enough!
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Type-Conversion Operators' Unintuitive Behavior]]></title>
+    <link href="http://dlecocq.github.com/blog/2011/08/06/type-conversion-operators-unintuitive-behavior/"/>
+    <updated>2011-08-06T00:00:00-07:00</updated>
+    <id>http://dlecocq.github.com/blog/2011/08/06/type-conversion-operators-unintuitive-behavior</id>
+    <content type="html"><![CDATA[A feature I only recently learned about are type-conversion operators. For any class, if you want to support type conversion to any type, you can do so by merely declaring (and of course defining) operators of the form <em>operator type()</em>:
+<code>
+class Widget {
+...
+operator bool();
+operator thing();
+operator Foo();
+...
+}
+</code>
+
+While this is fine and dandy (and admittedly obviously attractive in ways), there is a big problem SEOmoz co-worker Brandon pointed out: <strong>There&#8217;s no way to determine which code path will be taken.</strong>
+
+For a little bit of context, I came across a set of type-conversion operators that seemed reasonable enough. They tried to cover the whole gamut of possible primitive types:
+<code>
+operator unsigned long long() const;
+operator long long() const;
+operator unsigned long() const { return operator unsigned long long(); }
+operator long() const { return operator long long(); }
+...
+</code>
+
+<strong>The compiler has absolutely no problem with the above declaration.</strong> The class you put that in will happily compile, but the problem arises when you try to use it:
+<code>
+Widget w(...);
+// Suddenly, the compiler complains, not knowing which operator to use
+unsigned long int foo = w;
+</code>
+
+At this point, the compiler puts its foot down. What to me seems unintuitive is that even though there is an conversion operator to this exact type, the compiler won&#8217;t use it. What&#8217;s even more bizarre to me is that typedefs and in-header definitions can further muddle things up:
+<code>
+operator long long() const;
+operator long() const;
+operator int() const;
+operator short() const;
+// For whatever reason, let's say you do this:
+operator int32_t() const {
+    return operator long long();
+}
+</code>
+
+<strong>Even though int32_t will be the same as one of those other types, this will still compile.</strong> It makes a certain amount of sense when viewed in the context of the compiler because after all, it only does so much processing on headers because they&#8217;re going to be directly included wherever you use them. <strong>You actually don&#8217;t get duplicate symbols in this case, and thus no &#8220;previously-defined&#8221; error.</strong> In reality, their function definitions are the same, and they actually get mangled to the same name (on my system the operators for int32_t and int both mangle to &#8216;_ZNK6WidgetcviEv&#8217;):
+<code>
+# See what mangled symbols actually appear
+nm -j widget.o
+# See what demangled symbols are actually there
+nm -j widget.o | sed s/__/_/ | grep -v .eh | c++filt -n
+</code>
+
+The above (with in-header definitions) is exactly what we encountered in the code. We (well, a co-worker) suspected that the reason that the sort of multiple definition was allowed was that the names were getting mangled based on their typedef name string (mangled on int32_t instead of the actual type it maps to), but this is not the case. If you move the in-header definition for the int32_t operator into the .cpp file, the compiler will complain to you earlier.
+
+My first inclination when dealing with the &#8220;conversion to type long long is ambiguous&#8221; error was to ask for an explicit conversion: static_cast&lt;long long int&gt;(myWidget). However, this doesn&#8217;t work either. So even in this scenario, <strong>you can&#8217;t even ask for a specific type conversion operator.</strong> From what I can gather, type-conversion operators are a double-edged lightsaber: few things in C++ were added without a purpose, but it&#8217;s extremely important to understand that exact purpose and its risks. To require that type conversions are <strong>explicit</strong> you should generally use something like:
+<code>
+template <class T>
+const T convert() const {
+...
+}
+
+template <>
+const bool convert<bool>() const {
+// Your conversion to bool
+...
+}
+</code>
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[port(1): A Four-Letter Word?]]></title>
+    <link href="http://dlecocq.github.com/blog/2011/08/05/port1-a-four-letter-word/"/>
+    <updated>2011-08-05T00:00:00-07:00</updated>
+    <id>http://dlecocq.github.com/blog/2011/08/05/port1-a-four-letter-word</id>
+    <content type="html"><![CDATA[To me, port has always been kind of a dirty word. Sure, it&#8217;s nice to have a package manager for Mac, especially after getting used to apt-get. Still, things tend to show up in weird places, and paths get confused.
+
+For instance, I was extremely frustrated this week to find that on OS X Lion, gcc-4.4.5 just would&#8230; not&#8230; compile. Frustrating stuff. I was tasked with porting this enormous existing in-house code base (of about 60-100k lines) to Mac, but was dismayed to find that they required C++0x features, which are unsupported in gcc 4.2.
+
+Giving up, I turned to MacPorts as a broken, empty shell of a man. MacPorts was able to compile it, though relegated to /opt/, and though I could add that to my path, this new version of gcc wasn&#8217;t ready to consider the libraries I had installed in /usr/local/ by hand. Of course, I could edit all the makefiles, or do some other magics, but it turns out MacPorts can be bent to your will.
+
+Like most, I had installed the binary release of MacPorts, configured to live in /opt/, but if you instead <strong>build from source</strong>, you can:
+<code>
+./configure --prefix=/usr/local --with-unsupported-prefix
+</code>
+
+This has not only MacPorts reside in /usr/local/, but then it will also in turn install its packages there as well! I don&#8217;t think I&#8217;m the only one who appreciates that kind of consistency &#8211; all my libraries in the right place. I still feel slightly dirty whenever I have to rely on port, but at least when I do, I can save a little face.
+]]></content>
+  </entry>
+  
+  <entry>
+    <title type="html"><![CDATA[Error Macro Win]]></title>
+    <link href="http://dlecocq.github.com/blog/2011/08/05/error-macro-win/"/>
+    <updated>2011-08-05T00:00:00-07:00</updated>
+    <id>http://dlecocq.github.com/blog/2011/08/05/error-macro-win</id>
+    <content type="html"><![CDATA[Still porting Linux code to Mac, I&#8217;ve been trying to keep a useful habit: using the #warning and #error macros. This new code is riddled with #ifdef&#8217;s checking whether or not we&#8217;re trying to build on a Mac, and using alternatives to the Linux-only system calls, but in parsing these large chunks of code, sometimes I forget what I&#8217;m doing. How horrible would it be to accidentally leave empty the Mac-only code block when it&#8217;s meant to actually do something.
+
+So, whenever I open up one such block, I add a little macro:
+<code>
+#ifndef MAC
+// ... The Linux-only code
+// ... takes up
+// ... a lot
+// ... of space
+#else
+#error "Don't forget to implement it as Mac!"
+#endif
+</code>
+
+At least I&#8217;ll always catch it at compile time, and when I fix/add the Mac-only code, then I can go ahead and remove that macro. It&#8217;s not that I&#8217;m forgetful, but I&#8217;ve shot myself in the foot so much at this point.
+]]></content>
+  </entry>
   
 </feed>
