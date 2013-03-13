@@ -1,0 +1,46 @@
+---
+layout: post
+title: OpenGLot Release
+tags:
+- computer science
+- graphics
+- KAUST
+- math
+- openglot
+- plotting
+- school
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+---
+A short while ago I posted a new release of OpenGLot, which featured parametric curves, scalar fields, contour lines and flow fields all implemented in GLSL shaders.
+
+And they support time dependence.
+
+It can plot virtually any function in x, y and t, and on my MacBook with its NVIDIA GeForce 9400M it has been getting 10k+ fps.  I'm still a little surprised by this number, but it seems to be running at that speed.
+
+[caption id="attachment_747" align="aligncenter" width="300" caption="Flow (vector) fields appear as advected dye. They\'re currently streamlines, but in the near future I hope to support streaklines and particle flow as well."]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/flow.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/flow-300x281.png" alt="Flow (vector) fields appear as advected dye. They&#039;re currently streamlines, but in the near future I hope to support streaklines and particle flow as well." title="flow" width="300" height="281" class="size-medium wp-image-747" /></a>[/caption]
+
+[caption id="attachment_748" align="aligncenter" width="300" caption="Scalar fields appear as a mapping of height onto color.  If this function were to be plotted in 3D, it would like a sheet rippling, but sometimes it\'s more useful to see it in 2D."]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/scalar.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/scalar-300x281.png" alt="Scalar fields appear as a mapping of height onto color.  If this function were to be plotted in 3D, it would like a sheet rippling, but sometimes it&#039;s more useful to see it in 2D." title="scalar" width="300" height="281" class="size-medium wp-image-748" /></a>[/caption]
+
+On of the great thing about implementing this on the graphics card is that it doesn't require much CPU time on the machine running it.  Even at 10k frames per second, my MacBook never uses more than 30% of a single core's time.  A place where this particularly shines is on tiled displays - a bunch of HDTVs tiled together to run as if it were one large screen.  In such setups, a computer will control 2-4 screens, and each computer's graphics card has enough power to run the animation for its portion of the screen.  There are still some bugs to be worked out, but I ran a proof-of-concept on one of the tiled displays at KAUST.
+
+[caption id="attachment_752" align="aligncenter" width="300" caption="Running a demo of OpenGLot on a KAUST tiled display"]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/IMG_0014.JPG"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/IMG_0014-300x225.jpg" alt="Running a demo of OpenGLot on a KAUST tiled display" title="IMG_0014" width="300" height="225" class="size-medium wp-image-752" /></a>[/caption]
+
+Lately I've been working on getting the 3D analogs of the various 2D primitives working, again all with time dependence (it's the support for animation that really makes this shine in my mind).  So far it's surfaces, parametric curves and surfaces and flow fields, but the flow fields have some work yet.  It turns out that while modern hardware is definitely capable of handling 3D flow fields, it doesn't actually make much sense when you see the result - it's just too busy.  To be able to easily visualize flow in 3D is very much an open problem.
+
+[caption id="attachment_753" align="aligncenter" width="292" caption="3D streamlines end up just becoming confusing more than they are helpful."]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/3d-flow.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/3d-flow-292x300.png" alt="3D streamlines end up just becoming confusing more than they are helpful." title="3d-flow" width="292" height="300" class="size-medium wp-image-753" /></a>[/caption]
+
+In order to get some interesting shapes working, I had to add support for cylindrical and spherical coordinates which is actually providing an interesting challenge - how best to generate the shaders.  The shader source code (that runs on the graphics card) is generated and compiled when you run OpenGLot, and I've not found an altogether easy and intuitive interface for adding simple coordinate transformations to it.  Still, it works, but the programatic interface will likely change.
+
+[caption id="attachment_750" align="aligncenter" width="292" caption="This is a torus of sorts, which I got as an example from Grapher.app"]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/torus.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/torus-292x300.png" alt="This is a torus of sorts, which I got as an example from Grapher.app" title="torus" width="292" height="300" class="size-medium wp-image-750" /></a>[/caption]
+[caption id="attachment_751" align="aligncenter" width="292" caption="This is the same torus, just colored by using its surface normals as RGB values"]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/torus_normals.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/torus_normals-292x300.png" alt="This is the same torus, just colored by using its surface normals as RGB values" title="torus_normals" width="292" height="300" class="size-medium wp-image-751" /></a>[/caption]
+
+In order to determine surface normals (which are something usually determined when one defines the geometry of an object), the vertex shader approximates various derivatives numerically.  So far, the shading results have been pretty decent.
+
+[caption id="attachment_749" align="aligncenter" width="292" caption="A trigonometric function, colored by mapping the surface normals to colors"]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/surface_normals.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/surface_normals-292x300.png" alt="A trigonometric function, colored by mapping the surface normals to colors" title="surface_normals" width="292" height="300" class="size-medium wp-image-749" /></a>[/caption]
+[caption id="attachment_755" align="aligncenter" width="292" caption="The superimposition of two trigonometric functions, lit based on their surface normals and a texture to give visual clues about distortion"]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/surface2_texture.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/surface2_texture-292x300.png" alt="The superimposition of two trigonometric functions, lit based on their surface normals and a texture to give visual clues about distortion" title="surface2_texture" width="292" height="300" class="size-medium wp-image-755" /></a>[/caption]
+
+I'm still working on making video of this in action available, but so far a number of the tools I would usually use have come up short.  I've been trying to integrate a video encoder into a utility library for OpenGLot so it can record video straight out of the box, but the framerate is still too low.

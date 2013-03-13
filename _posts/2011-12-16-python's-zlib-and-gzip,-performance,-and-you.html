@@ -1,0 +1,42 @@
+---
+layout: post
+title: Python's zlib and gzip, Performance, and You
+tags:
+- miscellany
+status: draft
+type: post
+published: false
+meta:
+  _edit_last: '2'
+---
+I have recently been working with streaming gzipped uploads to S3, and I've come to find that python's built-in gzip library is quite <a href="http://aripollak.com/pythongzipbenchmarks/">a bit slower</a> than the command-line utility gzip. Thus, I became curious as to where the performance problems were.
+
+Gzip is actually just a file format, apparently most commonly used with zlib's compression. It provides a file header and a footer and a little bit of metadata, but it really is merely a wrapper around zlib. However, while python's zlib module is a compiled C extension, the gzip module is a pure python implementation that makes calls to zlib. In fact, the zlib source is included in the Python distribution (at least in 2.7.2) and the C extension is just a wrapper around those function calls.
+
+Interestingly enough, the zlib extension is fast. Really fast. Competitively fast. Even comparable to the gzip command line utility, which, though it does the extra work of writing headers, becomes a nearly apples-to-apples comparison with a large enough input file.
+
+<pre lang='python'>
+import zlib
+import time
+import subprocess
+
+with file('testing.in', 'w+') as f:
+	test = 'hello how are you today?' * 10000000
+	f.write(test)
+
+# First, let's zlib
+start = -time.time()
+with file('testing.in.Z', 'w+') as outf:
+	with file('testing.in') as inf:
+		outf.write(zlib.compress(inf.read()))
+
+start += time.time()
+print 'zlib: %fs' % start
+
+# Now the subprocess
+start = -time.time()
+r = subprocess.check_call(['gzip', '-f', 'testing.in'])
+start += time.time()
+print 'gzip: %fs' % start
+</pre>
+

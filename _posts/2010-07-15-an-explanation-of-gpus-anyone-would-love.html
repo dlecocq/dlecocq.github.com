@@ -1,0 +1,35 @@
+---
+layout: post
+title: An Explanation of GPUs Anyone Would Love
+tags:
+- computer science
+- cpu
+- gpu
+- myth buster
+- paintballs
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+  _wp_old_slug: ''
+---
+It's a question that comes up often in conversation, and especially when meeting new people.  The normal pleasantries of where one is from and what one does naturally lead there.  "High-Performance Computing, eh?  What's that?"
+
+I sometimes feel it a mission to dispel myths about supercomputing that the layperson might have.  Pop culture is full of stern-looking authority figures leering at a screen, looking over the shoulder of an endearingly-disheveled nerd.  Or I think Chuck represents this well:
+
+<object width="600" height="475"><param name="movie" value="http://www.youtube.com/v/hNYbw3ZqzQw&amp;hl=en_US&amp;fs=1?rel=0"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/hNYbw3ZqzQw&amp;hl=en_US&amp;fs=1?rel=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="600" height="475"></embed></object>
+
+So when answering this seemingly question about what exactly my job entails, I have to start at the bottom, explaining how processors aren't getting any faster (and haven't been for quite a while, relatively speaking).  And how this fact necessitates a different way of looking at programming tasks, moving from "fast" or "deep" to "wide."  Supercomputers aren't single small boxes in the middle of a vast room covered in billions of pixels, as Chuck would seem to suggest.  No, nothing so glamorous.  In fact, seeing a rack of IBM's Blue Gene is more akin to <em>2001: A Space Odyssey</em> - being confronted with a towering black monolith:
+
+[caption id="attachment_875" align="aligncenter" width="300" caption="The BlueGene/P system at Argonne National Lab.  The man in the picture is actually now an awesome system administrator for the KAUST Supercomputing Lab!"]<a href="http://www.alcf.anl.gov/news/media_files/bluegene_p.jpg"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2010/07/bluegene_p-300x198.jpg" alt="" title="bluegene_p" width="300" height="198" class="size-medium wp-image-875" /></a>[/caption]
+
+So modern supercomputers are not a single chip that can perform trillions of calculations per second, but are rather a set of relatively simple processors that each perform modestly.  Though when working in concert, the results are astounding.  Not long ago a supercomputer sustained calculations at a rate of 1 <a href="http://en.wikipedia.org/wiki/Petaflop">petaflop</a>, or a million billion operations every second.  If we were to compare that to a relatively modern desktop, a second on that computer is the equivalent of about <em>four days</em> of computation on your desktop.  If the same code were to run on the <a href="http://en.wikipedia.org/wiki/Apollo_Guidance_Computer">computers used in the Apollo missions</a>, it would take approximately 630 years (this is a rough approximation based on a figure of 20 microseconds per add).
+
+The reason for the modest clock rates of each processor in modern devices is power.  Intel successfully grew processor performance by increasing the rate at which operations were performed (among other advances), but at a great cost in power.  For example, a chip on a BlueGene/P compute node runs at a mere 850MHz, though it's impossible to use this number alone to compare performance.  In fact, of the budget allocated for the purchase of a system like that, only half that money goes towards actual equipment.  The rest goes towards the power of not only running it, but cooling the damn thing off.
+
+Graphics cards have become an unlikely source of high-performance computing in the last ten years or so.  It's seen many struggles, from being difficult to program and even harder to debug, to early cards not supporting floating-point calculations and not supporting certain types of loops.  And yet NVIDIA now markets a graphics card with as many as 480 cores.
+
+I recently happened upon this video of Jamie Hyneman and Adam Savage of Myth Busters explaining the difference between a CPU (the brain of your computer for the uninitiated) and a GPU (the part the handles much of the graphics).  When presented with explosions, robots and paintballs, the difference really lights up (skip to 8 minutes in for the <em>really</em> good bit, but the whole thing is worth a watch):
+
+<object width="600" height="475"><param name="movie" value="http://www.youtube.com/v/XtGf0HaW7x4&amp;hl=en_US&amp;fs=1?rel=0"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/XtGf0HaW7x4&amp;hl=en_US&amp;fs=1?rel=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="600" height="475"></embed></object>

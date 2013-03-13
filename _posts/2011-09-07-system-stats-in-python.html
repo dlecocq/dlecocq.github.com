@@ -1,0 +1,25 @@
+---
+layout: post
+title: System Stats in Python
+tags:
+- computer science
+- psutils
+- python
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+---
+Turns out, there's a pretty handy package called <a href="http://code.google.com/p/psutil/" title="psutil" target="_blank">psutil</a> that allows you to not only gain insight into the currently-running process, but other processes, physical and virtual memory usage, and CPU usage. For example:
+
+<pre lang='python'>
+import psutil
+
+psutil.phymem_usage().percent
+# 31.2
+psutil.virtmem_usage().percent
+# 0.0
+</pre>
+
+Pretty handy tool if you're doing any sort of monitoring!

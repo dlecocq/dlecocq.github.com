@@ -1,0 +1,28 @@
+---
+layout: post
+title: Stanford Dragon and Gouraud Shading
+tags:
+- computer science
+- gouraud shading
+- graphics
+- models
+- octtrees
+- projects
+- ray tracing
+- school
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+I recently finished up school, and part of that was finishing up my ray tracing project.  At the last minute, I implemented Gouraud shading which is a technique to try to smooth out a triangulated surface.  What it really does is just linearly interpolate the normal vectors, where the normal of a vertex is calculated as a weighted average of the normals of the triangles using that vertex.
+
+Long story short:
+[caption id="attachment_542" align="aligncenter" width="300" caption="A render of the Stanford bunny with my raytracer without Gouraud shading."]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/05/bunny1.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/05/bunny1-300x300.png" alt="A render of the Stanford bunny with my raytracer without Gouraud shading." title="bunny_flat" width="300" height="300" class="size-medium wp-image-542" /></a>[/caption]
+
+[caption id="attachment_543" align="aligncenter" width="300" caption="A render of the Stanford bunny with smooth Gouraud shading."]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/05/bunnysmooth.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/05/bunnysmooth-300x300.png" alt="A render of the Stanford bunny with smooth Gouraud shading." title="bunnysmooth" width="300" height="300" class="size-medium wp-image-543" /></a>[/caption]
+
+Also, thanks to an improvement in my parallelization of the problem and a speedup in octtree traversal, I was able to render the Stanford dragon model (~1 million triangles):
+
+[caption id="attachment_544" align="aligncenter" width="300" caption="The Stanford dragon model."]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/05/dragon.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/05/dragon-300x168.png" alt="The Stanford dragon model." title="dragon" width="300" height="168" class="size-medium wp-image-544" /></a>[/caption]

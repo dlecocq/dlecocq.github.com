@@ -1,0 +1,26 @@
+---
+layout: post
+title: Raytracer with Anti-aliasing and Reflection
+tags:
+- computer science
+- graphics
+- raytracer
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+For Graphics II, we had to implement a raytracer, and then add anti-aliasing and a feature of our choice.  I selected mirrored surfaces.
+
+First, anti-aliasing.  Here are a few pictures of the same image rendered with a different number of passes to change the smoothness.
+
+[caption id="attachment_459" align="aligncenter" width="300" caption="Using one pass"]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/anti-alias-1.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/anti-alias-1-300x300.png" alt="Using one pass" title="anti-alias-1" width="300" height="300" class="size-medium wp-image-459" /></a>[/caption]
+[caption id="attachment_460" align="aligncenter" width="300" caption="Using 5 passes."]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/anti-alias-5.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/anti-alias-5-300x300.png" alt="Using 5 passes." title="anti-alias-5" width="300" height="300" class="size-medium wp-image-460" /></a>[/caption]
+[caption id="attachment_461" align="aligncenter" width="300" caption="Using 50 passes."]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/anti-alias-50.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/anti-alias-50-300x300.png" alt="Using 50 passes." title="anti-alias-50" width="300" height="300" class="size-medium wp-image-461" /></a>[/caption]
+
+And lastly, here's a scene of several spheres, some of which are reflective.
+[caption id="attachment_462" align="aligncenter" width="300" caption="A set of spheres, some of which are mirror-like."]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/output.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/output-300x300.png" alt="A set of spheres, some of which are mirror-like." title="Spheres" width="300" height="300" class="size-medium wp-image-462" /></a>[/caption]
+[caption id="attachment_467" align="aligncenter" width="300" caption="A reflective sphere next to some triangles."]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/input8r.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/input8r-300x300.png" alt="A reflective sphere next to some triangles." title="input8r" width="300" height="300" class="size-medium wp-image-467" /></a>[/caption]
+[caption id="attachment_469" align="aligncenter" width="300" caption="A mirrored sphere in the center of four other sphere."]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/input12r.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/input12r-300x300.png" alt="A mirrored sphere in the center of four other sphere." title="input12r" width="300" height="300" class="size-medium wp-image-469" /></a>[/caption]
+[caption id="attachment_470" align="aligncenter" width="300" caption="More spheres!"]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/input16r.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/input16r-300x300.png" alt="More spheres!" title="input16r" width="300" height="300" class="size-medium wp-image-470" /></a>[/caption]

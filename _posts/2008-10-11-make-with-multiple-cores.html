@@ -1,0 +1,33 @@
+---
+layout: post
+title: Make With Multiple Cores
+tags:
+- building
+- computer science
+- make
+- multiple cores
+- ninja magic
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+I was building something, and I remembered a friend was saying a while ago that you could tell gcc how many cores to use when building something.  I don't know if that's true or not, but it turns out you can certainly tell make:
+<code>
+make -j(number of cores to use)
+</code>
+
+For example,
+<code>
+make -j2
+</code>
+
+I took a screen capture of System Monitor after building each way (make and make -j2), to see the difference.  The first box is using just one core, and the second is using both.
+
+<a href='http://dan.lecocq.us/wordpress/wp-content/uploads/2008/10/multicore-make.png' title='Multicore Make'><img src='http://dan.lecocq.us/wordpress/wp-content/uploads/2008/10/multicore-make.thumbnail.png' alt='Multicore Make' /></a>
+
+I had initially thought I'd have to tell gcc, and so I had planned to edit the makefile to automatically find the number of cores on the system, and then run gcc with that as an argument, so I went in search of how to find the number of cores on a Linux system.  It turns out the easiest way to get that number that I came across was to use /proc/cpuinfo:
+<code>
+cat /proc/cpuinfo | grep 'cpu cores' | head -1 | sed -r 's/^.+([[:digit:]]+)/1/'
+</code>

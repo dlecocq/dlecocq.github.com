@@ -1,0 +1,18 @@
+---
+layout: post
+title: yes(1)
+tags:
+- command line ninja magic
+- computer science
+- 'yes'
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+---
+Yes, yes(1) is built-in to Mac and Linux (at least OS X Lion and Ubuntu 11.04). And, as you might guess, it repeatedly prints a string of your choice ('y' by default) followed by a newline to stdout. Its sole purpose in life is to automate agreeing to prompts. I encountered it recently in a script that was automating RAID array deployment on EC2 ephemeral disks:
+<code>
+# mdadm doesn't let you automate by default, so pipe in 'y'!
+yes | mdadm ...
+</code>

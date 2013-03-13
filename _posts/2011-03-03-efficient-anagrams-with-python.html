@@ -1,0 +1,35 @@
+---
+layout: post
+title: Efficient Anagrams with Python
+tags:
+- miscellany
+status: draft
+type: post
+published: false
+meta:
+  _edit_last: '2'
+---
+I love anagrams. I used to play an anagram game so often that I started to have trouble reading, as I would just automatically try to find anagrams of words. One way I'm able to stop playing an addictive game altogether is to write code that will solve the problem at hand for me. For example, at one point I had to do just that with Sudoku so I could reclaim my time.
+
+There are a few thoughts that I've seen on finding anagrams with python, including some pretty concise examples. They center around finding all the permutations of a provided set of letters, and then checking these against known words. While this can be extremely concisely done with python's <a href="http://docs.python.org/library/itertools.html">itertools</a>, it quickly becomes prohibitively slow for longer strings. That's because the number of permutations it must calculate for a word of length 'n' is n!, much too large for reasonable n's.
+
+To clarify, in this discussion, by 'anagram,' we will mean any word made with the letters, of any length 1 to n. So, for the word "foobar," then "fob" or "boo" would be valid.
+
+There is some good news here. Pruning. With some intelligence and time up front, we can skip all permutations that begin with "fb," as no word in our dictionary begin with those letters. We use a tree, with each node representing a string. A node marked as 'valid,' indicates that its associated string is a word. This string is obtained by the traversal from the root to the node.
+
+[caption id="attachment_920" align="aligncenter" width="323" caption="Anagram tree structure"]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2011/03/anagrams.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2011/03/anagrams.png" alt="Tree structure" title="anagrams" width="323" height="369" class="size-full wp-image-920" /></a>[/caption]
+
+So, if we have the letters "uueeq," we have a set of permutations beginning with "u", a set with "e" and a set with "q." We'll begin with the root node, and for ease, we'll examine permutations beginning with "q." Of the remaining letters, "uuee," there are only children from "q" to "u," and so we can prune permutations beginning "qe." We get words by keeping track of the string we have as we traverse the tree - each time we descend to a child node, we append that character, and when we return up a letter, we remove it.
+
+As we traverse in this way, we check all intermediate nodes to see if they themselves are words. For example, in finding "batting," we should also find that the word "bat" is valid. Or similar, in finding "quotable," we should find "quota."
+
+If you don't feel like working out the details yourself, I have some <a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2011/03/gramana.py">sample code</a> for you. To use:
+<code>
+from gramana import gramana
+# Read a list of valid words
+words = file('dictionary.txt').read().lower().split('\n')
+# Parse it into a tree
+root = gramana(words)
+# Look for words:
+anagrams = root.search("testingsomeverylongstring")
+</code>

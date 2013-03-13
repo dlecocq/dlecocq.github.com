@@ -1,0 +1,84 @@
+---
+layout: post
+title: Libcurl, curl_multi, and Endless DNS Pain
+tags:
+- computer science
+- libcurl
+- multi
+- python
+status: draft
+type: post
+published: false
+meta:
+  _edit_last: '2'
+---
+<strong>Curl is an awesome tool.</strong> Awesome. For example, suppose we want to fetch a <em>bunch</em> of urls as quickly as possible from code. Enter <a href="http://curl.haxx.se/libcurl/c/libcurl-multi.html" title="curl_multi" target="_blank">curl_multi</a>, which allows you to manage several requests in flight at the same time. You periodically make a request to curl to see which handles are finished successfully and which are in error, and then add those handles back into a pool that can handle requests.
+
+Any code that I use in this post will be in Python, using <a href="http://pycurl.sourceforge.net/" title="pycURL" target="_blank">pycurl</a> as, well, that's what we're using it in. The main flow of this has been (based on the <a href="http://pycurl.cvs.sourceforge.net/pycurl/pycurl/examples/retriever-multi.py?view=markup" title="pycURL Multi Example" target="_blank">example provided by pycurl</a>):
+<pre lang="python">
+import pycurl
+# Declare a queue 
+queue = [ url1, url2, ... ]
+inFlight = 0
+# Make a multi handle
+multi = pycurl.CurlMulti()
+multi.handles = []
+# Allocate a bunch of individual handlers
+for i in range(poolSize):
+	c = pycurl.Curl()
+	# ...
+	multi.handles.append(c)
+# Pool of our free handles
+pool = multi.handles[:]
+# Now, go through our requests:
+while len(queue) or inFlight:
+	c = pool.pop()
+	# Make your request
+	inFlight += 1
+while True:
+	ret, numHandles = multi.perform()
+	if ret != pycurl.E_CALL_MULI_PERFORM:
+		break
+while True:
+	numQ, ok, err = multi.info_read()
+	# ok is a list of completed requests
+	for c in ok:
+		# Get your data out
+		inFlight -= 1
+	# err is a list of errored requests
+	for c in err:
+		# Maybe report an error
+		inFlight -= 1
+</pre>
+
+This is great -- we get to make a bunch of requests and they respond quickly. But... there are some problems. When you start using thousands of handles, libcurl won't miss a beat. Depending on how you have libcurl built, it may not have support for asynchronous DNS requests, and may in fact... <strong>use blocking DNS requests</strong>. So this high throughput means a lot of contention. Libcurl <em>can</em> do this, but it needs to be compiled against <a href="http://c-ares.haxx.se/" title="c-ares" target="_blank">c-ares</a>. Curl provides a quick way of telling you what it has support for:
+
+<pre lang="bash">
+$> curl --version
+curl 7.21.4 (universal-apple-darwin11.0) libcurl/7.21.4 OpenSSL/0.9.8r zlib/1.2.5
+Protocols: dict file ftp ftps gopher http https imap imaps ldap ldaps pop3 pop3s rtsp smtp smtps telnet tftp 
+Features: AsynchDNS GSS-Negotiate IPv6 Largefile NTLM SSL libz
+</pre>
+
+If you don't see AsynchDNS listed among those features, and you want to add support, this means DNS unpleasantness can ensue. Unfortunately, building and installing the c-ares library library isn't the only concern. You may have gotten curl with your OS, or you may have gotten it through your package manager. But if you find you <em>need</em> this support, you'll have to <strong>build libcurl from source.</strong> First, install some generic dependencies you'll probably want to include:
+
+<pre lang="bash">
+# On Ubuntu, it's pretty simple:
+sudo apt-get install zlib1g-dev libssh2-dev libssl-dev libc-ares2 libc-ares-dev libidn11-dev libldab2-dev
+# On Mac, you can 1) build from source, 2) use port
+sudo port install libidn openssl libssh2 zlib c-ares
+</pre>
+
+Then, you'll just have to download, configure, compile and install libcurl:
+<pre lang="bash">
+# First, get the source:
+curl -O http://curl.haxx.se/download/curl-7.21.7.tar.gz
+tar xf curl-7.21.7.tar.gz
+cd curl-7.21.7
+# Now, build everything. This assumes that you installed stuff in /usr
+./configure --with-{ssl,libss2,zlib,libidn}=/usr --enable-{ares,ldap}
+make
+sudo make install
+</pre>
+
+And now, we have asynchronous DNS in libcurl! It's really not a feature that's mission critical for many / most applications of curl. I have invoked curl hundreds of time, and used libcurl on occasion, and have not found it to be an issue until this scale. There are some <a href="http://devblog.seomoz.org/2011/02/high-performance-libcurl-tips/" title="High-Performance Libcurl Tips" target="_blank">other issues</a> that a former SEOmoz'zer wrote about earlier this year, which we intend to include. For example, we may find that the curl-internal multi perform may be based heavily on select, in which case we'll have to adapt our code to make use of epoll or kqueue. In all likelihood, we'd probably rather use <a href="http://monkey.org/~provos/libevent/" title="libevent" target="_blank">libevent</a>, which has <a href="http://code.google.com/p/pyevent/" title="pyevent" target="_blank">bindings</a> in python and helps to abstract the differences between BSD's kqueue and epoll on Linux.

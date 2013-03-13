@@ -1,0 +1,28 @@
+---
+layout: post
+title: Running sudo with pssh
+tags:
+- bash
+- command line ninja magic
+- computer science
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+---
+The <a href="http://www.theether.org/pssh/" title="pssh" target="_blank">pssh</a> tool is great. Just great. At SEOmoz we use a number of deployment schemes, but every so often I find myself needing to log into 50 machines and perform some simple one-off command. I've written such a line many times:
+<code>
+for i in {01..05}; do ssh -t ec2-user@some-host-$i 'sudo ...'; done
+</code>
+
+This is fine if the command is quick, but it <em>really</em> sucks if it's something that takes more than just a few seconds. So in the absence of needing to use sudo (and thus the '-t' flag), pssh makes it easy to run these all in parallel:
+<code>
+pssh -i --host=some-host-{01..50} -l ec2-user 'hostname'
+</code>
+
+Coercing pssh to create a pseudo-tty to enable sudo commands was a little tricky, though:
+<code>
+# And now I can sudo!
+pssh -x '-t -t' -i --host=some-host-{01..50} -l ec2-user 'sudo hostname'
+</code>

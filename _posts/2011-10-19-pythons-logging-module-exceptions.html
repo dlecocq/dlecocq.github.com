@@ -1,0 +1,43 @@
+---
+layout: post
+title: Python's Logging Module - Exceptions
+tags:
+- exceptions
+- logging
+- miscellany
+- python
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+---
+I'm a big fan of python's <a href="http://docs.python.org/library/logging.html" title="Python Logging" target="_blank">logging</a> module. It supports configuration files, multiple handlers (for both writing to the screen while writing to a file, for example), output formatting like crazy, and many other delicious features. One that I've only recently encountered is <strong>its exception method.</strong>
+
+The basic idea of the logging module is that you can get a logger from a factory (that allows multiple pieces of code to easily access the same logical logging entity). From there, you add handlers that output messages to various places (files, screen, sockets, HTTP endpoints, etc.). Every message you log is done at a specific level, and then the configuration of the logger determines whether or not to record messages of a certain severity:
+
+<pre lang='python'>
+import logging
+
+# Get a logger instance
+logger = logging.getLogger('testing')
+
+# Some initialization of handlers here, 
+# unimportant in this context
+
+# Print out at various levels
+logger.warn('Oops! Something happened')
+logger.info('Did you know that X?')
+logger.debug('Index is : %i' % ...)
+</pre>
+
+What's great about the module is that it <strong>separates your messages from how they're displayed and where.</strong> For debugging, it's nice to be able to flip a switch and turn on a more verbose mode. Or for production to tell it to shut up and only log messages that are really critical. What the 'exception' method does is to not only <strong>log a message as an error, but to also print a nice backtrace of where the error took place</strong>!
+
+<pre lang='python'>
+try:
+	# So something here
+	raise Exception('oops!')
+except:
+	logger.exception('Such-and-such failed! Stack trace to follow:')
+	# Stack trace appears in the log
+</pre>

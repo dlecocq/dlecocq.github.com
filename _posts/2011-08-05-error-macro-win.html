@@ -1,0 +1,28 @@
+---
+layout: post
+title: Error Macro Win
+tags:
+- computer science
+- error
+- macro
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+---
+Still porting Linux code to Mac, I've been trying to keep a useful habit: using the #warning and #error macros. This new code is riddled with #ifdef's checking whether or not we're trying to build on a Mac, and using alternatives to the Linux-only system calls, but in parsing these large chunks of code, sometimes I forget what I'm doing. How horrible would it be to accidentally leave empty the Mac-only code block when it's meant to actually do something.
+
+So, whenever I open up one such block, I add a little macro:
+<code>
+#ifndef MAC
+// ... The Linux-only code
+// ... takes up
+// ... a lot
+// ... of space
+#else
+#error "Don't forget to implement it as Mac!"
+#endif
+</code>
+
+At least I'll always catch it at compile time, and when I fix/add the Mac-only code, then I can go ahead and remove that macro. It's not that I'm forgetful, but I've shot myself in the foot so much at this point.

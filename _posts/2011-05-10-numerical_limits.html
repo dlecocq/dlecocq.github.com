@@ -1,0 +1,38 @@
+---
+layout: post
+title: numerical_limits
+tags:
+- c#
+- computer science
+- limits
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+---
+I'm working on a C++ class that encapsulates changes to a "steerable" variable. It's part of a system that allows trusted commands from a socket library to change the value of registered variables. For example, a client might:
+<code>
+int sInt(0);
+float sFloat(0.3);
+registerParam("someSteerableInteger", &sInt);
+registerParam("someSteerableFloat", &sFloat);
+...
+// Library makes these calls after receiving remote commands:
+setParam("someSteerableInteger", 5);
+setParam("someSteerableFloat", 3.4);
+</code>
+
+There's some intelligence in the class to ensure integrity of the data. For example, it will cast the value past into <em>setParam(...)</em> correctly, so that a call to <em>setParam("someSteerableInteger", 5.3)</em> results in the 5.3 cast as an integer and then used to set the integer's value.
+
+Some of the other intelligence needed is that the user might specify the minimum and maximum valid values the variable might take on. Or he or she might not. If not, it would be nice to have a convenient way of specifying a reasonable default minimum and maximum.
+
+Enter <em><a href="http://www.cplusplus.com/reference/std/limits/numeric_limits/">numerical_limits</a></em>. It's a static templated class that can give you some insight into the built-in types. For example:
+<code>
+#include &lt;iostream&gt;
+#include &lt;limits&gt;
+using namespace std;
+...
+cout &lt;&lt; "Min unsigned int: " &lt;&lt; numerical_limits&lt;unsigned int&gt;::min() &lt;&lt; endl;
+cout &lt;&lt; "Max float: " &lt;&lt; numerical_limits&lt;float&gt;::max() &lt;&lt; endl;
+</code>

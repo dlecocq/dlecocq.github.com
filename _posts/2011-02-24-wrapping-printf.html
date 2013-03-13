@@ -1,0 +1,66 @@
+---
+layout: post
+title: Wrapping printf(1)
+tags:
+- c#
+- computer science
+- hacks
+- ninja magic
+- printf
+- programming
+- tips
+- tricks
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+---
+Working on an application that had become a little... verbose, I decided it was finally time to wrap my prints in a function that could easily be switched on or off depending on whether or not I wanted it to be verbose.  One approach I had seen before (from my OS professor) that has a certain amount of merit is to wrap statements with a macro:
+<code>
+#ifdef DEBUG
+printf(....);
+#endif
+</code>
+
+The nice thing about this approach is that debugging can be turned on or off easily at compile time.  However, my experience has been that it leads to a lot of typing, and seeing too many macros in the middle of code makes my brain explode in a fiery rage.  So, I figured that if I wrapped my prints in another function (I called mine 'log' and 'error'), I could avoid this whole mess and keep my sanity.  I've done this with a number of other projects in other languages, but I had to learn some magic to do it in C.
+
+Lesson Learned #1 : Variable arguments. It turns out you can define functions that take a variable number of arguments with <em>va_list</em> (from <a href="http://en.wikipedia.org/wiki/Stdarg.h"><stdarg.h></a>).  You define such a function:
+<code>
+void log(const char* fmt, ...) {
+    va_list args;
+    va_start(args, fmt);
+    ...
+    va_end(args);
+}
+</code>
+
+Lesson Learned #2 : However, from what I can gather, you can't just inject printf directly into this. However, having anticipated this, there is a set of functions designed for cases like this: <em>vfprintf, vprintf, vsnprintf, vsprintf</em>. The 'v' stands for va_list (variable-argument list), and you can use them just like you'd expect:
+<code>
+void log(const char* fmt, ...) {
+    va_list args;
+    va_start(args, fmt);
+    fprintf(log_fd, "NOTE : ");
+    vfprintf(log_fd, fmt, args);
+    va_end(args);
+}
+</code>
+
+The thing I like about this approach is that you have control over how log messages get printed in <em>one</em> place.  So, for example, if I provided another function, <em>setLogFD</em>, then I could easily just set the file descriptor where all log messages get printed.  So easy!  Something I've used this for in other instances (especially servers) is to also inject additional information like a timestamp on every message.  So, when I call:
+<code>
+log("Some event '%s' just happened.\n", event_name);
+</code>
+
+Then I automatically get "NOTE : " and maybe a timestamp prefixed on that message.  Which make code look clean, and adds a great deal of functionality.  I actually added another function <em>error(...)</em> that prints to a different file descriptor in case I want to suppress debug messages, but no error messages.  For additional layers of debugging, you might do something like this:
+<code>
+void log(int level, const char* fmt, ...) {
+    va_list args;
+    va_start(args, fmt);
+    FILE* fd = my_log_files[level];
+    fprintf(fd, "NOTE : ");
+    vfprintf(fd, fmt, args);
+    va_end(args);
+}
+</code>
+
+This way, at startup, you could easily set some of the file descriptors in <em>my_log_files</em> to stderr and some to point to /dev/null or otherwise dissolve into the ether.

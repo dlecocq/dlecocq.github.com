@@ -1,0 +1,27 @@
+---
+layout: post
+title: Ray Tracer - Texturing Support
+tags:
+- computer science
+- earth
+- graphics
+- ray tracer
+- raytracing
+- texturing
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+It's all well and good to be able to render shapes in space in a photorealistic way, but at some point you'd like to draw something that doesn't have just one surface color.  After all, a billboard isn't just a bunch of shapes each of which has one color - it's one object with paint / ink placed on it in an ordered way.
+
+Texturing accomplishes by taking a primitive shape (like a sphere, triangle, surface of revolution, etc.) and wrapping an image onto and over it.  Let's consider a sphere in space:
+[caption id="attachment_502" align="aligncenter" width="300" caption="A white sphere in space."]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output4.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output4-300x168.png" alt="A white sphere in space." title="sphere" width="300" height="168" class="size-medium wp-image-502" /></a>[/caption]
+
+Now let's say we mean it to be Earth.  Then we can take a picture of Earth that's flat:
+[caption id="attachment_503" align="aligncenter" width="300" caption="Flattened map of Earth"]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/texturesmall.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/texturesmall-300x150.png" alt="Flattened map of Earth" title="texturesmall" width="300" height="150" class="size-medium wp-image-503" /></a>[/caption]
+
+and then map it onto a sphere to get a picture of what we all know Earth to look like:
+[caption id="attachment_504" align="aligncenter" width="300" caption="Behold!"]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/earth.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/earth-300x168.png" alt="Behold!" title="Planet Earth" width="300" height="168" class="size-medium wp-image-504" /></a>[/caption]
+[caption id="attachment_506" align="aligncenter" width="300" caption="Two Mars globes where the left is what is seen with the eye, and the right is a topographic map."]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/mars-twin.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/mars-twin-300x168.png" alt="Two Mars globes where the left is what is seen with the eye, and the right is a topographic map." title="mars" width="300" height="168" class="size-medium wp-image-506" /></a>[/caption]

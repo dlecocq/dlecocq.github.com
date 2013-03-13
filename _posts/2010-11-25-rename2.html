@@ -1,0 +1,25 @@
+---
+layout: post
+title: Rename(2)
+tags:
+- command line ninja magic
+- files
+- rename
+- sysadmin
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+  _wp_old_slug: ''
+---
+I found myself needing to systematically rename a bunch of files, and previously the only way I knew to do it was with a loop, passing each filename into sed, and using the output as the destination filename.  Tedious and error prone!
+
+However, it turns out that people have anticipated this use case, and there is a utility for this exact purpose, called "rename."  It allows you to provide a perl-style regular expression whose input is the existing filename found by your search expression, and whose output is what that file should be renamed.  There's even an <em>especially useful option</em> to take no action, but only to print out what the new filenames would be, allowing you to perform a dry-run before you rename 100000 files.
+
+Example:
+<code>
+rename -n 's/^/some.file.prefix./' *.jpg
+</code>
+
+Happy renaming!

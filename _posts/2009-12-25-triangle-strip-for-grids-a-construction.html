@@ -1,0 +1,52 @@
+---
+layout: post
+title: Triangle Strip for Grids - A Construction
+tags:
+- computer science
+- graphics
+- math
+- mesh
+- opengl
+- triangle strip
+- webgl
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+---
+I'm working with WebGL and as such, I'm discovering some quirks about OpenGL ES 2.0.  I have been using display lists as long as I've been using OpenGL, but WebGL doesn't have support for them.  So, I'm buckled down and familiarized myself with vertex buffer objects, the (perhaps better) alternative.
+
+At any rate, I need to render a regular 2D grid, and as it doesn't support quads, either, I was forced to use triangles.  In the interest of getting things running, I just provided a wasteful list of discrete triangles.  This is wasteful because it references many more vertices than necessary - I ended up declaring $$6n^2$$ vertices when in reality there are only $$n^2 + n + 1$$ unique vertices.  This worked fine, until I wanted to increase the resolution.  It turns out, JavaScript doesn't like large arrays.
+
+That's fair, because the implementation was pretty wasteful.  A triangle strip was the best choice anyway.  <strong><em>A triangle strip is a highly compact form of representing a mesh.  For $$n$$ triangles, it requires only $$n + 2$$ vertices defined.</em></strong>  Well, that's roughly true.  We'll see another case in a minute.  It's useful when many triangles share vertices, and perhaps I'll let <a href="http://en.wikipedia.org/wiki/Triangle_strip">Wikipedia's explanation</a> stand.
+
+It wasn't immediately obvious how to define a grid out of a single triangle strip and so I got out a pen and paper.  I kept in mind a neat trick: <strong><em>if in a triangle strip, you need to skip the use of a vertex, a vertex can be introduced twice in a row.</em></strong>  That is, if I need triangles (6, 3, 7) and (7, 11, 6) in that order, you can just make your strip with 6, 3, 7, 7, 11, 6.  You can think of it as if there are two triangles created (3, 7, 7) and (7, 7, 11), but they have no area and a degenerate case - a line.  Furthermore, these lines lie on triangles already defined.
+
+Perhaps the obvious choice doesn't yield any results, and in fact in this layout, it can't be easily done (you have to have vertices appear three times in a row):
+
+[caption id="attachment_792" align="aligncenter" width="207" caption="This is a bad idea for a topology if you want to use a single triangle strip."]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/12/mesh_bad.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/12/mesh_bad.png" alt="" title="mesh_bad" width="207" height="193" class="size-full wp-image-792" /></a>[/caption]
+
+To better convince yourself, try to come up with a good way to put this in a triangle strip.  I'll make the case that it is pretty difficult with a claim from graph theory.  In order for a triangle mesh to be turned into a triangle strip, each consecutive triangle must share an edge.  We can then think of the mesh as a connectivity graph (the <a href="http://en.wikipedia.org/wiki/Dual_graph">dual</a> of the mesh) and then the problem will emerge more clearly:
+
+[caption id="attachment_794" align="aligncenter" width="207" caption="The dual graph of the bad idea."]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/12/mesh_bad_dual.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/12/mesh_bad_dual.png" alt="" title="mesh_bad_dual" width="207" height="193" class="size-full wp-image-794" /></a>[/caption]
+
+To make the triangle strip "nice," we ought to be able to visit each node once and exactly once.  There's good and bad news in this - it's the same problem as finding a <a href="http://en.wikipedia.org/wiki/Hamiltonian_path">Hamlitonian path</a> which is NP complete.  The good news is that if we find a solution to our small problem, we've found a solution to all such grids (with arbitrarily many triangles).  Note that we don't need an Eulerian path.
+
+If you stare long enough at the above connectivity graph, you'll hopefully convince yourself that there's no way to traverse it visiting each node once and exactly once.  Go ahead and try - it's pretty infuriating.
+
+Looking at how we would traverse one strip (triangles a, b, c, d, e and f) actually gives us a clue.  A triangular strip for that case would be 0, 4, 1, 5, 2, 6, 3, 7, and happiness ensues and we should move onto the next row.  Unfortunately, in the context of this new row, we're starting in a different place (topologically) than we started with the first strip.  Vertex 0 has two connected neighbors in its row - 1 and 4.  Vertex 7 has three in its row: 6, 10 and 11.  It turns out we can change up the topology to remedy this simply:
+
+[caption id="attachment_795" align="aligncenter" width="207" caption="A much better topology for drawing this with a single triangle strip."]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/12/mesh_good.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/12/mesh_good.png" alt="A much better topology for drawing this with a single triangle strip." title="mesh_good" width="207" height="193" class="size-full wp-image-795" /></a>[/caption]
+
+We can also see that this is a much better solution by looking at this new graph's dual:
+
+[caption id="attachment_796" align="aligncenter" width="207" caption="The dual of the better topological choice."]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/12/mesh_good_dual.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/12/mesh_good_dual.png" alt="" title="mesh_good_dual" width="207" height="193" class="size-full wp-image-796" /></a>[/caption]
+
+You can probably easily find a Hamlitonian path in this case.  But this still leaves us with how to determine the vertex orderings.  We decided that the first row ought to be 0, 4, 1, 5, 2, 6, 3, 7, but moving on from there we need a bit of "glue" to move onto the next row.  We insert 7 again, and then continue on from there: 7, 11, 6, 10, 5, 9, 4, 8.  A bit more glue for the third row: 8, 12, 9, 13, 10, 14, 11, and 15:
+
+[caption id="attachment_797" align="aligncenter" width="251" caption="An alternative representation of the vertex ordering"]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/12/strip.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/12/strip.png" alt="" title="strip" width="251" height="193" class="size-full wp-image-797" /></a>[/caption]
+
+Looking at the indices from the first row, starting at 0, we can get the next index by alternately adding 4 and then subtracting 3.  On the next row, we'll continue to add 4, but then alternately subtract 5.  The 4 is derived as being the number of vertices on a side (if there are $$n$$ divisions, then there are $$n+1$$ vertices), and the 3 and 5 are explained by the fact that we need to change columns in the mesh, by one step at a time.
+
+An clean implementation is not trivial, but not extremely difficult.  In terms of results, I can fit more than 4 times as many vertices into the mesh than with a per-triangle implementation.  And to boot, it has cut the work of the vertex shader a great deal.

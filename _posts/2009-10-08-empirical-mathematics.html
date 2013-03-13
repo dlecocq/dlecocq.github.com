@@ -1,0 +1,33 @@
+---
+layout: post
+title: Empirical Mathematics
+tags:
+- computer science
+- math
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+As I read in a lecture recently, Richard Hamming described his philosophy of computing with, "the purpose of computing is insight, not numbers."
+
+On a relatively regular basis, I use numerical methods to verify an analytical solution I've reached and occasionally, to reach an analytical result.  At <a href="http://dan.lecocq.us/wordpress/2008/06/24/heapsort/">one point</a>, I was playing around with the time complexity of heapsort, and I came across a statement about which I was unsure.  I verified that it was the case, but it brought about other questions about a more general case.
+
+$$\sum_{h=0}^{\infty}{\frac{h}{n^h}}$$
+
+How does this converge for different $$n$$'s?
+
+I played around with it for a little bit to see if I saw any pattern that emerged, like with a geometric series or an arithmetic sum, but I came up with nothing.  So, I decided to explore the numbers a little bit, writing a short little Ruby script to take the first 100-or-so elements.  It turns out that even this approximation provided the insight to get the general expression:
+
+<ul>
+	<li>$$n=2 \Rightarrow 2$$</li>
+	<li>$$n=3 \Rightarrow 0.75 = \frac{3}{4}$$</li>
+	<li>$$n=4 \Rightarrow 0.4444... = \frac{4}{9}$$</li>
+</ul>
+
+The expression thus seemed to be:
+
+$$\sum_{h=0}^{\infty}{\frac{h}{n^h}} = \frac{n}{(n-1)^2}$$
+
+Of course this needed to be verified, but that task is <a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/06/heap.pdf">easy enough</a>.  The point is, that sometimes the numerical approximation can give you the exploratory insight needed to solve a problem.  Sure, it's rough around the edges, and isn't as elegant as I would necessarily like, but it's very useful.

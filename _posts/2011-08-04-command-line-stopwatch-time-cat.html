@@ -1,0 +1,17 @@
+---
+layout: post
+title: Command Line Stopwatch (time cat)
+tags:
+- command line ninja magic
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+---
+If you find yourself with a terminal and you need a stopwatch:
+<code>
+$> time cat
+</code>
+
+Cat(1) by default waits on stdin if no arguments are provided, until an EOF is reached (Ctrl+d). Time(1) waits until the run command terminates, so in effect, it's a stopwatch that runs until you press ctrl+d.

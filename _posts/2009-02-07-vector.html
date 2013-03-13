@@ -1,0 +1,27 @@
+---
+layout: post
+title: vector
+tags:
+- computer science
+- dream
+- kitten
+- stl
+- vector
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+Had a bizarre C.S. / kitten related dream.  Apparently I was giving way kittens, and I wanted to make sure I had one left for myself, and so I thought it would be a good idea to declare a standard template library vector of kittens, fill it with my kittens, and only give away more kittens while there was still more than one left:
+
+<pre lang='cpp'>
+vector<kitten> kitties;
+
+# Put kittens in vector
+# ...
+
+while(kitties.length() > 1) {
+	give_away(kitties.pop());
+}
+</pre>

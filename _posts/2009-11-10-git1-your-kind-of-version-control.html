@@ -1,0 +1,33 @@
+---
+layout: post
+title: Git(1) - Your Kind of Version Control
+tags:
+- computer science
+- git
+- life
+- svn
+- version control
+- versioning
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '2'
+---
+I've been around the block a time or two (or more) with subversion, but until recently I had limited experience with git.  Sure, every now and then I've used it to check out projects, but not for my personal use.
+
+No longer. And as of right now, I don't have any intention of using anything but git for personal development.
+
+Last week, I held lecture for parallel programming and I talked about using subversion for versioning, and I began to suspect that something was horribly wrong.  Questions started springing up - where does the repository live?  Am I calling svnadmin on my own machine?  Where do I check out the repository?  Though there are answers to these questions, for many things, such a model just doesn't make sense.
+
+If I'm working on a project that I'm not syncing between several computers, but I just want to have different stable versions and to try different crazy ideas using branches.  It mitigates the cost of reverting drastic changes to code.
+
+<strong>Use Case</strong>: You're showing someone your code, and want to show off a neat feature you've made, or a problem you're encountering, something about the project, invariably you've run into a problem where it doesn't compile at the moment.  You type furiously, trying to find and undo the most recent changes, but to no avail - there is no hope of getting it to compile in the 5 minutes you have someone's attention.  Enter version control.  Revert to the last working copy and victory is yours.
+
+In fact, just today I was asked if I could pull up some code I had been working on to show to a professor.  Unfortunately at the moment it wasn't compiling but was able to switch versions in 20 seconds and show off some very recent work from earlier in the day, thus saving face.
+
+<strong>Use Case</strong>: You've got some crazy idea for an implementation you'd like to try out, but are worried about reverting back all the massive changes you'll have to make in the code.  Worry not!  Create a new branch and feel free to change your code in every way you can think of and not lose other branches under development.
+
+<strong>Use Case</strong>: You've got multiple versions of code each implementing the same basic algorithm but with different mechanisms, techniques, etc. and have to turn it in as part of a project.  Just archive the whole directory (in a tarball or zip) and the user who unpacks it has access to every version your code has been in.  Each branch, each stage of development.  And very light-weight to boot.
+
+I can't speak for others, but I will be using git for the foreseeable future as it's incredibly easy to use and alleviates many of the problems I encounter regularly with development.

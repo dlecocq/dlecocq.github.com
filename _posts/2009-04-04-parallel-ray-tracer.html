@@ -1,0 +1,81 @@
+---
+layout: post
+title: Parallel Ray Tracer
+tags:
+- cluster
+- computer science
+- graphics
+- parallel
+- projects
+- ray tracing
+- raytracer
+- school
+status: publish
+type: post
+published: true
+meta:
+  _edit_last: '1'
+---
+This afternoon I was able to successfully parallelize the ray tracer I wrote for Graphics II to run on the Alamode cluster at Mines.  Using 17 machines, I was able to render a 4,096 x 4,096 pixel image with 25 passes and up to 5 reflections.  It took only 1 minute and 20 seconds.
+[caption id="attachment_481" align="aligncenter" width="300" caption="Reflective spheres rendered at high resolution on a small cluster."]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output-300x300.png" alt="Reflective spheres rendered at high resolution on a small cluster." title="Spheres" width="300" height="300" class="size-medium wp-image-481" /></a>[/caption]
+[caption id="" align="aligncenter" width="300" caption="Another image rendered on the same cluster"]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output1.png"><img alt="Another image rendered on the same cluster" src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output8-300x300.png" title="Sphere and Triangles" width="300" height="300" /></a>[/caption]
+
+For the benefit of those who are not computer scientists, this is what the input file looks like:
+<code>
+8192 8192
+0 0 20
+-1 -1 1
+2 0 0
+0 2 0
+3 10 10 0.8
+0.2
+9
+# These next few lines will define a triangle
+T
+# With one of the points at (1, 1, 1)
+1 1 1
+# and the next point here:
+0.12321 0.12321 -1
+# and the last point here:
+-1 1 1
+# and with this color setting
+1 1 1 1 1 1 0 1 0.7
+T
+-1 1 1
+-0.12321 0.12321 -1
+0.12321 0.12321 -1
+1 1 1 1 1 1 0 1 0
+T
+1 -1 1
+0.12321 -0.12321 -1
+-1 -1 1
+1 1 1 1 1 1 0 1 0
+T
+-1 -1 1
+-0.12321 -0.12321 -1
+0.12321 -0.12321 -1
+1 1 1 1 1 1 0 1 0
+T
+1 1 1
+0.12321 0.12321 -1
+1 -1 1
+1 0 0 1 0 0 0 1 0
+T
+1 -1 1
+0.12321 -0.12321 -1
+0.12321 0.12321 -1
+1 0 0 1 0 0 0 1 0
+T
+-1 1 1
+-0.12321 0.12321 -1
+-1 -1 1
+1 1 0 1 1 0 0 1 0
+T
+-1 -1 1
+-0.12321 -0.12321 -1
+-0.12321 0.12321 -1
+1 1 0 1 1 0 0 1 0
+S
+0 0 0 0.5
+1 0 1 1 0 1 0 1 0.3
+</code>
