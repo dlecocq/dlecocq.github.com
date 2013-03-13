@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="Still porting Linux code to Mac, I&#8217;ve been trying to keep a useful habit: using the #warning and #error macros. This new code is riddled with # &hellip;">
+  <meta name="description" content="Still porting Linux code to Mac, I’ve been trying to keep a useful habit: using the #warning and #error macros. This new code is riddled with #ifdef’ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,21 +134,29 @@
   </header>
 
 
-<div class="entry-content">Still porting Linux code to Mac, I&#8217;ve been trying to keep a useful habit: using the #warning and #error macros. This new code is riddled with #ifdef&#8217;s checking whether or not we&#8217;re trying to build on a Mac, and using alternatives to the Linux-only system calls, but in parsing these large chunks of code, sometimes I forget what I&#8217;m doing. How horrible would it be to accidentally leave empty the Mac-only code block when it&#8217;s meant to actually do something.
+<div class="entry-content"><p>Still porting Linux code to Mac, I’ve been trying to keep a useful habit: using the #warning and #error macros. This new code is riddled with #ifdef’s checking whether or not we’re trying to build on a Mac, and using alternatives to the Linux-only system calls, but in parsing these large chunks of code, sometimes I forget what I’m doing. How horrible would it be to accidentally leave empty the Mac-only code block when it’s meant to actually do something.</p>
 
-So, whenever I open up one such block, I add a little macro:
-<code>
-#ifndef MAC
-// ... The Linux-only code
-// ... takes up
-// ... a lot
-// ... of space
-#else
-#error "Don't forget to implement it as Mac!"
-#endif
-</code>
+<p>So, whenever I open up one such block, I add a little macro:</p>
 
-At least I&#8217;ll always catch it at compile time, and when I fix/add the Mac-only code, then I can go ahead and remove that macro. It&#8217;s not that I&#8217;m forgetful, but I&#8217;ve shot myself in the foot so much at this point.
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="c++"><span class="line"><span class="cp">#ifndef MAC</span>
+</span><span class="line"><span class="c1">// ... The Linux-only code</span>
+</span><span class="line"><span class="c1">// ... takes up</span>
+</span><span class="line"><span class="c1">// ... a lot</span>
+</span><span class="line"><span class="c1">// ... of space</span>
+</span><span class="line"><span class="cp">#else</span>
+</span><span class="line"><span class="cp">#error &quot;Don&#39;t forget to implement it as Mac!&quot;</span>
+</span><span class="line"><span class="cp">#endif</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>At least I’ll always catch it at compile time, and when I fix/add the Mac-only code, then I can go ahead and remove that macro. It’s not that I’m forgetful, but I’ve shot myself in the foot so much at this point.</p>
 </div>
 
 

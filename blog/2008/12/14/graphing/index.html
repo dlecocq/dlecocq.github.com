@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,15 +134,15 @@
   </header>
 
 
-<div class="entry-content">For Scientific Computing, I decided I wanted to have a grapher with which I could programmatically interface easily.  Of course, there are options other there, from gnuPlot to you-name-it, but I figured that it wouldn&#8217;t be too hard to write one myself.  Especially since there&#8217;s a ruby port for OpenGL.
+<div class="entry-content"><p>For Scientific Computing, I decided I wanted to have a grapher with which I could programmatically interface easily.  Of course, there are options other there, from gnuPlot to you-name-it, but I figured that it wouldn’t be too hard to write one myself.  Especially since there’s a ruby port for OpenGL.</p>
 
-Long story short, I&#8217;ve got something that&#8217;s not too terrible.  Not perfect, but it&#8217;s certainly a start:
-[caption id=&#8221;attachment_216&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A few functions plotted with my grapher&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/12/grapher.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/12/grapher-300x300.png" alt="A few functions plotted with my grapher" title="2D Grapher" width="300" height="300" class="size-medium wp-image-216" /></a>[/caption]
+<p>Long story short, I’ve got something that’s not too terrible.  Not perfect, but it’s certainly a start:
+[caption id=”attachment_216” align=”aligncenter” width=”300” caption=”A few functions plotted with my grapher”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/12/grapher.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/12/grapher-300x300.png" alt="A few functions plotted with my grapher" title="2D Grapher" width="300" height="300" class="size-medium wp-image-216" /></a>[/caption]</p>
 
-But then, I thought, &#8220;why stop there?&#8221;  I figured it wouldn&#8217;t be that hard to make a 3D version.  While the 2D one will work on any generic function you give it, this 3D one has it hard-coded in right now.  Of course, it wouldn&#8217;t be too much more to make it more flexible, but given that this took 30 minutes, I&#8217;m ok with its rigidity.
-[caption id=&#8221;attachment_217&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A simple surface.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/12/surface.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/12/surface-300x282.png" alt="A simple surface." title="3D Grapher" width="300" height="282" class="size-medium wp-image-217" /></a>[/caption]
+<p>But then, I thought, “why stop there?”  I figured it wouldn’t be that hard to make a 3D version.  While the 2D one will work on any generic function you give it, this 3D one has it hard-coded in right now.  Of course, it wouldn’t be too much more to make it more flexible, but given that this took 30 minutes, I’m ok with its rigidity.
+[caption id=”attachment_217” align=”aligncenter” width=”300” caption=”A simple surface.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/12/surface.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/12/surface-300x282.png" alt="A simple surface." title="3D Grapher" width="300" height="282" class="size-medium wp-image-217" /></a>[/caption]</p>
 
-We&#8217;ll see where this goes.  It makes me feel a little nerdy that I&#8217;m two days into my winter break, and this is how I&#8217;ve spent some of it.
+<p>We’ll see where this goes.  It makes me feel a little nerdy that I’m two days into my winter break, and this is how I’ve spent some of it.</p>
 </div>
 
 

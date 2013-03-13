@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,11 +134,11 @@
   </header>
 
 
-<div class="entry-content">The Stanford Bunny is a graphics benchmark of sorts.  It was a high-resolution scan that the imaging lab there did of a ceramic bunny, and the triangulation is a popular model to test systems on.
+<div class="entry-content"><p>The Stanford Bunny is a graphics benchmark of sorts.  It was a high-resolution scan that the imaging lab there did of a ceramic bunny, and the triangulation is a popular model to test systems on.</p>
 
-It contains a little under 70,000 triangles which makes brute-force ray tracing intractable.  I mentioned octtrees earlier, and so having built octtrees into my ray tracer, I was able to render the Stanford Bunny in about 40 minutes on one core.  Granted, that&#8217;s with only 1-pass anti-aliasing, but I feel pretty good about this.  I don&#8217;t think I&#8217;ll have a chance to implement Gouraud shading (or normal interpolation for that matter), but as soon as I do, it will look a lot less blocky.
+<p>It contains a little under 70,000 triangles which makes brute-force ray tracing intractable.  I mentioned octtrees earlier, and so having built octtrees into my ray tracer, I was able to render the Stanford Bunny in about 40 minutes on one core.  Granted, that’s with only 1-pass anti-aliasing, but I feel pretty good about this.  I don’t think I’ll have a chance to implement Gouraud shading (or normal interpolation for that matter), but as soon as I do, it will look a lot less blocky.</p>
 
-[caption id=&#8221;attachment_535&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;The Stanford Bunny rendered with my ray tracer.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/05/bunny.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/05/bunny-300x168.png" alt="The Stanford Bunny rendered with my ray tracer." title="bunny" width="300" height="168" class="size-medium wp-image-535" /></a>[/caption]
+<p>[caption id=”attachment_535” align=”aligncenter” width=”300” caption=”The Stanford Bunny rendered with my ray tracer.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/05/bunny.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/05/bunny-300x168.png" alt="The Stanford Bunny rendered with my ray tracer." title="bunny" width="300" height="168" class="size-medium wp-image-535" /></a>[/caption]</p>
 </div>
 
 

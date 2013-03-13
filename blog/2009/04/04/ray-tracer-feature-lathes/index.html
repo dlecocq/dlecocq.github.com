@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="Up to this point, my ray tracer had been limited to rendering spheres and triangles, and, while there&#8217;s a lot you can do with these primitives &hellip;">
+  <meta name="description" content="Up to this point, my ray tracer had been limited to rendering spheres and triangles, and, while there’s a lot you can do with these primitives, it’s &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,12 +134,12 @@
   </header>
 
 
-<div class="entry-content">Up to this point, my ray tracer had been limited to rendering spheres and triangles, and, while there&#8217;s a lot you can do with these primitives, it&#8217;s often more efficient and effective to use a lathe or surface or rotation.  Imagine you&#8217;ve got a curve, and you rotate it around some axis, keeping track of the surface it swept out.
+<div class="entry-content"><p>Up to this point, my ray tracer had been limited to rendering spheres and triangles, and, while there’s a lot you can do with these primitives, it’s often more efficient and effective to use a lathe or surface or rotation.  Imagine you’ve got a curve, and you rotate it around some axis, keeping track of the surface it swept out.</p>
 
-Alternatively, imagine a lump of clay on a clay wheel.  As the wheel rotates, if you hold some shape against the clay, it will become a solid that&#8217;s symmetrical about the vertical axis.  Here&#8217;s a sine curve rotated about $$x = 0$$:
-[caption id=&#8221;attachment_489&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A sinusoidal lathe and a sphere.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output3.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output3-300x300.png" alt="A sinusoidal lathe and a sphere." title="Lathe" width="300" height="300" class="size-medium wp-image-489" /></a>[/caption]
+<p>Alternatively, imagine a lump of clay on a clay wheel.  As the wheel rotates, if you hold some shape against the clay, it will become a solid that’s symmetrical about the vertical axis.  Here’s a sine curve rotated about <script type="math/tex">x = 0</script>:
+[caption id=”attachment_489” align=”aligncenter” width=”300” caption=”A sinusoidal lathe and a sphere.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output3.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output3-300x300.png" alt="A sinusoidal lathe and a sphere." title="Lathe" width="300" height="300" class="size-medium wp-image-489" /></a>[/caption]</p>
 
-[caption id=&#8221;attachment_491&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A polynomial curve rotated about x=0.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/poly_lathe_1_reflect.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/poly_lathe_1_reflect-300x300.png" alt="A polynomial curve rotated about x=0." title="Polynomial Lathe" width="300" height="300" class="size-medium wp-image-491" /></a>[/caption]
+<p>[caption id=”attachment_491” align=”aligncenter” width=”300” caption=”A polynomial curve rotated about x=0.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/poly_lathe_1_reflect.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/poly_lathe_1_reflect-300x300.png" alt="A polynomial curve rotated about x=0." title="Polynomial Lathe" width="300" height="300" class="size-medium wp-image-491" /></a>[/caption]</p>
 </div>
 
 

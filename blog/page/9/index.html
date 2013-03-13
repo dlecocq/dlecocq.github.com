@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="For the last several weeks, things have been disappearing from my office area. First, a backpack I had left out. I had assumed that people in an &hellip;">
+  <meta name="description" content="I’ve been around the block a time or two (or more) with subversion, but until recently I had limited experience with git. Sure, every now and then I’ &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -83,6 +114,245 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2009/11/10/git1-your-kind-of-version-control/">Git(1) - Your Kind of Version Control</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-11-10T00:00:00-08:00" pubdate data-updated="true">Nov 10<span>th</span>, 2009</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I’ve been around the block a time or two (or more) with subversion, but until recently I had limited experience with git.  Sure, every now and then I’ve used it to check out projects, but not for my personal use.</p>
+
+<p>No longer. And as of right now, I don’t have any intention of using anything but git for personal development.</p>
+
+<p>Last week, I held lecture for parallel programming and I talked about using subversion for versioning, and I began to suspect that something was horribly wrong.  Questions started springing up - where does the repository live?  Am I calling svnadmin on my own machine?  Where do I check out the repository?  Though there are answers to these questions, for many things, such a model just doesn’t make sense.</p>
+
+<p>If I’m working on a project that I’m not syncing between several computers, but I just want to have different stable versions and to try different crazy ideas using branches.  It mitigates the cost of reverting drastic changes to code.</p>
+
+<p><strong>Use Case</strong>: You’re showing someone your code, and want to show off a neat feature you’ve made, or a problem you’re encountering, something about the project, invariably you’ve run into a problem where it doesn’t compile at the moment.  You type furiously, trying to find and undo the most recent changes, but to no avail - there is no hope of getting it to compile in the 5 minutes you have someone’s attention.  Enter version control.  Revert to the last working copy and victory is yours.</p>
+
+<p>In fact, just today I was asked if I could pull up some code I had been working on to show to a professor.  Unfortunately at the moment it wasn’t compiling but was able to switch versions in 20 seconds and show off some very recent work from earlier in the day, thus saving face.</p>
+
+<p><strong>Use Case</strong>: You’ve got some crazy idea for an implementation you’d like to try out, but are worried about reverting back all the massive changes you’ll have to make in the code.  Worry not!  Create a new branch and feel free to change your code in every way you can think of and not lose other branches under development.</p>
+
+<p><strong>Use Case</strong>: You’ve got multiple versions of code each implementing the same basic algorithm but with different mechanisms, techniques, etc. and have to turn it in as part of a project.  Just archive the whole directory (in a tarball or zip) and the user who unpacks it has access to every version your code has been in.  Each branch, each stage of development.  And very light-weight to boot.</p>
+
+<p>I can’t speak for others, but I will be using git for the foreseeable future as it’s incredibly easy to use and alleviates many of the problems I encounter regularly with development.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/11/09/vtk-and-volume-visualization/">VTK and Volume Visualization</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-11-09T00:00:00-08:00" pubdate data-updated="true">Nov 9<span>th</span>, 2009</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>This week for Scientific Visualization, we’re talking about volume rendering and using VTK to explore some data.  I got some datasets from <a href="http://www9.informatik.uni-erlangen.de/External/vollib/">The Volume Library</a> and after a little tinkering, got VTK to render them. (And now a quick aside on how to do this as I didn’t find much information on the subject).</p>
+
+<p>I used a tool (pvm2raw) available as part of the <a href="http://www.stereofx.org/volume.html">V^3</a> library to convert the pvm files to raw, but VTK requires its own simple <a href="http://www.eichberger.de/2005/10/how-to-convert-raw-file-to-vtk.html">header</a>.  I actually found that this particular header didn’t work (perhaps a VTK versioning problem?) and so taking guidance from this, checked the header of one of the VTK-included volumes:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">head VTKData/ironProt.vk
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>This header more or less included a little information on the grid size, spacing and representation of the data:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># vtk DataFile Version 1.0</span>
+</span><span class="line">&amp;lt;Name of File&amp;gt;
+</span><span class="line">
+</span><span class="line">BINARY
+</span><span class="line">
+</span><span class="line">DATASET STRUCTURED_POINTS
+</span><span class="line">
+</span><span class="line">DIMENSIONS &amp;lt;x&amp;gt; &amp;lt;y&amp;gt; &amp;lt;z&amp;gt;
+</span><span class="line">ASPECT_RATIO 1 &amp;lt;y/x&amp;gt; &amp;lt;z/x&amp;gt;
+</span><span class="line">ORIGIN 0 0 0
+</span><span class="line">
+</span><span class="line">POINT_DATA &amp;lt;x * y * z&amp;gt;
+</span><span class="line">SCALARS scalars &amp;lt;unsigned_char|unsigned_short&amp;gt;
+</span><span class="line">LOOKUP_TABLE default
+</span><span class="line">&amp;lt;remember to include a newline here&amp;gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Concatenating the header with the raw:
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;figcaption&gt;<span></span>&lt;/figcaption&gt;&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class="bash"><span class="line">bash <span class="nv">$&gt;</span> cat header CT-Head.raw &gt; CT-Head.vtk
+</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
+
+<p>At that point, I was in business and was able to move on to generating pretty pictures.  Granted, these datasets are pretty sparse, but still VTK did a pretty reasonable job.  <strong>Update:</strong> a comment asked for a little bit more detail on this assignment, and so I’m including <a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/report.pdf">my report</a> for the project.</p>
+
+<p>[gallery link=”file” orderby=”ID”]</p>
+
+<p>I was amazed today that we can see inside of things… without taking them apart.  What an age to live in.  Especially the <a href="http://www.visualiseringscenter.se/1/1.0.1.0/230/1/">virtual autopsy table</a> I read about recently.  In 20 years, we’ll have Firefly-style real-time holographic body scans (ignore music, skip to 0:45):</p>
+
+<object width="480" height="385" class="aligncenter"><param name="movie" value="http://www.youtube.com/v/Kgq_Psl9N6Q&amp;hl=en&amp;fs=1&amp;" /><param name="allowFullScreen" value="true" /><param name="allowscriptaccess" value="always" /><embed src="http://www.youtube.com/v/Kgq_Psl9N6Q&amp;hl=en&amp;fs=1&amp;" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="480" height="385" /></object>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/11/08/openglot-scalar-fields/">OpenGLot - Scalar Fields</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-11-08T00:00:00-08:00" pubdate data-updated="true">Nov 8<span>th</span>, 2009</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I’m working on OpenGLot (my OpenGL plotting library) for a class project, and two of the features I decided to implement were contour lines and scalar fields in 2D.</p>
+
+<p>A few days ago I got decent-looking contour lines working and today I got scalar fields implemented with a fragment shader.  The programmer using the library can specify a function in the form of a string and have it plotted as a scalar field.  Quickly.  Really quickly.</p>
+
+<p>Modern graphics cards support shaders, which are programs that get run on the graphics card, and in parallel. This is great for algorithms that can be run in isolation (one pixel doesn’t need to know what the others are doing), which is the case here. OpenGLot generates a fragment shader that colors a single pixel based on the value of the function.  Each of the dozens or hundreds of cores on a GPU runs the same code in parallel for their particular pixel.</p>
+
+<p>[caption id=”attachment_696” align=”aligncenter” width=”289” caption=”Contouring for a sinusoidal function with the isovalue 0.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/Picture-16.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/Picture-16-289x300.png" alt="Contouring for a sinusoidal function with the isovalue 0." title="Picture 16" width="289" height="300" class="size-medium wp-image-696" /></a>[/caption]</p>
+
+<p>[caption id=”attachment_703” align=”aligncenter” width=”300” caption=”Here&#8217;s a first look at the results (taken moments after this first worked for me).  It&#8217;s the same sinusoidal function, and I will be improving upon the color mapping in the coming hours.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/Picture-19.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/Picture-19-300x281.png" alt="Here&#039;s a first look at the results (taken moments after this first worked for me).  It&#039;s the same sinusoidal function, and I will be improving upon the color mapping in the coming hours." title="Picture 19" width="300" height="281" class="size-medium wp-image-703" /></a>[/caption]</p>
+
+<p>The graphing program I use, Grapher.app is rapidly showing its age.  The results it gives for the same function (though using a much better coloring scheme) are either grainy or extremely slow (10 or more seconds).  OpenGLot is generating these in less than 0.1 seconds.  (Grapher.app implements its scalar fields on the CPU, so comparing times is a little like comparing apples and oranges.  Still, responsiveness in this type of matter is important.)</p>
+
+<p>[caption id=”attachment_697” align=”aligncenter” width=”300” caption=”The quick (and grainy) plot in Grapher.app”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/Picture-17.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/Picture-17-300x174.png" alt="The quick (and grainy) plot in Grapher.app" title="Picture 17" width="300" height="174" class="size-medium wp-image-697" /></a>[/caption]</p>
+
+<p>[caption id=”attachment_698” align=”aligncenter” width=”300” caption=”The slow (but smooth) plot in Grapher.app”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/Picture-18.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/Picture-18-300x174.png" alt="The slow (but smooth) plot in Grapher.app" title="Picture 18" width="300" height="174" class="size-medium wp-image-698" /></a>[/caption]</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/11/04/compustalgia/">Compustalgia</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-11-04T00:00:00-08:00" pubdate data-updated="true">Nov 4<span>th</span>, 2009</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>In the midst of a new school, having recently left my undergraduate institution, I’ve been relatively nostalgic.  I remember my family getting its first computer.  It was a Compaq, running just a few MHz, but when my father came home one night with it, it seemed positively magical.  I had heard of computers, and seen them at school, but nothing beyond Oregon Trail.</p>
+
+<p>You could change the text of the screen saver, and its font, color, etc.  This, I was sure, was awesome.</p>
+
+<p>I was in the fifth grade at this point, and several weeks later my parents were meeting with their accountant in the kitchen.  I saw mysterious black box in front of the man that turned out to be a laptop.  He was staring at it intently, but from where I was I could see nothing on the screen - viewing angles just weren’t what they are today.  I slinked around and tried to catch a glimpse, but I was noticed and my parents remarked on my curiosity saying that I had never seen one before.  Slightly embarrassed, I scurried off as children do.</p>
+
+<p>By the time I was in high school, I had learned about Napster, and torrents, and had learned a small amount about the hardware.  I bought my first hard drive (120 GB) for about US$100, and though it’s large compared to the 16MB disks of yore, looking back it still seems ridiculously tiny.</p>
+
+<p>I eventually started playing with C++ my junior year, helped out by my friend Michael’s mother, Katja.  She was a programmer (and perhaps she still is) at Ball Aerospace, and she helped me to install Cygwin and get a compiler running.  At last, I could actually compile and run the code I had been reading about in the books I had picked up from the local library.</p>
+
+<p>I was constantly aware of the differences between my programs and those of the system, an obvious difference in quality and found it easy to lose interest because of the lack of a GUI.  All the same, the power was obvious, and it was then that I first became interested in mathematical curiosities like prime numbers and Fibonacci.</p>
+
+<p>When I left for school, I imagined that I might end up in computer science, but I initially registered as an electrical engineer.  When I found myself taking more CS courses than EE, I switched and embraced it.  Still, I can’t help but wonder about nature vs. nurture and what along the way (besides the obvious) pushed me in that direction.  Either way, I do not regret my career choice, and I can’t think of anything else I’d be so regularly inspired to work on.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2009/10/31/motion-to-the-rescue/">Motion to the Rescue</a></h1>
     
     
@@ -106,25 +376,25 @@
   </header>
 
 
-  <div class="entry-content">For the last several weeks, things have been disappearing from my office area.  First, a backpack I had left out.  I had assumed that people in an academic building full of offices would be trustworthy, perhaps I had this one coming.  A couple weeks after that, I went to use my camera only to find it gone.  Funny, I thought I locked that drawer.  I guess I must have been mistaken.  A couple weeks after that, my iPhone gone.  This time, I&#8217;m certain I locked the drawer, and there are marks on the cabinet that indicate it being forced open.
+  <div class="entry-content"><p>For the last several weeks, things have been disappearing from my office area.  First, a backpack I had left out.  I had assumed that people in an academic building full of offices would be trustworthy, perhaps I had this one coming.  A couple weeks after that, I went to use my camera only to find it gone.  Funny, I thought I locked that drawer.  I guess I must have been mistaken.  A couple weeks after that, my iPhone gone.  This time, I’m certain I locked the drawer, and there are marks on the cabinet that indicate it being forced open.</p>
 
-Fed up with the disappearing devices, my friend Tyler and I set out on a mission.  We went into Jeddah, bought a webcam and using the <a href="http://www.theregister.co.uk/2005/02/17/chav_burglar/">popular</a> (thank to Iain for the link) Linux package <a href="http://www.lavrsen.dk/twiki/bin/view/Motion/WebHome">motion</a>, we set up a hidden motion-detecting spy cam in our office.  We have a Linux box sitting near our desk (we&#8217;ve locked it to the floor), and so we hid the camera, trained on the place where most of disappearances had taken place.
+<p>Fed up with the disappearing devices, my friend Tyler and I set out on a mission.  We went into Jeddah, bought a webcam and using the <a href="http://www.theregister.co.uk/2005/02/17/chav_burglar/">popular</a> (thank to Iain for the link) Linux package <a href="http://www.lavrsen.dk/twiki/bin/view/Motion/WebHome">motion</a>, we set up a hidden motion-detecting spy cam in our office.  We have a Linux box sitting near our desk (we’ve locked it to the floor), and so we hid the camera, trained on the place where most of disappearances had taken place.</p>
 
-[caption id=&#8221;attachment_680&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A test shot of Tyler as we&#39;re setting it up.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/10/01-20091023174435-04.jpg"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/10/01-20091023174435-04-300x225.jpg" alt="A test shot of Tyler as we&#039;re setting it up." title="01-20091023174435-04" width="300" height="225" class="size-medium wp-image-680" /></a>[/caption]
+<p>[caption id=”attachment_680” align=”aligncenter” width=”300” caption=”A test shot of Tyler as we&#8217;re setting it up.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/10/01-20091023174435-04.jpg"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/10/01-20091023174435-04-300x225.jpg" alt="A test shot of Tyler as we&#039;re setting it up." title="01-20091023174435-04" width="300" height="225" class="size-medium wp-image-680" /></a>[/caption]</p>
 
-What motion does is that every time it detects the picture it sees changing, it takes pictures for five seconds (or until the motion stops - which ever takes longer).  It&#8217;s supposed to be able to encode a video with ffmpeg on the fly, but as it wasn&#8217;t working right for us, we decided to just go ahead and throw it into a script.  I wrote a short bash script that just took all the photos, archived them and then generated a video (when dealing with the tens of thousands of photos generated in an average day and night I learned about xargs).  It also provides triggers for when motion is captured (for example, if you&#8217;d like to update <a href="http://tech.shantanugoel.com/2008/05/14/keep-tab-on-home-security-with-a-webcam-and-twitter.html">Twitter</a> (via <a href="http://lifehacker.com/391141/get-twitter-notifications-from-a-motion+detecting-webcam">Lifehacker</a>) you can do this with curl).
+<p>What motion does is that every time it detects the picture it sees changing, it takes pictures for five seconds (or until the motion stops - which ever takes longer).  It’s supposed to be able to encode a video with ffmpeg on the fly, but as it wasn’t working right for us, we decided to just go ahead and throw it into a script.  I wrote a short bash script that just took all the photos, archived them and then generated a video (when dealing with the tens of thousands of photos generated in an average day and night I learned about xargs).  It also provides triggers for when motion is captured (for example, if you’d like to update <a href="http://tech.shantanugoel.com/2008/05/14/keep-tab-on-home-security-with-a-webcam-and-twitter.html">Twitter</a> (via <a href="http://lifehacker.com/391141/get-twitter-notifications-from-a-motion+detecting-webcam">Lifehacker</a>) you can do this with curl).</p>
 
-One night, when bored and filled with anger about the situation, I decided to check the feed and found footage of someone clear-as-day breaking into my cabinet.  I first saw it about 20 minutes after the fact, but I was sure the guy was still there.  I called Tyler and we quickly deliberated (after getting the opinions of a couple officemates) and we decided to wait until the morning and talk to the security officer.
+<p>One night, when bored and filled with anger about the situation, I decided to check the feed and found footage of someone clear-as-day breaking into my cabinet.  I first saw it about 20 minutes after the fact, but I was sure the guy was still there.  I called Tyler and we quickly deliberated (after getting the opinions of a couple officemates) and we decided to wait until the morning and talk to the security officer.</p>
 
-[caption id=&#8221;attachment_681&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Looking for goodies.  The man&#39;s face is not visible in this shot nor is this frame alone incriminating.  In the context of the video, you can see him gain entry, begin rummaging and removing items.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/10/01-20091026215724-10.jpg"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/10/01-20091026215724-10-300x225.jpg" alt="Looking for goodies.  The man&#039;s face is not visible in this shot nor is this frame alone incriminating.  In the context of the video, you can see him gain entry, begin rummaging and removing items." title="01-20091026215724-10" width="300" height="225" class="size-medium wp-image-681" /></a>[/caption]
+<p>[caption id=”attachment_681” align=”aligncenter” width=”300” caption=”Looking for goodies.  The man&#8217;s face is not visible in this shot nor is this frame alone incriminating.  In the context of the video, you can see him gain entry, begin rummaging and removing items.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/10/01-20091026215724-10.jpg"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/10/01-20091026215724-10-300x225.jpg" alt="Looking for goodies.  The man&#039;s face is not visible in this shot nor is this frame alone incriminating.  In the context of the video, you can see him gain entry, begin rummaging and removing items." title="01-20091026215724-10" width="300" height="225" class="size-medium wp-image-681" /></a>[/caption]</p>
 
-We spent some time with them the next morning, giving them footage and printing key frames, and then they said they&#8217;d look into it.  They assured us they would not involve the local authorities if they didn&#8217;t have to (the penalty for such crimes in Saudi Arabia can be quite stiff) and would take care of it discreetly.  That night, they arrested four people and recovered a number of electronic devices.  They held them as evidence for a bit, but today, I was given back my camera and iPhone (the only really big-ticket items I had stolen).
+<p>We spent some time with them the next morning, giving them footage and printing key frames, and then they said they’d look into it.  They assured us they would not involve the local authorities if they didn’t have to (the penalty for such crimes in Saudi Arabia can be quite stiff) and would take care of it discreetly.  That night, they arrested four people and recovered a number of electronic devices.  They held them as evidence for a bit, but today, I was given back my camera and iPhone (the only really big-ticket items I had stolen).</p>
 
-I am extremely relieved to have these back, especially my camera as I had been wanting to take photos of trips, events, etc. in its absence.  Our next step was going to have off-site storage in case the bandits took off with our computer, but it would seem it wasn&#8217;t necessary.
+<p>I am extremely relieved to have these back, especially my camera as I had been wanting to take photos of trips, events, etc. in its absence.  Our next step was going to have off-site storage in case the bandits took off with our computer, but it would seem it wasn’t necessary.</p>
 
-Motion: 1, Thieves: 0
+<p>Motion: 1, Thieves: 0</p>
 
-Of course, this was not a solo effort by any means.  Some system admins and colleagues in the office park offered input, and the evidence wouldn&#8217;t have left our webcam if not for the security staff.  Thanks, guys.
+<p>Of course, this was not a solo effort by any means.  Some system admins and colleagues in the office park offered input, and the evidence wouldn’t have left our webcam if not for the security staff.  Thanks, guys.</p>
 </div>
   
   
@@ -160,15 +430,15 @@ Of course, this was not a solo effort by any means.  Some system admins and coll
   </header>
 
 
-  <div class="entry-content">Apparently a tradition many places, Mines had an annual &#8220;No-Shave November&#8221; competition, with prizes.  And beards.
+  <div class="entry-content"><p>Apparently a tradition many places, Mines had an annual “No-Shave November” competition, with prizes.  And beards.</p>
 
-This year, after seeing a post about &#8220;Movember&#8221; (Movember = Mustache + November) on <a href="http://artofmanliness.com/2009/10/27/the-art-of-manliness-movember-contest-2009/">The Art of Manliness</a>, Tyler and I decided enough was enough.  It was time to grow beards for charity.
+<p>This year, after seeing a post about “Movember” (Movember = Mustache + November) on <a href="http://artofmanliness.com/2009/10/27/the-art-of-manliness-movember-contest-2009/">The Art of Manliness</a>, Tyler and I decided enough was enough.  It was time to grow beards for charity.</p>
 
-We&#8217;re busy students, and we can&#8217;t be training to run marathons for testicular cancer, so why not turn something we already do on a daily basis into something useful.  Plus, we won&#8217;t have to waste time shaving.
+<p>We’re busy students, and we can’t be training to run marathons for testicular cancer, so why not turn something we already do on a daily basis into something useful.  Plus, we won’t have to waste time shaving.</p>
 
-A shave on October 31st will be my last for a month.  The trick is to push on through past the &#8220;pedo-stache&#8221; stage and into the manly beard stage.  I&#8217;ve grown a beard before, but was displeased with it and enough time has passed that it&#8217;s time to test the waters again, for, how can one truly know one&#8217;s beard without having one?
+<p>A shave on October 31st will be my last for a month.  The trick is to push on through past the “pedo-stache” stage and into the manly beard stage.  I’ve grown a beard before, but was displeased with it and enough time has passed that it’s time to test the waters again, for, how can one truly know one’s beard without having one?</p>
 
-Movember @ KAUST has a few rules:
+<p>Movember @ KAUST has a few rules:</p>
 
 <blockquote>
 There are varying levels of moustached/bearded-ness. 
@@ -187,11 +457,11 @@ Unfortunately, there aren&#8217;t that many ladies on campus to impress with you
 
 But its not all about having fun and looking manly, we want some good to come from this event. Find friends and relatives willing to pledge money for your Movember month. Have them pledge a donation to one of the below listed mens-health related charities.</blockquote>
 
-We&#8217;re still finalizing our chosen charity, but it looks at this point as if it will be <a href="http://everyman-campaign.org/index.shtml">Everyman</a>, a group that helps to fund the <a href="http://www.icr.ac.uk/">Institution of Cancer Research</a>.
+<p>We’re still finalizing our chosen charity, but it looks at this point as if it will be <a href="http://everyman-campaign.org/index.shtml">Everyman</a>, a group that helps to fund the <a href="http://www.icr.ac.uk/">Institution of Cancer Research</a>.</p>
 
-UPDATE: We&#8217;ve settled on that group, and please feel free to <a href="https://www.bmycharity.com/V2/movemberatkaust">donate</a>!
+<p>UPDATE: We’ve settled on that group, and please feel free to <a href="https://www.bmycharity.com/V2/movemberatkaust">donate</a>!</p>
 
-Good luck, and good growing.
+<p>Good luck, and good growing.</p>
 </div>
   
   
@@ -227,29 +497,29 @@ Good luck, and good growing.
   </header>
 
 
-  <div class="entry-content">A professor of mine recently criticized some graphs I submitted on a paper and handed me a book by <a href="http://www.edwardtufte.com/">Edward Tufte</a> called <a href="http://www.amazon.com/gp/product/0961392142?ie=UTF8&tag=dan.lecocq-20&linkCode=as2&camp=1789&creative=9325&creativeASIN=0961392142">The Visual Display of Quantitative Information</a><img src="http://www.assoc-amazon.com/e/ir?t=dan.lecocq-20&l=as2&o=1&a=0961392142" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />.  It shreds on graphs made in order to show four numbers, or obvious flaws in design giving misleading impressions of numbers.
+  <div class="entry-content"><p>A professor of mine recently criticized some graphs I submitted on a paper and handed me a book by <a href="http://www.edwardtufte.com/">Edward Tufte</a> called <a href="http://www.amazon.com/gp/product/0961392142?ie=UTF8&amp;tag=dan.lecocq-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0961392142">The Visual Display of Quantitative Information</a><img src="http://www.assoc-amazon.com/e/ir?t=dan.lecocq-20&amp;l=as2&amp;o=1&amp;a=0961392142" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />.  It shreds on graphs made in order to show four numbers, or obvious flaws in design giving misleading impressions of numbers.</p>
 
-He talks about the misconception that graphics lie.  Of course <em>some</em> do, but his attitude encapsulates well what I think is great about visualization - good representations convey understanding. Graphics <em>can</em> be the most effective way to get a handle on data, or a trend, and they should reveal what underlies the numbers.  But in a world of Excel and every insignificant and meaningless piece interrelationship being plotted in an impressive-looking format, it&#8217;s easy to forget this.
+<p>He talks about the misconception that graphics lie.  Of course <em>some</em> do, but his attitude encapsulates well what I think is great about visualization - good representations convey understanding. Graphics <em>can</em> be the most effective way to get a handle on data, or a trend, and they should reveal what underlies the numbers.  But in a world of Excel and every insignificant and meaningless piece interrelationship being plotted in an impressive-looking format, it’s easy to forget this.</p>
 
-A quote I heard recently in my Scientific Visualization course (thanks, Thomas!) puts it well:
+<p>A quote I heard recently in my Scientific Visualization course (thanks, Thomas!) puts it well:</p>
 
 <blockquote>
 Visualize to inform, not to impress. If you really inform, you will impress. - Fred Brooks. SIGGRAPH 2003 
 </blockquote>
 
-Although a child can understand a time series, it wasn&#8217;t until a couple hundred years ago that they were actually used, as Tufte points out, but its power to convey is obvious.  Similarly, just from glancing at a map like this one from the <a href="http://memory.loc.gov/cgi-bin/map_item.pl?data=/home/www/data/gmd//gmd370m/g3701m/g3701gm/gct00013/ca000192.jp2&itemLink=r?ammem/gmd:@field(NUMBER+@band(g3701gm+gct00013))&title=The+national+atlas+of+the+United+States+of+America.++-+Family+Income&style=setlmap&legend=">census bureau</a>, one can almost instantly understand the distribution of income across the United States - literally tens of thousands of pieces of data.
+<p>Although a child can understand a time series, it wasn’t until a couple hundred years ago that they were actually used, as Tufte points out, but its power to convey is obvious.  Similarly, just from glancing at a map like this one from the <a href="http://memory.loc.gov/cgi-bin/map_item.pl?data=/home/www/data/gmd//gmd370m/g3701m/g3701gm/gct00013/ca000192.jp2&amp;itemLink=r?ammem/gmd:@field(NUMBER+@band(g3701gm+gct00013))&amp;title=The+national+atlas+of+the+United+States+of+America.++-+Family+Income&amp;style=setlmap&amp;legend=">census bureau</a>, one can almost instantly understand the distribution of income across the United States - literally tens of thousands of pieces of data.</p>
 
-[caption id=&#8221;attachment_657&#8221; align=&#8221;aligncenter&#8221; width=&#8221;231&#8221; caption=&#8221;A US Census Bureau graphic depicting the income of the 3000+ counties of the United States.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/10/income.jpg"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/10/income-231x300.jpg" alt="A US Census Bureau graphic depicting the income of the 3000+ counties of the United States." title="income" width="231" height="300" class="size-medium wp-image-657" /></a>[/caption]
+<p>[caption id=”attachment_657” align=”aligncenter” width=”231” caption=”A US Census Bureau graphic depicting the income of the 3000+ counties of the United States.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/10/income.jpg"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/10/income-231x300.jpg" alt="A US Census Bureau graphic depicting the income of the 3000+ counties of the United States." title="income" width="231" height="300" class="size-medium wp-image-657" /></a>[/caption]</p>
 
-In this vein of conveying understanding, I remember several years ago now watching a TED Talk that immediately captivated me with visualization. Hans Rosling talks about how often when we see the rows about rows and tables upon tables of the massive amounts of census data, not only do our eyes glaze over but it becomes very difficult to keep it all in one&#8217;s head at any one time.  Visualizing the data is thus a key tool for gaining the insight we seek.
+<p>In this vein of conveying understanding, I remember several years ago now watching a TED Talk that immediately captivated me with visualization. Hans Rosling talks about how often when we see the rows about rows and tables upon tables of the massive amounts of census data, not only do our eyes glaze over but it becomes very difficult to keep it all in one’s head at any one time.  Visualizing the data is thus a key tool for gaining the insight we seek.</p>
 
-<object width="446" height="326" class="aligncenter"><param name="movie" value="http://video.ted.com/assets/player/swf/EmbedPlayer.swf"></param><param name="allowFullScreen" value="true" /><param name="wmode" value="transparent"></param><param name="bgColor" value="#ffffff"></param> <param name="flashvars" value="vu=http://video.ted.com/talks/dynamic/HansRosling_2007-medium.flv&su=http://images.ted.com/images/ted/tedindex/embed-posters/HansRosling-2007.embed_thumbnail.jpg&vw=432&vh=240&ap=0&ti=140&introDuration=16500&adDuration=4000&postAdDuration=2000&adKeys=talk=hans_rosling_reveals_new_insights_on_poverty;year=2007;theme=spectacular_performance;theme=numbers_at_play;theme=what_s_next_in_tech;theme=rethinking_poverty;theme=presentation_innovation;event=TED2007;&preAdTag=tconf.ted/embed;tile=1;sz=512x288;" /><embed src="http://video.ted.com/assets/player/swf/EmbedPlayer.swf" pluginspace="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" wmode="transparent" bgColor="#ffffff" width="446" height="326" allowFullScreen="true" flashvars="vu=http://video.ted.com/talks/dynamic/HansRosling_2007-medium.flv&su=http://images.ted.com/images/ted/tedindex/embed-posters/HansRosling-2007.embed_thumbnail.jpg&vw=432&vh=240&ap=0&ti=140&introDuration=16500&adDuration=4000&postAdDuration=2000&adKeys=talk=hans_rosling_reveals_new_insights_on_poverty;year=2007;theme=spectacular_performance;theme=numbers_at_play;theme=what_s_next_in_tech;theme=rethinking_poverty;theme=presentation_innovation;event=TED2007;"></embed></object>
+<object width="446" height="326" class="aligncenter"><param name="movie" value="http://video.ted.com/assets/player/swf/EmbedPlayer.swf" /><param name="allowFullScreen" value="true" /><param name="wmode" value="transparent" /><param name="bgColor" value="#ffffff" /> <param name="flashvars" value="vu=http://video.ted.com/talks/dynamic/HansRosling_2007-medium.flv&amp;su=http://images.ted.com/images/ted/tedindex/embed-posters/HansRosling-2007.embed_thumbnail.jpg&amp;vw=432&amp;vh=240&amp;ap=0&amp;ti=140&amp;introDuration=16500&amp;adDuration=4000&amp;postAdDuration=2000&amp;adKeys=talk=hans_rosling_reveals_new_insights_on_poverty;year=2007;theme=spectacular_performance;theme=numbers_at_play;theme=what_s_next_in_tech;theme=rethinking_poverty;theme=presentation_innovation;event=TED2007;&amp;preAdTag=tconf.ted/embed;tile=1;sz=512x288;" /><embed src="http://video.ted.com/assets/player/swf/EmbedPlayer.swf" pluginspace="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" wmode="transparent" bgcolor="#ffffff" width="446" height="326" allowfullscreen="true" flashvars="vu=http://video.ted.com/talks/dynamic/HansRosling_2007-medium.flv&amp;su=http://images.ted.com/images/ted/tedindex/embed-posters/HansRosling-2007.embed_thumbnail.jpg&amp;vw=432&amp;vh=240&amp;ap=0&amp;ti=140&amp;introDuration=16500&amp;adDuration=4000&amp;postAdDuration=2000&amp;adKeys=talk=hans_rosling_reveals_new_insights_on_poverty;year=2007;theme=spectacular_performance;theme=numbers_at_play;theme=what_s_next_in_tech;theme=rethinking_poverty;theme=presentation_innovation;event=TED2007;" /></object>
 
-The book is full of tremendous insight about how ink should be used as efficiently as possible (within reason - Tufte is quick to emphasize this point) and that the human eye has a great capacity for handling dense data sets if presented efficiently.  It is an entirely necessary resource for anyone who intends to pursue any science, nay, anyone intends to pursue any discipline dealing with numbers.
+<p>The book is full of tremendous insight about how ink should be used as efficiently as possible (within reason - Tufte is quick to emphasize this point) and that the human eye has a great capacity for handling dense data sets if presented efficiently.  It is an entirely necessary resource for anyone who intends to pursue any science, nay, anyone intends to pursue any discipline dealing with numbers.</p>
 
-He has several other books, all of which I intend to read as I was virtually unable to put down the book; I was constantly floored by the myriad examples of strong and weak graphics alike.  He also published a <a href="http://www.amazon.com/exec/obidos/ASIN/0961392185/ref=nosim/kkorg-20">book by his mother</a> that I happened to encounter recently via <a href="http://www.kk.org/cooltools/archives/003977.php">Cool Tools</a>.
+<p>He has several other books, all of which I intend to read as I was virtually unable to put down the book; I was constantly floored by the myriad examples of strong and weak graphics alike.  He also published a <a href="http://www.amazon.com/exec/obidos/ASIN/0961392185/ref=nosim/kkorg-20">book by his mother</a> that I happened to encounter recently via <a href="http://www.kk.org/cooltools/archives/003977.php">Cool Tools</a>.</p>
 
-I&#8217;ll close with a brief excerpt from his book with which I was taken:
+<p>I’ll close with a brief excerpt from his book with which I was taken:</p>
 
 <blockquote>
 Words and pictures belong together.  Viewers need the help that words can provide.  Words on graphics are data-ink, making effective use of the space freed up by erasing redundant and non-data-ink.  It is nearly always helpful to write little messages on the plotting field to explain the data, to label outliers and interesting data points, to write equations and sometimes table son the graphic itself, and to integrate the caption and legend into the design so that the eye is not required to dart back and fort between textual material and the graphic.
@@ -289,17 +559,17 @@ Words and pictures belong together.  Viewers need the help that words can provid
   </header>
 
 
-  <div class="entry-content">The various dailies I read have all been covering a VW program called <a href="http://thefuntheory.com/">The Fun Theory</a>.  It&#8217;s a contest and entries are supposed to provide evidence that making things fun can influence peoples&#8217; behavior (presumably they mean to influence it positively).
+  <div class="entry-content"><p>The various dailies I read have all been covering a VW program called <a href="http://thefuntheory.com/">The Fun Theory</a>.  It’s a contest and entries are supposed to provide evidence that making things fun can influence peoples’ behavior (presumably they mean to influence it positively).</p>
 
-For example, to encourage people to recycle bottles and cans more, a group turned a recycling receptacle into a &#8220;Whack-A-Mole&#8221; game of sorts.  Or mounting giant piano keys (like in the movie Big) on stairs to encourage people to walk up the stairs rather than use the adjacent escalator.  The site provides a lot of great videos and statistics:
+<p>For example, to encourage people to recycle bottles and cans more, a group turned a recycling receptacle into a “Whack-A-Mole” game of sorts.  Or mounting giant piano keys (like in the movie Big) on stairs to encourage people to walk up the stairs rather than use the adjacent escalator.  The site provides a lot of great videos and statistics:</p>
 
-<object width="480" height="295" class="aligncenter"><param name="movie" value="http://www.youtube.com/v/zSiHjMU-MUo&hl=en&fs=1&rel=0&color1=0x006699&color2=0x54abd6"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/zSiHjMU-MUo&hl=en&fs=1&rel=0&color1=0x006699&color2=0x54abd6" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="480" height="295"></embed></object>
+<object width="480" height="295" class="aligncenter"><param name="movie" value="http://www.youtube.com/v/zSiHjMU-MUo&amp;hl=en&amp;fs=1&amp;rel=0&amp;color1=0x006699&amp;color2=0x54abd6" /><param name="allowFullScreen" value="true" /><param name="allowscriptaccess" value="always" /><embed src="http://www.youtube.com/v/zSiHjMU-MUo&amp;hl=en&amp;fs=1&amp;rel=0&amp;color1=0x006699&amp;color2=0x54abd6" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="480" height="295" /></object>
 
-I&#8217;ve mentioned <a href="http://www.cs.cmu.edu/~biglou/">Luis von Ahn</a> <a href="http://dan.lecocq.us/wordpress/2008/12/01/human-computation/">before</a> (incidentally he&#8217;s the man behind CAPTCHAs - the distorted text websites sometimes ask you to type in).  His area of research is human computation, which generally takes the form of turning a repetitive or boring task into a really truly enjoyable game.  Sure, it&#8217;s advice one&#8217;s mother has given them a hundred times, but how many times have you washed the floor with scrub-brush-shoes like in Pipi Longstocking?  It&#8217;s non-trivial to turn something into a game, but still not a new idea, strictly speaking.
+<p>I’ve mentioned <a href="http://www.cs.cmu.edu/~biglou/">Luis von Ahn</a> <a href="http://dan.lecocq.us/wordpress/2008/12/01/human-computation/">before</a> (incidentally he’s the man behind CAPTCHAs - the distorted text websites sometimes ask you to type in).  His area of research is human computation, which generally takes the form of turning a repetitive or boring task into a really truly enjoyable game.  Sure, it’s advice one’s mother has given them a hundred times, but how many times have you washed the floor with scrub-brush-shoes like in Pipi Longstocking?  It’s non-trivial to turn something into a game, but still not a new idea, strictly speaking.</p>
 
-Not only is making monotonous tasks fun a great motivator, but many indicate that play is important.  I&#8217;ve been watching a lot of <a href="http://ted.com">TED Talks</a> lately for our upcoming TEDx event, and these Fun Theory projects remind me of one I watched recently:
+<p>Not only is making monotonous tasks fun a great motivator, but many indicate that play is important.  I’ve been watching a lot of <a href="http://ted.com">TED Talks</a> lately for our upcoming TEDx event, and these Fun Theory projects remind me of one I watched recently:</p>
 
-<object width="480" height="468" class="aligncenter"><param name="movie" value="http://video.ted.com/assets/player/swf/EmbedPlayer.swf"></param><param name="allowFullScreen" value="true" /><param name="wmode" value="transparent"></param><param name="bgColor" value="#ffffff"></param> <param name="flashvars" value="vu=http://video.ted.com/talks/dynamic/StuartBrown_2008P-medium.flv&su=http://images.ted.com/images/ted/tedindex/embed-posters/StuartBrown-2008P.embed_thumbnail.jpg&vw=320&vh=240&ap=0&ti=483&introDuration=16500&adDuration=4000&postAdDuration=2000&adKeys=talk=stuart_brown_says_play_is_more_than_fun_it_s_vital;year=2008;theme=how_the_mind_works;theme=how_we_learn;theme=the_creative_spark;theme=unconventional_explanations;theme=what_makes_us_happy;theme=tales_of_invention;event=Serious+Play+2008;&preAdTag=tconf.ted/embed;tile=1;sz=512x288;" /><embed src="http://video.ted.com/assets/player/swf/EmbedPlayer.swf" pluginspace="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" wmode="transparent" bgColor="#ffffff" width="334" height="326" allowFullScreen="true" flashvars="vu=http://video.ted.com/talks/dynamic/StuartBrown_2008P-medium.flv&su=http://images.ted.com/images/ted/tedindex/embed-posters/StuartBrown-2008P.embed_thumbnail.jpg&vw=320&vh=240&ap=0&ti=483&introDuration=16500&adDuration=4000&postAdDuration=2000&adKeys=talk=stuart_brown_says_play_is_more_than_fun_it_s_vital;year=2008;theme=how_the_mind_works;theme=how_we_learn;theme=the_creative_spark;theme=unconventional_explanations;theme=what_makes_us_happy;theme=tales_of_invention;event=Serious+Play+2008;"></embed></object>
+<object width="480" height="468" class="aligncenter"><param name="movie" value="http://video.ted.com/assets/player/swf/EmbedPlayer.swf" /><param name="allowFullScreen" value="true" /><param name="wmode" value="transparent" /><param name="bgColor" value="#ffffff" /> <param name="flashvars" value="vu=http://video.ted.com/talks/dynamic/StuartBrown_2008P-medium.flv&amp;su=http://images.ted.com/images/ted/tedindex/embed-posters/StuartBrown-2008P.embed_thumbnail.jpg&amp;vw=320&amp;vh=240&amp;ap=0&amp;ti=483&amp;introDuration=16500&amp;adDuration=4000&amp;postAdDuration=2000&amp;adKeys=talk=stuart_brown_says_play_is_more_than_fun_it_s_vital;year=2008;theme=how_the_mind_works;theme=how_we_learn;theme=the_creative_spark;theme=unconventional_explanations;theme=what_makes_us_happy;theme=tales_of_invention;event=Serious+Play+2008;&amp;preAdTag=tconf.ted/embed;tile=1;sz=512x288;" /><embed src="http://video.ted.com/assets/player/swf/EmbedPlayer.swf" pluginspace="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" wmode="transparent" bgcolor="#ffffff" width="334" height="326" allowfullscreen="true" flashvars="vu=http://video.ted.com/talks/dynamic/StuartBrown_2008P-medium.flv&amp;su=http://images.ted.com/images/ted/tedindex/embed-posters/StuartBrown-2008P.embed_thumbnail.jpg&amp;vw=320&amp;vh=240&amp;ap=0&amp;ti=483&amp;introDuration=16500&amp;adDuration=4000&amp;postAdDuration=2000&amp;adKeys=talk=stuart_brown_says_play_is_more_than_fun_it_s_vital;year=2008;theme=how_the_mind_works;theme=how_we_learn;theme=the_creative_spark;theme=unconventional_explanations;theme=what_makes_us_happy;theme=tales_of_invention;event=Serious+Play+2008;" /></object>
 </div>
   
   
@@ -335,21 +605,21 @@ Not only is making monotonous tasks fun a great motivator, but many indicate tha
   </header>
 
 
-  <div class="entry-content">Projectors these days are not uncommon.  People are buying projectors for their own homes, schools have projectors to plug computers into - they&#8217;re pretty widespread.
+  <div class="entry-content"><p>Projectors these days are not uncommon.  People are buying projectors for their own homes, schools have projectors to plug computers into - they’re pretty widespread.</p>
 
-An application for them I hadn&#8217;t seen until a few weeks ago was projection mapping.  I&#8217;ve run across a couple of posts about them on <a href="http://blog.makezine.com/">MAKE</a>. Where traditionally you project onto a flat screen or wall, you can equally project onto any other geometry.  If you have a representation of that geometry, one can create all manner of optical illusions.  Perhaps some videos will make this clear:
+<p>An application for them I hadn’t seen until a few weeks ago was projection mapping.  I’ve run across a couple of posts about them on <a href="http://blog.makezine.com/">MAKE</a>. Where traditionally you project onto a flat screen or wall, you can equally project onto any other geometry.  If you have a representation of that geometry, one can create all manner of optical illusions.  Perhaps some videos will make this clear:</p>
 
-<object width="480" height="295" class="aligncenter"><param name="movie" value="http://www.youtube.com/v/I8-kqovVjss&hl=en&fs=1&rel=0&color1=0x006699&color2=0x54abd6"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/I8-kqovVjss&hl=en&fs=1&rel=0&color1=0x006699&color2=0x54abd6" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="480" height="295"></embed></object>
+<object width="480" height="295" class="aligncenter"><param name="movie" value="http://www.youtube.com/v/I8-kqovVjss&amp;hl=en&amp;fs=1&amp;rel=0&amp;color1=0x006699&amp;color2=0x54abd6" /><param name="allowFullScreen" value="true" /><param name="allowscriptaccess" value="always" /><embed src="http://www.youtube.com/v/I8-kqovVjss&amp;hl=en&amp;fs=1&amp;rel=0&amp;color1=0x006699&amp;color2=0x54abd6" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="480" height="295" /></object>
 
-<object width="500" height="281" class="aligncenter"><param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://vimeo.com/moogaloop.swf?clip_id=7001138&amp;server=vimeo.com&amp;show_title=0&amp;show_byline=1&amp;show_portrait=0&amp;color=00ADEF&amp;fullscreen=1" /><embed src="http://vimeo.com/moogaloop.swf?clip_id=7001138&amp;server=vimeo.com&amp;show_title=0&amp;show_byline=1&amp;show_portrait=0&amp;color=00ADEF&amp;fullscreen=1" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="500" height="281"></embed></object>
+<object width="500" height="281" class="aligncenter"><param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://vimeo.com/moogaloop.swf?clip_id=7001138&amp;server=vimeo.com&amp;show_title=0&amp;show_byline=1&amp;show_portrait=0&amp;color=00ADEF&amp;fullscreen=1" /><embed src="http://vimeo.com/moogaloop.swf?clip_id=7001138&amp;server=vimeo.com&amp;show_title=0&amp;show_byline=1&amp;show_portrait=0&amp;color=00ADEF&amp;fullscreen=1" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="500" height="281" /></object>
 
-The amazing thing about these is that something so impressive is going on that you don&#8217;t even notice it.  You might think that the same illusion can be accomplished on a flat screen, but making use of the fact that your brain uses context to build a picture means that this can be much more impressive.
+<p>The amazing thing about these is that something so impressive is going on that you don’t even notice it.  You might think that the same illusion can be accomplished on a flat screen, but making use of the fact that your brain uses context to build a picture means that this can be much more impressive.</p>
 
-Beau Lotto talks about this in a really interesting TED Talk I saw recently. What I have in mind particularly is when he talks about the tiles in light and shadow and how we perceive their color.  The buildings the above videos project onto are the tiles in this analogy, and by projecting varying levels of light onto them, we perceive a different situation from what&#8217;s actually happening, and what&#8217;s so amazing to me is that it&#8217;s so compelling and convincing, you don&#8217;t it didn&#8217;t quite soak in at first just how impressive it is.
+<p>Beau Lotto talks about this in a really interesting TED Talk I saw recently. What I have in mind particularly is when he talks about the tiles in light and shadow and how we perceive their color.  The buildings the above videos project onto are the tiles in this analogy, and by projecting varying levels of light onto them, we perceive a different situation from what’s actually happening, and what’s so amazing to me is that it’s so compelling and convincing, you don’t it didn’t quite soak in at first just how impressive it is.</p>
 
-<object width="500" height="365"  class="aligncenter"><param name="movie" value="http://video.ted.com/assets/player/swf/EmbedPlayer.swf"></param><param name="allowFullScreen" value="true" /><param name="wmode" value="transparent"></param><param name="bgColor" value="#ffffff"></param> <param name="flashvars" value="vu=http://video.ted.com/talks/dynamic/BeauLotto_2009G-medium.flv&su=http://images.ted.com/images/ted/tedindex/embed-posters/BeauLotto-2009G.embed_thumbnail.jpg&vw=432&vh=240&ap=0&ti=653&introDuration=16500&adDuration=4000&postAdDuration=2000&adKeys=talk=beau_lotto_optical_illusions_show_how_we_see;year=2009;theme=evolution_s_genius;theme=new_on_ted_com;theme=art_unusual;theme=speaking_at_tedglobal2009;theme=how_the_mind_works;event=TEDGlobal+2009;&preAdTag=tconf.ted/embed;tile=1;sz=512x288;" /><embed src="http://video.ted.com/assets/player/swf/EmbedPlayer.swf" pluginspace="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" wmode="transparent" bgColor="#ffffff" width="446" height="326" allowFullScreen="true" flashvars="vu=http://video.ted.com/talks/dynamic/BeauLotto_2009G-medium.flv&su=http://images.ted.com/images/ted/tedindex/embed-posters/BeauLotto-2009G.embed_thumbnail.jpg&vw=432&vh=240&ap=0&ti=653&introDuration=16500&adDuration=4000&postAdDuration=2000&adKeys=talk=beau_lotto_optical_illusions_show_how_we_see;year=2009;theme=evolution_s_genius;theme=new_on_ted_com;theme=art_unusual;theme=speaking_at_tedglobal2009;theme=how_the_mind_works;event=TEDGlobal+2009;"></embed></object>
+<object width="500" height="365" class="aligncenter"><param name="movie" value="http://video.ted.com/assets/player/swf/EmbedPlayer.swf" /><param name="allowFullScreen" value="true" /><param name="wmode" value="transparent" /><param name="bgColor" value="#ffffff" /> <param name="flashvars" value="vu=http://video.ted.com/talks/dynamic/BeauLotto_2009G-medium.flv&amp;su=http://images.ted.com/images/ted/tedindex/embed-posters/BeauLotto-2009G.embed_thumbnail.jpg&amp;vw=432&amp;vh=240&amp;ap=0&amp;ti=653&amp;introDuration=16500&amp;adDuration=4000&amp;postAdDuration=2000&amp;adKeys=talk=beau_lotto_optical_illusions_show_how_we_see;year=2009;theme=evolution_s_genius;theme=new_on_ted_com;theme=art_unusual;theme=speaking_at_tedglobal2009;theme=how_the_mind_works;event=TEDGlobal+2009;&amp;preAdTag=tconf.ted/embed;tile=1;sz=512x288;" /><embed src="http://video.ted.com/assets/player/swf/EmbedPlayer.swf" pluginspace="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" wmode="transparent" bgcolor="#ffffff" width="446" height="326" allowfullscreen="true" flashvars="vu=http://video.ted.com/talks/dynamic/BeauLotto_2009G-medium.flv&amp;su=http://images.ted.com/images/ted/tedindex/embed-posters/BeauLotto-2009G.embed_thumbnail.jpg&amp;vw=432&amp;vh=240&amp;ap=0&amp;ti=653&amp;introDuration=16500&amp;adDuration=4000&amp;postAdDuration=2000&amp;adKeys=talk=beau_lotto_optical_illusions_show_how_we_see;year=2009;theme=evolution_s_genius;theme=new_on_ted_com;theme=art_unusual;theme=speaking_at_tedglobal2009;theme=how_the_mind_works;event=TEDGlobal+2009;" /></object>
 
-I hope to be able to have a project like one of these projection mappings at KAUST.
+<p>I hope to be able to have a project like one of these projection mappings at KAUST.</p>
 </div>
   
   
@@ -385,212 +655,29 @@ I hope to be able to have a project like one of these projection mappings at KAU
   </header>
 
 
-  <div class="entry-content">A couple of weeks ago, I bought my first real gaming console - PS3.  Well, I had an XBox, but I traded something to a friend for it.
+  <div class="entry-content"><p>A couple of weeks ago, I bought my first real gaming console - PS3.  Well, I had an XBox, but I traded something to a friend for it.</p>
 
-The reasons for getting it are complex, and maybe not great: I wanted to do some gaming, and have a dedicated piece of a equipment for all my media playback.  I finally have the space and equipment such that I don&#8217;t have to watch movies and TV shows on my computer anymore, and so I wanted to make us of actually having a television.
+<p>The reasons for getting it are complex, and maybe not great: I wanted to do some gaming, and have a dedicated piece of a equipment for all my media playback.  I finally have the space and equipment such that I don’t have to watch movies and TV shows on my computer anymore, and so I wanted to make us of actually having a television.</p>
 
-With the box came two games of my choosing, and I chose the goriest-looking titles of those available, <a href="http://www.amazon.com/gp/product/B000FQBF1M?ie=UTF8&tag=dan.lecocq-20&linkCode=as2&camp=1789&creative=9325&creativeASIN=B000FQBF1M">Killzone 2</a><img src="http://www.assoc-amazon.com/e/ir?t=dan.lecocq-20&l=as2&o=1&a=B000FQBF1M" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> and <a href="http://www.amazon.com/gp/product/B000JLIXIG?ie=UTF8&tag=dan.lecocq-20&linkCode=as2&camp=1789&creative=9325&creativeASIN=B000JLIXIG">Resistance: Fall Of Man</a><img src="http://www.assoc-amazon.com/e/ir?t=dan.lecocq-20&l=as2&o=1&a=B000JLIXIG" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />.  I beat the game about 10 minutes ago, and here are some thoughts on it.
+<p>With the box came two games of my choosing, and I chose the goriest-looking titles of those available, <a href="http://www.amazon.com/gp/product/B000FQBF1M?ie=UTF8&amp;tag=dan.lecocq-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=B000FQBF1M">Killzone 2</a><img src="http://www.assoc-amazon.com/e/ir?t=dan.lecocq-20&amp;l=as2&amp;o=1&amp;a=B000FQBF1M" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" /> and <a href="http://www.amazon.com/gp/product/B000JLIXIG?ie=UTF8&amp;tag=dan.lecocq-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=B000JLIXIG">Resistance: Fall Of Man</a><img src="http://www.assoc-amazon.com/e/ir?t=dan.lecocq-20&amp;l=as2&amp;o=1&amp;a=B000JLIXIG" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />.  I beat the game about 10 minutes ago, and here are some thoughts on it.</p>
 
-Background: An invading species (the Chimera - MI2 anybody? Also Greek mythology anybody?) utterly obliterated Russia and then Europe in the mid 1940&#8217;s, and now, in 1951 it looks as if Britain will suffer the same fate.  An US army sergeant Hale turns out to be Britain&#8217;s only hope at destroying once and for all the Chimeran forces.
+<p>Background: An invading species (the Chimera - MI2 anybody? Also Greek mythology anybody?) utterly obliterated Russia and then Europe in the mid 1940’s, and now, in 1951 it looks as if Britain will suffer the same fate.  An US army sergeant Hale turns out to be Britain’s only hope at destroying once and for all the Chimeran forces.</p>
 
-The graphics seemed pretty impressive - 720p and not laggy at any point.  It&#8217;s been a while since I played any real games, so I may be easy to impress, but all the same, given the complexity if the scenes and actors, it seems very well-made.
+<p>The graphics seemed pretty impressive - 720p and not laggy at any point.  It’s been a while since I played any real games, so I may be easy to impress, but all the same, given the complexity if the scenes and actors, it seems very well-made.</p>
 
-The fights are mostly urban combat with traditional projectiles, missiles and explosives in addition to a few futuristic Chimeran weapons.  The Chimeran Auger can not be stopped by hard cover, and so the gamer has to develop new skills to actively defend against enemies carrying it.  There are a few types of large enemies that can be pretty challenging to take down and in the later levels, they are usually used in conjunction with smaller bogies.
+<p>The fights are mostly urban combat with traditional projectiles, missiles and explosives in addition to a few futuristic Chimeran weapons.  The Chimeran Auger can not be stopped by hard cover, and so the gamer has to develop new skills to actively defend against enemies carrying it.  There are a few types of large enemies that can be pretty challenging to take down and in the later levels, they are usually used in conjunction with smaller bogies.</p>
 
-For example, there&#8217;s a large flying enemy that fires explosive rounds and packets of poisonous gas while about 6-12 infantrymen take up various positions and begin firing upon you.  I found it pretty challenging to combat two types of attackers simultaneously but the only thing that makes it remotely feasible is that the standard issue rifle for the Chimera (the Bullseye) has rounds that take non-negligible time to arrive.  That is, they can be dodged.
+<p>For example, there’s a large flying enemy that fires explosive rounds and packets of poisonous gas while about 6-12 infantrymen take up various positions and begin firing upon you.  I found it pretty challenging to combat two types of attackers simultaneously but the only thing that makes it remotely feasible is that the standard issue rifle for the Chimera (the Bullseye) has rounds that take non-negligible time to arrive.  That is, they can be dodged.</p>
 
-An interesting weapon of Chimeran design is the Hailstorm, which releases bolts at a high rate of fire that bounce off of surfaces.  In sections where Chimeran forces are contained to a small room, or better yet, a short ways down a tunnel, this weapon really shines.
+<p>An interesting weapon of Chimeran design is the Hailstorm, which releases bolts at a high rate of fire that bounce off of surfaces.  In sections where Chimeran forces are contained to a small room, or better yet, a short ways down a tunnel, this weapon really shines.</p>
 
-I really appreciate a game that forces you to consider the strengths and weaknesses of your weapons.  Resistance does this by limiting ammunition at times (although I found it pretty feasible to stay stocked up except for in some of the larger firefights).  When the ammo runs low on your rifles, you&#8217;re confronted with limited tools and are forced to efficiently apply those you have.  By the end, having been forced to use each weapon, you find yourself switching back and forth between all your arms for specific tasks - the sniper rifle for long approaches, the ironically named &#8220;Bullseye&#8221; for short-range dynamic fights, traditional rifle for mid to far-ranged combat, this type of grenade for this type of cover and that type for another.
+<p>I really appreciate a game that forces you to consider the strengths and weaknesses of your weapons.  Resistance does this by limiting ammunition at times (although I found it pretty feasible to stay stocked up except for in some of the larger firefights).  When the ammo runs low on your rifles, you’re confronted with limited tools and are forced to efficiently apply those you have.  By the end, having been forced to use each weapon, you find yourself switching back and forth between all your arms for specific tasks - the sniper rifle for long approaches, the ironically named “Bullseye” for short-range dynamic fights, traditional rifle for mid to far-ranged combat, this type of grenade for this type of cover and that type for another.</p>
 
-I used to play a new game first on easy, then on medium and lastly on hard, but an acquaintance of mine said that he just plays them on hard right out of the box, and this is what I did.  I&#8217;m not a super-experienced gamer, and the last real combat games I played were the Splinter Cell series on XBox, but even on hard I found it very manageable.  There were a few sections I had to try 3-4 times to beat, but not more than that.  In terms of total gameplay hours, I would estimate it took 10-15 hours.
+<p>I used to play a new game first on easy, then on medium and lastly on hard, but an acquaintance of mine said that he just plays them on hard right out of the box, and this is what I did.  I’m not a super-experienced gamer, and the last real combat games I played were the Splinter Cell series on XBox, but even on hard I found it very manageable.  There were a few sections I had to try 3-4 times to beat, but not more than that.  In terms of total gameplay hours, I would estimate it took 10-15 hours.</p>
 
-I&#8217;m usually a fan of the slow-going tactical games like Splinter Cell where you are encouraged to not rely on your skill with firearms in order to win - you&#8217;re encouraged to gain tactical advantage and put yourself in a position that doesn&#8217;t demand a lot of skill.  With each of the games in the series, after beating the games once, I made it my goal to engage as few enemies as possible and use the cover of darkness, speed, and patience to get through.  While Resistance requires the same strategical placement and maneuvering, it also requires quick thinking and a quick trigger finger.  Though I disliked it at the beginning, by the end, I was just hoping for the huge battles and firefights.
+<p>I’m usually a fan of the slow-going tactical games like Splinter Cell where you are encouraged to not rely on your skill with firearms in order to win - you’re encouraged to gain tactical advantage and put yourself in a position that doesn’t demand a lot of skill.  With each of the games in the series, after beating the games once, I made it my goal to engage as few enemies as possible and use the cover of darkness, speed, and patience to get through.  While Resistance requires the same strategical placement and maneuvering, it also requires quick thinking and a quick trigger finger.  Though I disliked it at the beginning, by the end, I was just hoping for the huge battles and firefights.</p>
 
-All in all, it was worth playing, and probably worth, say, US$40.
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2009/10/21/inconvenience-means-unsecure/">Inconvenience Means Unsecure</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-10-21T00:00:00-07:00" pubdate data-updated="true">Oct 21<span>st</span>, 2009</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content">It&#8217;s been said many times many ways, but the weakest point of a security system is the user.
-
-Feynman had a great story about the commanding officer at Los Alamos demanding the most advanced safe available for all his secret documents.  This was problematic when the CO passed on before revealing the combination.  An amateur lock-picker, Feynman was extremely interested in how the &#8220;pros&#8221; solved it.  It turned out to not be that hard, as it was still on the default combination.
-
-There is a door on campus that is extremely convenient to use as an entrance, but for &#8220;security reasons,&#8221; it was designated as an exit-only door, and cannot be opened from the outside.  Enter ingenuity.  We put a doorstop in it, propping it open, nullifying all the security value it would have otherwise had.
-
-Tyler, a friend of mine, pointed this fact out - that by making the &#8220;real&#8221; solution difficult, they&#8217;ve shot themselves in the foot.
-
-Another appropriate example is one of our computer labs.  On the entrance, there&#8217;s a device that requires a password and a fingerprint scan, but anyone who&#8217;s seen &#8220;Spaceballs&#8221; could guess the combination, and the scanner at this point doesn&#8217;t recognize any fingerprints - it just requires that there&#8217;s a finger placed on it.  An alternate method to gain entry is to slip in a credit card into the door.  As a result of the scanner being difficult to set up, any purpose it <em>might</em> have had is gone.
-
-Of course, it&#8217;s difficult to get onto campus in the first place, so this aren&#8217;t huge issues in my mind, but they seem overtly serious about security when clearly they are not.  I get hassled regularly by security guards demanding to see my ID, and yet I&#8217;ve had a backpack, a camera and a Nintendo DS stolen.  In separate incidents.  The camera was even taken from a drawer which is locked more than 95% of the time.  In my office.  In the building with the highest security priority.
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2009/10/19/call-for-applications-professional-smooth-maker/">Call for Applications: Professional Smooth-Maker</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-10-19T00:00:00-07:00" pubdate data-updated="true">Oct 19<span>th</span>, 2009</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content">My colleagues and I have formulated a new position (unfortunately fictitious) for KAUST: professional smooth-maker.
-
-There are a number of small problems here, and under the collective weight of these straws, the camel&#8217;s back is breaking.  No working printers in the library.  No wifi access in most classrooms.  No working projectors in many classrooms.  No dishes in my home.  No solution in sight.
-
-With the money that KAUST is dishing out for various events and items, they would be better-served to set aside a certain amount in their embarrassingly large budge to fix problems in an ad-hoc fashion.  Many of these issues will not be fixed in the near future, and in the mean time, we don&#8217;t have books for some classes still.  People are scrambling to put the permanent solutions in place, but in the mean time, it&#8217;s as if we&#8217;re holding our breaths - hoping that we&#8217;ll surface from the ocean of incompetence soon.
-
-A man about campus, man of the people, he&#8217;d trawl around seeing problems and fixing them.  Hire a guy for this, buy that piece of <em>crucial</em> equipment.
-
-While the rest of the administration is bogged down in bureaucratic black holes of paperwork, he&#8217;d be a classic cowboy hero - arrive just in time to save the day and ride off into the sunset.  Victory for all.
-
-This may not work in implementation, but students are forming their own ad-hoc solutions.  Like a wiki for information about how things work on campus (like when the medical center is open) as the school hasn&#8217;t made it easy to find out.  Or a forum for addressing issues as the school&#8217;s pricy issue-tracking software wasn&#8217;t rolled out in time.  Why not embrace that this project is in flux and subject to rapid change and facilitate these solutions?
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2009/10/15/home/">Home</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-10-15T00:00:00-07:00" pubdate data-updated="true">Oct 15<span>th</span>, 2009</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content">A few days ago, I finally moved into what I&#8217;m told will be my permanent residence at KAUST.
-
-I left the United States on August 16th making it almost two months of living out of a suitcase, sleeping in eight different beds in various places and cohabitating with a number of people.  It&#8217;s far from perfect, but to have a home that will remain the same is enough for now.  About half of the possessions I brought with me had not left my suitcase for those two months.
-
-I&#8217;m moving furniture around and cleaning this weekend, but I&#8217;m very excited to nest.  This may very well be where I live for the next several years of my life.
-
-I&#8217;d post pictures, but the camera I got this summer (a Nikon D60) was stolen this week.  My backpack and headphones preceded it in disappearing, and so my friend Tyler and I will be setting up a hidden spy camera in our office to hopefully get some of our belongings back or at least catch some nefarious individuals as security staff has been less than helpful.
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2009/10/09/openglot/">OpenGLot</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-10-09T00:00:00-07:00" pubdate data-updated="true">Oct 9<span>th</span>, 2009</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content">As a teaching tool for a course last semester, I put together an interactive plotter in openGL which I endearingly named &#8220;openGLot.&#8221; (For those who missed it, &#8220;openGL&#8221; + &#8220;plot&#8221; = &#8220;openGLot.&#8221;)  See, I felt like I had to give it a very unsavory name so that if it ever became widely used, people would be forced to use its ill-sounding moniker.
-
-At any rate, I originally wrote in Ruby, but have been slowly porting it to C++ with high hopes for its use and applicability.  I still have a bunch of interactive demos for numerical methods (from Newton&#8217;s method to the trapezoidal rule for numerical integration) in the Ruby version, but I&#8217;ll be bringing those to the C++ version one of these days.  I started a <a href="https://sourceforge.net/projects/openglot/">sourceforge project</a> for it a while ago, which was kind of exciting.
-
-At any rate, as a brief (albeit nerdy) respite from the academic onslaught today, I added a class for parameterized curves.
-[caption id=&#8221;attachment_618&#8221; align=&#8221;aligncenter&#8221; width=&#8221;289&#8221; caption=&#8221;A demo of a parameterized curve in openGLot&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/10/parameterized_curves.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/10/parameterized_curves-289x300.png" alt="A demo of a parameterized curve in openGLot" title="parameterized_curves" width="289" height="300" class="size-medium wp-image-618" /></a>[/caption]
-
-I&#8217;ve got a bunch more primitives to add to it (scalar and vector fields, for example), but those will surely come one of these days.  I&#8217;ve added adaptive mesh refinement (so that &#8220;busier&#8221; functions require more sampling to get a more accurate visual representation), but I&#8217;m still not quite happy with it.
-[caption id=&#8221;attachment_619&#8221; align=&#8221;aligncenter&#8221; width=&#8221;289&#8221; caption=&#8221;A &quot;busy&quot; function with no adaptive refinement&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/10/with-no-refinement.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/10/with-no-refinement-289x300.png" alt="A &quot;busy&quot; function with no adaptive refinement" title="with-no-refinement" width="289" height="300" class="size-medium wp-image-619" /></a>[/caption]
-
-[caption id=&#8221;attachment_620&#8221; align=&#8221;aligncenter&#8221; width=&#8221;289&#8221; caption=&#8221;The same &quot;busy&quot; function with recursive refinement.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/10/with-refinement.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/10/with-refinement-289x300.png" alt="The same &quot;busy&quot; function with recursive refinement." title="with-refinement" width="289" height="300" class="size-medium wp-image-620" /></a>[/caption]
-
-I&#8217;ve also got a 3D version, but that&#8217;s not been polished or formalized, but everyone loves a pretty graph:
-<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/10/openGLot3D.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/10/openGLot3D-300x281.png" alt="openGLot3D" title="openGLot3D" width="300" height="281" class="aligncenter size-medium wp-image-621" /></a>
+<p>All in all, it was worth playing, and probably worth, say, US$40.</p>
 </div>
   
   

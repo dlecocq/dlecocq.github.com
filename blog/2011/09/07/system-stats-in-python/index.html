@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="Turns out, there&#8217;s a pretty handy package called psutil that allows you to not only gain insight into the currently-running process, but other &hellip;">
+  <meta name="description" content="Turns out, there’s a pretty handy package called psutil that allows you to not only gain insight into the currently-running process, but other &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,9 +134,9 @@
   </header>
 
 
-<div class="entry-content">Turns out, there&#8217;s a pretty handy package called <a href="http://code.google.com/p/psutil/" title="psutil" target="_blank">psutil</a> that allows you to not only gain insight into the currently-running process, but other processes, physical and virtual memory usage, and CPU usage. For example:
+<div class="entry-content"><p>Turns out, there’s a pretty handy package called <a href="http://code.google.com/p/psutil/" title="psutil" target="_blank">psutil</a> that allows you to not only gain insight into the currently-running process, but other processes, physical and virtual memory usage, and CPU usage. For example:</p>
 
-<pre lang='python'>
+<pre lang="python">
 import psutil
 
 psutil.phymem_usage().percent
@@ -114,7 +145,7 @@ psutil.virtmem_usage().percent
 # 0.0
 </pre>
 
-Pretty handy tool if you&#8217;re doing any sort of monitoring!
+<p>Pretty handy tool if you’re doing any sort of monitoring!</p>
 </div>
 
 
@@ -154,7 +185,7 @@ Pretty handy tool if you&#8217;re doing any sort of monitoring!
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2011/08/31/seomoz-and-dev-blog-post/" title="Previous Post: SEOmoz and Dev Blog Post">&laquo; SEOmoz and Dev Blog Post</a>
+        <a class="basic-alignment left" href="/blog/2011/09/01/libcurl-curl_multi-and-endless-dns-pain/" title="Previous Post: Libcurl, curl_multi, and Endless DNS Pain">&laquo; Libcurl, curl_multi, and Endless DNS Pain</a>
       
       
         <a class="basic-alignment right" href="/blog/2011/09/11/named-pipes/" title="Next Post: Named Pipes">Named Pipes &raquo;</a>

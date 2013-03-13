@@ -690,7 +690,7 @@
     </url>
     <url>
         <loc>http://dlecocq.github.com/blog/2009/11/09/vtk-and-volume-visualization/</loc>
-        <lastmod>2013-03-12T23:26:36-07:00</lastmod>
+        <lastmod>2013-03-13T15:46:43-07:00</lastmod>
     </url>
     <url>
         <loc>http://dlecocq.github.com/blog/2009/11/10/git1-your-kind-of-version-control/</loc>
@@ -726,7 +726,7 @@
     </url>
     <url>
         <loc>http://dlecocq.github.com/blog/2009/12/06/a-little-challenge-part-1-of-2/</loc>
-        <lastmod>2013-03-12T23:26:36-07:00</lastmod>
+        <lastmod>2013-03-13T15:45:14-07:00</lastmod>
     </url>
     <url>
         <loc>http://dlecocq.github.com/blog/2009/12/15/nihon/</loc>
@@ -760,10 +760,14 @@
     </url>
     <url>
         <loc>http://dlecocq.github.com/blog/2010/02/02/delicious-sshfs/</loc>
-        <lastmod>2013-03-12T23:26:36-07:00</lastmod>
+        <lastmod>2013-03-13T15:44:01-07:00</lastmod>
     </url>
     <url>
         <loc>http://dlecocq.github.com/blog/2010/02/07/tech-addiction/</loc>
+        <lastmod>2013-03-12T23:26:36-07:00</lastmod>
+    </url>
+    <url>
+        <loc>http://dlecocq.github.com/blog/2010/03/08/fix-warnings/</loc>
         <lastmod>2013-03-12T23:26:36-07:00</lastmod>
     </url>
     <url>
@@ -810,7 +814,7 @@
     </url>
     <url>
         <loc>http://dlecocq.github.com/blog/2010/07/02/shared-objects/</loc>
-        <lastmod>2013-03-12T23:26:36-07:00</lastmod>
+        <lastmod>2013-03-13T15:42:49-07:00</lastmod>
     </url>
     <url>
         <loc>
@@ -820,7 +824,7 @@
     </url>
     <url>
         <loc>http://dlecocq.github.com/blog/2010/07/11/socket-to-me/</loc>
-        <lastmod>2013-03-12T23:26:36-07:00</lastmod>
+        <lastmod>2013-03-13T15:42:10-07:00</lastmod>
     </url>
     <url>
         <loc>http://dlecocq.github.com/blog/2010/07/13/delicious-sushi/</loc>
@@ -830,7 +834,7 @@
         <loc>
             http://dlecocq.github.com/blog/2010/07/14/modules-your-friend-in-package-management/
         </loc>
-        <lastmod>2013-03-12T23:26:36-07:00</lastmod>
+        <lastmod>2013-03-13T15:40:38-07:00</lastmod>
     </url>
     <url>
         <loc>
@@ -866,7 +870,7 @@
     </url>
     <url>
         <loc>http://dlecocq.github.com/blog/2010/08/22/mpi_datatype/</loc>
-        <lastmod>2013-03-12T23:26:36-07:00</lastmod>
+        <lastmod>2013-03-13T15:38:45-07:00</lastmod>
     </url>
     <url>
         <loc>http://dlecocq.github.com/blog/2010/08/24/falling-to-the-earth/</loc>
@@ -878,19 +882,23 @@
     </url>
     <url>
         <loc>http://dlecocq.github.com/blog/2010/11/25/rename2/</loc>
-        <lastmod>2013-03-12T23:26:36-07:00</lastmod>
+        <lastmod>2013-03-13T15:37:45-07:00</lastmod>
     </url>
     <url>
         <loc>http://dlecocq.github.com/blog/2011/02/24/wrapping-printf/</loc>
-        <lastmod>2013-03-12T23:26:36-07:00</lastmod>
+        <lastmod>2013-03-13T15:37:25-07:00</lastmod>
+    </url>
+    <url>
+        <loc>http://dlecocq.github.com/blog/2011/03/03/efficient-anagrams-with-python/</loc>
+        <lastmod>2013-03-13T15:33:00-07:00</lastmod>
     </url>
     <url>
         <loc>http://dlecocq.github.com/blog/2011/05/10/numerical_limits/</loc>
-        <lastmod>2013-03-12T23:26:36-07:00</lastmod>
+        <lastmod>2013-03-13T15:32:17-07:00</lastmod>
     </url>
     <url>
         <loc>http://dlecocq.github.com/blog/2011/05/10/sum-of-dice/</loc>
-        <lastmod>2013-03-12T23:26:36-07:00</lastmod>
+        <lastmod>2013-03-13T15:28:30-07:00</lastmod>
     </url>
     <url>
         <loc>http://dlecocq.github.com/blog/2011/05/18/python-lesson-learned/</loc>
@@ -912,7 +920,7 @@
     </url>
     <url>
         <loc>http://dlecocq.github.com/blog/2011/06/16/javascript-unit-testing-with-qunit/</loc>
-        <lastmod>2013-03-12T23:26:36-07:00</lastmod>
+        <lastmod>2013-03-13T15:19:14-07:00</lastmod>
     </url>
     <url>
         <loc>
@@ -930,7 +938,7 @@
     </url>
     <url>
         <loc>http://dlecocq.github.com/blog/2011/08/04/boost-typedef-define-and-gcc-pain/</loc>
-        <lastmod>2013-03-12T23:26:36-07:00</lastmod>
+        <lastmod>2013-03-13T15:17:50-07:00</lastmod>
     </url>
     <url>
         <loc>http://dlecocq.github.com/blog/2011/08/04/command-line-stopwatch-time-cat/</loc>
@@ -938,21 +946,21 @@
     </url>
     <url>
         <loc>http://dlecocq.github.com/blog/2011/08/05/error-macro-win/</loc>
-        <lastmod>2013-03-12T23:26:36-07:00</lastmod>
+        <lastmod>2013-03-13T15:15:57-07:00</lastmod>
     </url>
     <url>
         <loc>http://dlecocq.github.com/blog/2011/08/05/port1-a-four-letter-word/</loc>
-        <lastmod>2013-03-12T23:26:36-07:00</lastmod>
+        <lastmod>2013-03-13T15:15:37-07:00</lastmod>
     </url>
     <url>
         <loc>
             http://dlecocq.github.com/blog/2011/08/06/type-conversion-operators-unintuitive-behavior/
         </loc>
-        <lastmod>2013-03-12T23:26:36-07:00</lastmod>
+        <lastmod>2013-03-13T15:14:46-07:00</lastmod>
     </url>
     <url>
         <loc>http://dlecocq.github.com/blog/2011/08/08/conditional-compilation/</loc>
-        <lastmod>2013-03-12T23:26:36-07:00</lastmod>
+        <lastmod>2013-03-13T15:11:25-07:00</lastmod>
     </url>
     <url>
         <loc>http://dlecocq.github.com/blog/2011/08/14/keeping-build-notes/</loc>
@@ -960,10 +968,16 @@
     </url>
     <url>
         <loc>http://dlecocq.github.com/blog/2011/08/18/yes1/</loc>
-        <lastmod>2013-03-12T23:26:36-07:00</lastmod>
+        <lastmod>2013-03-13T15:08:38-07:00</lastmod>
     </url>
     <url>
         <loc>http://dlecocq.github.com/blog/2011/08/31/seomoz-and-dev-blog-post/</loc>
+        <lastmod>2013-03-12T23:26:36-07:00</lastmod>
+    </url>
+    <url>
+        <loc>
+            http://dlecocq.github.com/blog/2011/09/01/libcurl-curl_multi-and-endless-dns-pain/
+        </loc>
         <lastmod>2013-03-12T23:26:36-07:00</lastmod>
     </url>
     <url>
@@ -993,18 +1007,24 @@
         <lastmod>2013-03-12T23:26:36-07:00</lastmod>
     </url>
     <url>
+        <loc>
+            http://dlecocq.github.com/blog/2011/12/16/python%27s-zlib-and-gzip%2C-performance%2C-and-you/
+        </loc>
+        <lastmod>2013-03-12T23:26:36-07:00</lastmod>
+    </url>
+    <url>
         <loc>http://dlecocq.github.com/blog/2012/01/06/chef-solo-and-god-a-divine-duo/</loc>
         <lastmod>2013-03-12T23:26:36-07:00</lastmod>
     </url>
     <url>
         <loc>http://dlecocq.github.com/blog/2012/01/08/the-cost-of-except-in-python/</loc>
-        <lastmod>2013-03-12T23:26:36-07:00</lastmod>
+        <lastmod>2013-03-13T15:06:58-07:00</lastmod>
     </url>
     <url>
         <loc>
             http://dlecocq.github.com/blog/2012/03/11/redis-and-lua-for-robust-portable-libraries/
         </loc>
-        <lastmod>2013-03-12T23:26:36-07:00</lastmod>
+        <lastmod>2013-03-13T15:04:44-07:00</lastmod>
     </url>
     <url>
         <loc>http://dlecocq.github.com/blog/2012/05/18/seomoz-blog-post-introducing-qless/</loc>
@@ -1016,19 +1036,19 @@
     </url>
     <url>
         <loc>http://dlecocq.github.com/blog/2012/07/21/rough-array-hash-benchmark/</loc>
-        <lastmod>2013-03-12T23:26:36-07:00</lastmod>
+        <lastmod>2013-03-13T15:04:02-07:00</lastmod>
     </url>
     <url>
         <loc>http://dlecocq.github.com/blog/2012/10/11/running-sudo-with-pssh/</loc>
-        <lastmod>2013-03-12T23:26:36-07:00</lastmod>
+        <lastmod>2013-03-13T09:57:44-07:00</lastmod>
     </url>
     <url>
         <loc>http://dlecocq.github.com/blog/archives/</loc>
-        <lastmod>2013-03-12T23:26:36-07:00</lastmod>
+        <lastmod>2013-03-13T15:46:43-07:00</lastmod>
     </url>
     <url>
         <loc>http://dlecocq.github.com/</loc>
-        <lastmod>2013-03-12T23:26:36-07:00</lastmod>
+        <lastmod>2013-03-13T15:46:43-07:00</lastmod>
     </url>
     <url>
         <loc>http://dlecocq.github.com/robots.txt</loc>

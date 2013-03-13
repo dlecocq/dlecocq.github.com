@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,29 +134,29 @@
   </header>
 
 
-<div class="entry-content">A professor of mine recently criticized some graphs I submitted on a paper and handed me a book by <a href="http://www.edwardtufte.com/">Edward Tufte</a> called <a href="http://www.amazon.com/gp/product/0961392142?ie=UTF8&tag=dan.lecocq-20&linkCode=as2&camp=1789&creative=9325&creativeASIN=0961392142">The Visual Display of Quantitative Information</a><img src="http://www.assoc-amazon.com/e/ir?t=dan.lecocq-20&l=as2&o=1&a=0961392142" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />.  It shreds on graphs made in order to show four numbers, or obvious flaws in design giving misleading impressions of numbers.
+<div class="entry-content"><p>A professor of mine recently criticized some graphs I submitted on a paper and handed me a book by <a href="http://www.edwardtufte.com/">Edward Tufte</a> called <a href="http://www.amazon.com/gp/product/0961392142?ie=UTF8&amp;tag=dan.lecocq-20&amp;linkCode=as2&amp;camp=1789&amp;creative=9325&amp;creativeASIN=0961392142">The Visual Display of Quantitative Information</a><img src="http://www.assoc-amazon.com/e/ir?t=dan.lecocq-20&amp;l=as2&amp;o=1&amp;a=0961392142" width="1" height="1" border="0" alt="" style="border:none !important; margin:0px !important;" />.  It shreds on graphs made in order to show four numbers, or obvious flaws in design giving misleading impressions of numbers.</p>
 
-He talks about the misconception that graphics lie.  Of course <em>some</em> do, but his attitude encapsulates well what I think is great about visualization - good representations convey understanding. Graphics <em>can</em> be the most effective way to get a handle on data, or a trend, and they should reveal what underlies the numbers.  But in a world of Excel and every insignificant and meaningless piece interrelationship being plotted in an impressive-looking format, it&#8217;s easy to forget this.
+<p>He talks about the misconception that graphics lie.  Of course <em>some</em> do, but his attitude encapsulates well what I think is great about visualization - good representations convey understanding. Graphics <em>can</em> be the most effective way to get a handle on data, or a trend, and they should reveal what underlies the numbers.  But in a world of Excel and every insignificant and meaningless piece interrelationship being plotted in an impressive-looking format, it’s easy to forget this.</p>
 
-A quote I heard recently in my Scientific Visualization course (thanks, Thomas!) puts it well:
+<p>A quote I heard recently in my Scientific Visualization course (thanks, Thomas!) puts it well:</p>
 
 <blockquote>
 Visualize to inform, not to impress. If you really inform, you will impress. - Fred Brooks. SIGGRAPH 2003 
 </blockquote>
 
-Although a child can understand a time series, it wasn&#8217;t until a couple hundred years ago that they were actually used, as Tufte points out, but its power to convey is obvious.  Similarly, just from glancing at a map like this one from the <a href="http://memory.loc.gov/cgi-bin/map_item.pl?data=/home/www/data/gmd//gmd370m/g3701m/g3701gm/gct00013/ca000192.jp2&itemLink=r?ammem/gmd:@field(NUMBER+@band(g3701gm+gct00013))&title=The+national+atlas+of+the+United+States+of+America.++-+Family+Income&style=setlmap&legend=">census bureau</a>, one can almost instantly understand the distribution of income across the United States - literally tens of thousands of pieces of data.
+<p>Although a child can understand a time series, it wasn’t until a couple hundred years ago that they were actually used, as Tufte points out, but its power to convey is obvious.  Similarly, just from glancing at a map like this one from the <a href="http://memory.loc.gov/cgi-bin/map_item.pl?data=/home/www/data/gmd//gmd370m/g3701m/g3701gm/gct00013/ca000192.jp2&amp;itemLink=r?ammem/gmd:@field(NUMBER+@band(g3701gm+gct00013))&amp;title=The+national+atlas+of+the+United+States+of+America.++-+Family+Income&amp;style=setlmap&amp;legend=">census bureau</a>, one can almost instantly understand the distribution of income across the United States - literally tens of thousands of pieces of data.</p>
 
-[caption id=&#8221;attachment_657&#8221; align=&#8221;aligncenter&#8221; width=&#8221;231&#8221; caption=&#8221;A US Census Bureau graphic depicting the income of the 3000+ counties of the United States.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/10/income.jpg"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/10/income-231x300.jpg" alt="A US Census Bureau graphic depicting the income of the 3000+ counties of the United States." title="income" width="231" height="300" class="size-medium wp-image-657" /></a>[/caption]
+<p>[caption id=”attachment_657” align=”aligncenter” width=”231” caption=”A US Census Bureau graphic depicting the income of the 3000+ counties of the United States.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/10/income.jpg"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/10/income-231x300.jpg" alt="A US Census Bureau graphic depicting the income of the 3000+ counties of the United States." title="income" width="231" height="300" class="size-medium wp-image-657" /></a>[/caption]</p>
 
-In this vein of conveying understanding, I remember several years ago now watching a TED Talk that immediately captivated me with visualization. Hans Rosling talks about how often when we see the rows about rows and tables upon tables of the massive amounts of census data, not only do our eyes glaze over but it becomes very difficult to keep it all in one&#8217;s head at any one time.  Visualizing the data is thus a key tool for gaining the insight we seek.
+<p>In this vein of conveying understanding, I remember several years ago now watching a TED Talk that immediately captivated me with visualization. Hans Rosling talks about how often when we see the rows about rows and tables upon tables of the massive amounts of census data, not only do our eyes glaze over but it becomes very difficult to keep it all in one’s head at any one time.  Visualizing the data is thus a key tool for gaining the insight we seek.</p>
 
-<object width="446" height="326" class="aligncenter"><param name="movie" value="http://video.ted.com/assets/player/swf/EmbedPlayer.swf"></param><param name="allowFullScreen" value="true" /><param name="wmode" value="transparent"></param><param name="bgColor" value="#ffffff"></param> <param name="flashvars" value="vu=http://video.ted.com/talks/dynamic/HansRosling_2007-medium.flv&su=http://images.ted.com/images/ted/tedindex/embed-posters/HansRosling-2007.embed_thumbnail.jpg&vw=432&vh=240&ap=0&ti=140&introDuration=16500&adDuration=4000&postAdDuration=2000&adKeys=talk=hans_rosling_reveals_new_insights_on_poverty;year=2007;theme=spectacular_performance;theme=numbers_at_play;theme=what_s_next_in_tech;theme=rethinking_poverty;theme=presentation_innovation;event=TED2007;&preAdTag=tconf.ted/embed;tile=1;sz=512x288;" /><embed src="http://video.ted.com/assets/player/swf/EmbedPlayer.swf" pluginspace="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" wmode="transparent" bgColor="#ffffff" width="446" height="326" allowFullScreen="true" flashvars="vu=http://video.ted.com/talks/dynamic/HansRosling_2007-medium.flv&su=http://images.ted.com/images/ted/tedindex/embed-posters/HansRosling-2007.embed_thumbnail.jpg&vw=432&vh=240&ap=0&ti=140&introDuration=16500&adDuration=4000&postAdDuration=2000&adKeys=talk=hans_rosling_reveals_new_insights_on_poverty;year=2007;theme=spectacular_performance;theme=numbers_at_play;theme=what_s_next_in_tech;theme=rethinking_poverty;theme=presentation_innovation;event=TED2007;"></embed></object>
+<object width="446" height="326" class="aligncenter"><param name="movie" value="http://video.ted.com/assets/player/swf/EmbedPlayer.swf" /><param name="allowFullScreen" value="true" /><param name="wmode" value="transparent" /><param name="bgColor" value="#ffffff" /> <param name="flashvars" value="vu=http://video.ted.com/talks/dynamic/HansRosling_2007-medium.flv&amp;su=http://images.ted.com/images/ted/tedindex/embed-posters/HansRosling-2007.embed_thumbnail.jpg&amp;vw=432&amp;vh=240&amp;ap=0&amp;ti=140&amp;introDuration=16500&amp;adDuration=4000&amp;postAdDuration=2000&amp;adKeys=talk=hans_rosling_reveals_new_insights_on_poverty;year=2007;theme=spectacular_performance;theme=numbers_at_play;theme=what_s_next_in_tech;theme=rethinking_poverty;theme=presentation_innovation;event=TED2007;&amp;preAdTag=tconf.ted/embed;tile=1;sz=512x288;" /><embed src="http://video.ted.com/assets/player/swf/EmbedPlayer.swf" pluginspace="http://www.macromedia.com/go/getflashplayer" type="application/x-shockwave-flash" wmode="transparent" bgcolor="#ffffff" width="446" height="326" allowfullscreen="true" flashvars="vu=http://video.ted.com/talks/dynamic/HansRosling_2007-medium.flv&amp;su=http://images.ted.com/images/ted/tedindex/embed-posters/HansRosling-2007.embed_thumbnail.jpg&amp;vw=432&amp;vh=240&amp;ap=0&amp;ti=140&amp;introDuration=16500&amp;adDuration=4000&amp;postAdDuration=2000&amp;adKeys=talk=hans_rosling_reveals_new_insights_on_poverty;year=2007;theme=spectacular_performance;theme=numbers_at_play;theme=what_s_next_in_tech;theme=rethinking_poverty;theme=presentation_innovation;event=TED2007;" /></object>
 
-The book is full of tremendous insight about how ink should be used as efficiently as possible (within reason - Tufte is quick to emphasize this point) and that the human eye has a great capacity for handling dense data sets if presented efficiently.  It is an entirely necessary resource for anyone who intends to pursue any science, nay, anyone intends to pursue any discipline dealing with numbers.
+<p>The book is full of tremendous insight about how ink should be used as efficiently as possible (within reason - Tufte is quick to emphasize this point) and that the human eye has a great capacity for handling dense data sets if presented efficiently.  It is an entirely necessary resource for anyone who intends to pursue any science, nay, anyone intends to pursue any discipline dealing with numbers.</p>
 
-He has several other books, all of which I intend to read as I was virtually unable to put down the book; I was constantly floored by the myriad examples of strong and weak graphics alike.  He also published a <a href="http://www.amazon.com/exec/obidos/ASIN/0961392185/ref=nosim/kkorg-20">book by his mother</a> that I happened to encounter recently via <a href="http://www.kk.org/cooltools/archives/003977.php">Cool Tools</a>.
+<p>He has several other books, all of which I intend to read as I was virtually unable to put down the book; I was constantly floored by the myriad examples of strong and weak graphics alike.  He also published a <a href="http://www.amazon.com/exec/obidos/ASIN/0961392185/ref=nosim/kkorg-20">book by his mother</a> that I happened to encounter recently via <a href="http://www.kk.org/cooltools/archives/003977.php">Cool Tools</a>.</p>
 
-I&#8217;ll close with a brief excerpt from his book with which I was taken:
+<p>I’ll close with a brief excerpt from his book with which I was taken:</p>
 
 <blockquote>
 Words and pictures belong together.  Viewers need the help that words can provide.  Words on graphics are data-ink, making effective use of the space freed up by erasing redundant and non-data-ink.  It is nearly always helpful to write little messages on the plotting field to explain the data, to label outliers and interesting data points, to write equations and sometimes table son the graphic itself, and to integrate the caption and legend into the design so that the eye is not required to dart back and fort between textual material and the graphic.

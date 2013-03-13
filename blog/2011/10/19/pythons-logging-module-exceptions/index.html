@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="I&#8217;m a big fan of python&#8217;s logging module. It supports configuration files, multiple handlers (for both writing to the screen while &hellip;">
+  <meta name="description" content="I’m a big fan of python’s logging module. It supports configuration files, multiple handlers (for both writing to the screen while writing to a file &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,11 +134,11 @@
   </header>
 
 
-<div class="entry-content">I&#8217;m a big fan of python&#8217;s <a href="http://docs.python.org/library/logging.html" title="Python Logging" target="_blank">logging</a> module. It supports configuration files, multiple handlers (for both writing to the screen while writing to a file, for example), output formatting like crazy, and many other delicious features. One that I&#8217;ve only recently encountered is <strong>its exception method.</strong>
+<div class="entry-content"><p>I’m a big fan of python’s <a href="http://docs.python.org/library/logging.html" title="Python Logging" target="_blank">logging</a> module. It supports configuration files, multiple handlers (for both writing to the screen while writing to a file, for example), output formatting like crazy, and many other delicious features. One that I’ve only recently encountered is <strong>its exception method.</strong></p>
 
-The basic idea of the logging module is that you can get a logger from a factory (that allows multiple pieces of code to easily access the same logical logging entity). From there, you add handlers that output messages to various places (files, screen, sockets, HTTP endpoints, etc.). Every message you log is done at a specific level, and then the configuration of the logger determines whether or not to record messages of a certain severity:
+<p>The basic idea of the logging module is that you can get a logger from a factory (that allows multiple pieces of code to easily access the same logical logging entity). From there, you add handlers that output messages to various places (files, screen, sockets, HTTP endpoints, etc.). Every message you log is done at a specific level, and then the configuration of the logger determines whether or not to record messages of a certain severity:</p>
 
-<pre lang='python'>
+<pre lang="python">
 import logging
 
 # Get a logger instance
@@ -122,9 +153,9 @@ logger.info('Did you know that X?')
 logger.debug('Index is : %i' % ...)
 </pre>
 
-What&#8217;s great about the module is that it <strong>separates your messages from how they&#8217;re displayed and where.</strong> For debugging, it&#8217;s nice to be able to flip a switch and turn on a more verbose mode. Or for production to tell it to shut up and only log messages that are really critical. What the &#8216;exception&#8217; method does is to not only <strong>log a message as an error, but to also print a nice backtrace of where the error took place</strong>!
+<p>What’s great about the module is that it <strong>separates your messages from how they’re displayed and where.</strong> For debugging, it’s nice to be able to flip a switch and turn on a more verbose mode. Or for production to tell it to shut up and only log messages that are really critical. What the ‘exception’ method does is to not only <strong>log a message as an error, but to also print a nice backtrace of where the error took place</strong>!</p>
 
-<pre lang='python'>
+<pre lang="python">
 try:
 	# So something here
 	raise Exception('oops!')
@@ -174,7 +205,7 @@ except:
         <a class="basic-alignment left" href="/blog/2011/10/16/never-trust-callbacks/" title="Previous Post: Never Trust Callbacks">&laquo; Never Trust Callbacks</a>
       
       
-        <a class="basic-alignment right" href="/blog/2012/01/06/chef-solo-and-god-a-divine-duo/" title="Next Post: Chef-Solo and God -- A Divine Duo">Chef-Solo and God -- A Divine Duo &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2011/12/16/python%27s-zlib-and-gzip%2C-performance%2C-and-you/" title="Next Post: Python's zlib and gzip, Performance, and You">Python's zlib and gzip, Performance, and You &raquo;</a>
       
     </p>
   </footer>

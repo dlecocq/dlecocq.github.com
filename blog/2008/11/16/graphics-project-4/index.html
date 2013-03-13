@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,21 +134,21 @@
   </header>
 
 
-<div class="entry-content">It took me about three hours, but I got my fourth graphics project pretty much done.  A little polish in terms of user interface, and one little feature, but that&#8217;s it.
+<div class="entry-content"><p>It took me about three hours, but I got my fourth graphics project pretty much done.  A little polish in terms of user interface, and one little feature, but that’s it.</p>
 
-The project is dealing with <a href="http://en.wikipedia.org/wiki/Voronoi">Voronoi diagrams</a>, and so the first part was to generate a random set of points, and then the associated Voronoi diagram:
+<p>The project is dealing with <a href="http://en.wikipedia.org/wiki/Voronoi">Voronoi diagrams</a>, and so the first part was to generate a random set of points, and then the associated Voronoi diagram:</p>
 
-[caption id=&#8221;attachment_148&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A Voronoi diagram&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/voronoi.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/voronoi-300x282.png" alt="A Voronoi diagram" title="Voronoi" width="300" height="282" class="size-medium wp-image-148" /></a>[/caption]
+<p>[caption id=”attachment_148” align=”aligncenter” width=”300” caption=”A Voronoi diagram”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/voronoi.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/voronoi-300x282.png" alt="A Voronoi diagram" title="Voronoi" width="300" height="282" class="size-medium wp-image-148" /></a>[/caption]</p>
 
-The next step was to actually create a mosaic.  The idea is that the whole Voronoi region should be the color of the point on the picture that corresponds to the associated Voronoi point.  At any rate, what it comes down to is pretty pictures.  I&#8217;ve included the original and mosaic version for some of the pictures we were provided.
-[caption id=&#8221;attachment_149&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Some Columbines&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/columbines-orig.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/columbines-orig-300x300.png" alt="Some Columbines" title="Original Columbines" width="300" height="300" class="size-medium wp-image-149" /></a>[/caption]
-[caption id=&#8221;attachment_150&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A mosaic version of the same columbines&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/columbines.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/columbines-300x282.png" alt="A mosaic version of the same columbines" title="Mosaic Columbines" width="300" height="282" class="size-medium wp-image-150" /></a>[/caption]
-[caption id=&#8221;attachment_151&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Guggenheim Hall&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/guggenheim-orig.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/guggenheim-orig-300x300.png" alt="Guggenheim Hall" title="Original Guggenheim Hall" width="300" height="300" class="size-medium wp-image-151" /></a>[/caption]
-[caption id=&#8221;attachment_152&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A mosaic of Guggenheim Hall&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/guggenheim.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/guggenheim-300x282.png" alt="A mosaic of Guggenheim Hall" title="Mosaic Guggenheim" width="300" height="282" class="size-medium wp-image-152" /></a>[/caption]
-[caption id=&#8221;attachment_153&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A picture of a couple of squirrels&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/squirrels-orig.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/squirrels-orig-300x300.png" alt="A picture of a couple of squirrels" title="Original Squirrels Pictures" width="300" height="300" class="size-medium wp-image-153" /></a>[/caption]
-[caption id=&#8221;attachment_154&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A mosaic of two squirrels&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/squirrels.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/squirrels-300x282.png" alt="A mosaic of two squirrels" title="Mosaic Squirrels" width="300" height="282" class="size-medium wp-image-154" /></a>[/caption]
+<p>The next step was to actually create a mosaic.  The idea is that the whole Voronoi region should be the color of the point on the picture that corresponds to the associated Voronoi point.  At any rate, what it comes down to is pretty pictures.  I’ve included the original and mosaic version for some of the pictures we were provided.
+[caption id=”attachment<em>149” align=”aligncenter” width=”300” caption=”Some Columbines”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/columbines-orig.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/columbines-orig-300x300.png" alt="Some Columbines" title="Original Columbines" width="300" height="300" class="size-medium wp-image-149" /></a>[/caption]
+[caption id=”attachment</em>150” align=”aligncenter” width=”300” caption=”A mosaic version of the same columbines”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/columbines.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/columbines-300x282.png" alt="A mosaic version of the same columbines" title="Mosaic Columbines" width="300" height="282" class="size-medium wp-image-150" /></a>[/caption]
+[caption id=”attachment<em>151” align=”aligncenter” width=”300” caption=”Guggenheim Hall”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/guggenheim-orig.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/guggenheim-orig-300x300.png" alt="Guggenheim Hall" title="Original Guggenheim Hall" width="300" height="300" class="size-medium wp-image-151" /></a>[/caption]
+[caption id=”attachment</em>152” align=”aligncenter” width=”300” caption=”A mosaic of Guggenheim Hall”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/guggenheim.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/guggenheim-300x282.png" alt="A mosaic of Guggenheim Hall" title="Mosaic Guggenheim" width="300" height="282" class="size-medium wp-image-152" /></a>[/caption]
+[caption id=”attachment<em>153” align=”aligncenter” width=”300” caption=”A picture of a couple of squirrels”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/squirrels-orig.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/squirrels-orig-300x300.png" alt="A picture of a couple of squirrels" title="Original Squirrels Pictures" width="300" height="300" class="size-medium wp-image-153" /></a>[/caption]
+[caption id=”attachment</em>154” align=”aligncenter” width=”300” caption=”A mosaic of two squirrels”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/squirrels.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/squirrels-300x282.png" alt="A mosaic of two squirrels" title="Mosaic Squirrels" width="300" height="282" class="size-medium wp-image-154" /></a>[/caption]</p>
 
-I&#8217;ve got others, but they are less than impressive.  If you&#8217;ve got a square picture that you&#8217;d like to see made into a mosaic in this way, and I like you, send it along.  Or, use any number of image editors.
+<p>I’ve got others, but they are less than impressive.  If you’ve got a square picture that you’d like to see made into a mosaic in this way, and I like you, send it along.  Or, use any number of image editors.</p>
 </div>
 
 

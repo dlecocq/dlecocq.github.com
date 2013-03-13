@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,15 +134,17 @@
   </header>
 
 
-<div class="entry-content">Shared objects are great.  Imagine you have several programs running that all make use of the same library.  If they are all statically linked against that library, then there will be several copies of essentially the same code in memory.  Shared objects allow all these programs to reference the same code, held in memory in only one spot.
+<div class="entry-content"><p>Shared objects are great.  Imagine you have several programs running that all make use of the same library.  If they are all statically linked against that library, then there will be several copies of essentially the same code in memory.  Shared objects allow all these programs to reference the same code, held in memory in only one spot.</p>
 
-I&#8217;ve recently been spending a lot of time trying to get a few key libraries compiled on a cluster, where the idea is to run jobs based on these libraries in parallel.  As memory is particularly limited, and there are several cores per node, I figured it would particularly make sense to compile everything as a shared object.  Also, a subsequent library depended on it.
+<p>I’ve recently been spending a lot of time trying to get a few key libraries compiled on a cluster, where the idea is to run jobs based on these libraries in parallel.  As memory is particularly limited, and there are several cores per node, I figured it would particularly make sense to compile everything as a shared object.  Also, a subsequent library depended on it.</p>
 
-A lot of different packages configure, build and install themselves in a number of ways and often don&#8217;t adhere to conventions.  Despite trying every flag known to man into the configuration tools, I was unable to get a particular piece to build as a shared object.  But I happened upon a <a href="http://www.tipcache.com/tip/Convert_a_static_library_(.a)_to_a_shared_object_(.so)_12.html">particularly useful code snippet</a> to save the day:
-<code>
-ar -x mylib.a
-gcc -shared *.o -o mylib.so
-</code>
+<p>A lot of different packages configure, build and install themselves in a number of ways and often don’t adhere to conventions.  Despite trying every flag known to man into the configuration tools, I was unable to get a particular piece to build as a shared object.  But I happened upon a <a href="http://www.tipcache.com/tip/Convert_a_static_library_(.a)_to_a_shared_object_(.so)_12.html">particularly useful code snippet</a> to save the day:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">ar -x mylib.a
+</span><span class="line">gcc -shared *.o -o mylib.so
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
 
 

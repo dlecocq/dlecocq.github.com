@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="I&#8217;m working on OpenGLot (my OpenGL plotting library) for a class project, and two of the features I decided to implement were contour lines and &hellip;">
+  <meta name="description" content="I’m working on OpenGLot (my OpenGL plotting library) for a class project, and two of the features I decided to implement were contour lines and &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,21 +134,21 @@
   </header>
 
 
-<div class="entry-content">I&#8217;m working on OpenGLot (my OpenGL plotting library) for a class project, and two of the features I decided to implement were contour lines and scalar fields in 2D.
+<div class="entry-content"><p>I’m working on OpenGLot (my OpenGL plotting library) for a class project, and two of the features I decided to implement were contour lines and scalar fields in 2D.</p>
 
-A few days ago I got decent-looking contour lines working and today I got scalar fields implemented with a fragment shader.  The programmer using the library can specify a function in the form of a string and have it plotted as a scalar field.  Quickly.  Really quickly.
+<p>A few days ago I got decent-looking contour lines working and today I got scalar fields implemented with a fragment shader.  The programmer using the library can specify a function in the form of a string and have it plotted as a scalar field.  Quickly.  Really quickly.</p>
 
-Modern graphics cards support shaders, which are programs that get run on the graphics card, and in parallel. This is great for algorithms that can be run in isolation (one pixel doesn&#8217;t need to know what the others are doing), which is the case here. OpenGLot generates a fragment shader that colors a single pixel based on the value of the function.  Each of the dozens or hundreds of cores on a GPU runs the same code in parallel for their particular pixel.
+<p>Modern graphics cards support shaders, which are programs that get run on the graphics card, and in parallel. This is great for algorithms that can be run in isolation (one pixel doesn’t need to know what the others are doing), which is the case here. OpenGLot generates a fragment shader that colors a single pixel based on the value of the function.  Each of the dozens or hundreds of cores on a GPU runs the same code in parallel for their particular pixel.</p>
 
-[caption id=&#8221;attachment_696&#8221; align=&#8221;aligncenter&#8221; width=&#8221;289&#8221; caption=&#8221;Contouring for a sinusoidal function with the isovalue 0.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/Picture-16.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/Picture-16-289x300.png" alt="Contouring for a sinusoidal function with the isovalue 0." title="Picture 16" width="289" height="300" class="size-medium wp-image-696" /></a>[/caption]
+<p>[caption id=”attachment_696” align=”aligncenter” width=”289” caption=”Contouring for a sinusoidal function with the isovalue 0.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/Picture-16.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/Picture-16-289x300.png" alt="Contouring for a sinusoidal function with the isovalue 0." title="Picture 16" width="289" height="300" class="size-medium wp-image-696" /></a>[/caption]</p>
 
-[caption id=&#8221;attachment_703&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Here&#39;s a first look at the results (taken moments after this first worked for me).  It&#39;s the same sinusoidal function, and I will be improving upon the color mapping in the coming hours.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/Picture-19.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/Picture-19-300x281.png" alt="Here&#039;s a first look at the results (taken moments after this first worked for me).  It&#039;s the same sinusoidal function, and I will be improving upon the color mapping in the coming hours." title="Picture 19" width="300" height="281" class="size-medium wp-image-703" /></a>[/caption]
+<p>[caption id=”attachment_703” align=”aligncenter” width=”300” caption=”Here&#8217;s a first look at the results (taken moments after this first worked for me).  It&#8217;s the same sinusoidal function, and I will be improving upon the color mapping in the coming hours.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/Picture-19.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/Picture-19-300x281.png" alt="Here&#039;s a first look at the results (taken moments after this first worked for me).  It&#039;s the same sinusoidal function, and I will be improving upon the color mapping in the coming hours." title="Picture 19" width="300" height="281" class="size-medium wp-image-703" /></a>[/caption]</p>
 
-The graphing program I use, Grapher.app is rapidly showing its age.  The results it gives for the same function (though using a much better coloring scheme) are either grainy or extremely slow (10 or more seconds).  OpenGLot is generating these in less than 0.1 seconds.  (Grapher.app implements its scalar fields on the CPU, so comparing times is a little like comparing apples and oranges.  Still, responsiveness in this type of matter is important.)
+<p>The graphing program I use, Grapher.app is rapidly showing its age.  The results it gives for the same function (though using a much better coloring scheme) are either grainy or extremely slow (10 or more seconds).  OpenGLot is generating these in less than 0.1 seconds.  (Grapher.app implements its scalar fields on the CPU, so comparing times is a little like comparing apples and oranges.  Still, responsiveness in this type of matter is important.)</p>
 
-[caption id=&#8221;attachment_697&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;The quick (and grainy) plot in Grapher.app&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/Picture-17.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/Picture-17-300x174.png" alt="The quick (and grainy) plot in Grapher.app" title="Picture 17" width="300" height="174" class="size-medium wp-image-697" /></a>[/caption]
+<p>[caption id=”attachment_697” align=”aligncenter” width=”300” caption=”The quick (and grainy) plot in Grapher.app”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/Picture-17.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/Picture-17-300x174.png" alt="The quick (and grainy) plot in Grapher.app" title="Picture 17" width="300" height="174" class="size-medium wp-image-697" /></a>[/caption]</p>
 
-[caption id=&#8221;attachment_698&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;The slow (but smooth) plot in Grapher.app&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/Picture-18.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/Picture-18-300x174.png" alt="The slow (but smooth) plot in Grapher.app" title="Picture 18" width="300" height="174" class="size-medium wp-image-698" /></a>[/caption]
+<p>[caption id=”attachment_698” align=”aligncenter” width=”300” caption=”The slow (but smooth) plot in Grapher.app”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/Picture-18.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/Picture-18-300x174.png" alt="The slow (but smooth) plot in Grapher.app" title="Picture 18" width="300" height="174" class="size-medium wp-image-698" /></a>[/caption]</p>
 </div>
 
 

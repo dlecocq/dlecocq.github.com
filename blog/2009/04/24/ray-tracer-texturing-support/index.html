@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="It&#8217;s all well and good to be able to render shapes in space in a photorealistic way, but at some point you&#8217;d like to draw something that &hellip;">
+  <meta name="description" content="It’s all well and good to be able to render shapes in space in a photorealistic way, but at some point you’d like to draw something that doesn’t have &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,17 +134,17 @@
   </header>
 
 
-<div class="entry-content">It&#8217;s all well and good to be able to render shapes in space in a photorealistic way, but at some point you&#8217;d like to draw something that doesn&#8217;t have just one surface color.  After all, a billboard isn&#8217;t just a bunch of shapes each of which has one color - it&#8217;s one object with paint / ink placed on it in an ordered way.
+<div class="entry-content"><p>It’s all well and good to be able to render shapes in space in a photorealistic way, but at some point you’d like to draw something that doesn’t have just one surface color.  After all, a billboard isn’t just a bunch of shapes each of which has one color - it’s one object with paint / ink placed on it in an ordered way.</p>
 
-Texturing accomplishes by taking a primitive shape (like a sphere, triangle, surface of revolution, etc.) and wrapping an image onto and over it.  Let&#8217;s consider a sphere in space:
-[caption id=&#8221;attachment_502&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A white sphere in space.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output4.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output4-300x168.png" alt="A white sphere in space." title="sphere" width="300" height="168" class="size-medium wp-image-502" /></a>[/caption]
+<p>Texturing accomplishes by taking a primitive shape (like a sphere, triangle, surface of revolution, etc.) and wrapping an image onto and over it.  Let’s consider a sphere in space:
+[caption id=”attachment_502” align=”aligncenter” width=”300” caption=”A white sphere in space.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output4.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output4-300x168.png" alt="A white sphere in space." title="sphere" width="300" height="168" class="size-medium wp-image-502" /></a>[/caption]</p>
 
-Now let&#8217;s say we mean it to be Earth.  Then we can take a picture of Earth that&#8217;s flat:
-[caption id=&#8221;attachment_503&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Flattened map of Earth&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/texturesmall.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/texturesmall-300x150.png" alt="Flattened map of Earth" title="texturesmall" width="300" height="150" class="size-medium wp-image-503" /></a>[/caption]
+<p>Now let’s say we mean it to be Earth.  Then we can take a picture of Earth that’s flat:
+[caption id=”attachment_503” align=”aligncenter” width=”300” caption=”Flattened map of Earth”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/texturesmall.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/texturesmall-300x150.png" alt="Flattened map of Earth" title="texturesmall" width="300" height="150" class="size-medium wp-image-503" /></a>[/caption]</p>
 
-and then map it onto a sphere to get a picture of what we all know Earth to look like:
-[caption id=&#8221;attachment_504&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Behold!&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/earth.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/earth-300x168.png" alt="Behold!" title="Planet Earth" width="300" height="168" class="size-medium wp-image-504" /></a>[/caption]
-[caption id=&#8221;attachment_506&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Two Mars globes where the left is what is seen with the eye, and the right is a topographic map.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/mars-twin.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/mars-twin-300x168.png" alt="Two Mars globes where the left is what is seen with the eye, and the right is a topographic map." title="mars" width="300" height="168" class="size-medium wp-image-506" /></a>[/caption]
+<p>and then map it onto a sphere to get a picture of what we all know Earth to look like:
+[caption id=”attachment<em>504” align=”aligncenter” width=”300” caption=”Behold!”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/earth.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/earth-300x168.png" alt="Behold!" title="Planet Earth" width="300" height="168" class="size-medium wp-image-504" /></a>[/caption]
+[caption id=”attachment</em>506” align=”aligncenter” width=”300” caption=”Two Mars globes where the left is what is seen with the eye, and the right is a topographic map.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/mars-twin.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/mars-twin-300x168.png" alt="Two Mars globes where the left is what is seen with the eye, and the right is a topographic map." title="mars" width="300" height="168" class="size-medium wp-image-506" /></a>[/caption]</p>
 </div>
 
 

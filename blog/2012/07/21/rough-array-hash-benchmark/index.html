@@ -9,7 +9,9 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="I recently went on a mission to find (and perhaps build) a better dictionary. I&#8217;ve been looking at Dr. Askitis&#8217; work on so-called HAT- &hellip;">
+  <meta name="description" content="I recently went on a mission to find (and perhaps build) a better dictionary.
+I’ve been looking at Dr. Askitis’ work on
+so-called HAT-tries, which &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +46,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,25 +136,75 @@
   </header>
 
 
-<div class="entry-content">I recently went on a mission to find (and perhaps build) a better dictionary. I&#8217;ve been looking at <a href="http://www.naskitis.com/" title="Dr. Askitis">Dr. Askitis&#8217; work</a> on so-called HAT-tries, which are something akin to a burst trie. It all seems reasonable enough, and his experimental results seem very promising. In particular, I was looking for an open source version of this data structure that didn&#8217;t preclude commercial use (as Askitis&#8217; version does).
+<div class="entry-content"><p>I recently went on a mission to find (and perhaps build) a better dictionary.
+I’ve been looking at <a href="http://www.naskitis.com/">Dr. Askitis’ work</a> on
+so-called HAT-tries, which are something akin to a burst trie. It all seems
+reasonable enough, and his experimental results seem very promising. In
+particular, I was looking for an open source version of this data structure
+that didn’t preclude commercial use (as Askitis’ version does).</p>
 
-HAT-tries rely on another of Askitis&#8217; data structures, the <a href="http://crpit.com/confpapers/CRPITV91Askitis.pdf">hash array map</a>. Essentially, it&#8217;s a hash table, but instead of using linked lists to store nodes containing the various key/value pairs stored in a particular slot, each slot is actually a buffer that stores a bunch of packed information, including the number of items in the buffer, the length of the string key, and the value itself. The idea is that this arrangement is much more conducive to caching (and hardware prefetches out of memory since each slot is a contiguous slab of memory). Contrast this to a more conventional approach in which each slot is a linked list that must be traversed to find the actual key/value pair that&#8217;s being retrieved.
+<p>HAT-tries rely on another of Askitis’ data structures, the
+<a href="http://crpit.com/confpapers/CRPITV91Askitis.pdf">hash array map</a>.
+Essentially, it’s a hash table, but instead of using linked lists to store
+nodes containing the various key/value pairs stored in a particular slot, each
+slot is actually a buffer that stores a bunch of packed information, including the number of items in the buffer, the length of the string key, and the value
+itself. The idea is that this arrangement is much more conducive to caching
+(and hardware prefetches out of memory since each slot is a contiguous slab of memory). Contrast this to a more conventional approach in which each slot is a
+linked list that must be traversed to find the actual key/value pair that’s
+being retrieved. <!-- more --></p>
 
-I should note that there are a <a href="https://github.com/dcjones/hat-trie" target="_blank">couple</a> of <a href="https://github.com/chris-vaszauskas/hat-trie" target="_blank">implementations</a> that I looked at before venturing out to <a href="https://github.com/dlecocq/hat-trie" target="_blank">make my own</a>. The design is actually relatively simple: hash a provided key to map it onto one of many internal buckets. If that bucket is empty, allocate enough memory to store an 1) integer counter of the number of pairs in this buffer, 2) integer length of the provided key, 3) a byte copy of the key itself, and 4) a byte copy of the value.
+<p>I should note that there are a <a href="https://github.com/dcjones/hat-trie">couple</a>
+of <a href="https://github.com/chris-vaszauskas/hat-trie">implementations</a> that I
+looked at before venturing out to
+<a href="https://github.com/dlecocq/hat-trie">make my own</a>. The design is actually
+relatively simple: hash a provided key to map it onto one of many internal
+buckets. If that bucket is empty, allocate enough memory to store an 1) integer counter of the number of pairs in this buffer, 2) integer length of
+the provided key, 3) a byte copy of the key itself, and 4) a byte copy of the
+value.</p>
 
-For the hash, I chose my personal favorite, <a href="http://www.azillionmonkeys.com/qed/hash.html">superfasthash</a>. I actually began by having my implementation follow the STL style of being able to provide a memory allocator, and when I didn&#8217;t see the performance I wanted, I switched to `malloc` and `realloc` as prescribed in the paper. Even then, I did not see the performance I wanted. Of course, I imagine that my implementation could be improved, but I felt like it was certainly at least reasonable. I tried a number of alterations, including preallocating more memory than was needed in each slot with hopes that realloc would save me. No dice.
+<p>For the hash, I chose my personal favorite,
+<a href="http://www.azillionmonkeys.com/qed/hash.html">superfasthash</a>. I actually
+began by having my implementation follow the STL style of being able to
+provide a memory allocator, and when I didn’t see the performance I wanted, I
+switched to <code>malloc</code> and <code>realloc</code> as prescribed in the paper. Even then, I
+did not see the performance I wanted. Of course, I imagine that my
+implementation could be improved, but I felt like it was certainly at least
+reasonable. I tried a number of alterations, including preallocating more
+memory than was needed in each slot with hopes that realloc would save me. No
+dice.</p>
 
-My benchmark was focused on speed. Memory was less of a concern for my needs, and so long as it stayed mostly unnoticeable (say, less than a couple hundred megabytes for a million keys), I was happy. I decided to give it a run against `std::map` (mostly to feel better about myself), and then `tr1::unordered_map` (mostly out of hubris). Although my rough implementation doesn&#8217;t (yet) include fancy-schmancy features like iterators, it <em>barely</em> edged out `tr1::unordered_map` for a small number of keys (less than 10k). When scaling up, however, the story was less than impressive.
+<p>My benchmark was focused on speed. Memory was less of a concern for my needs,
+and so long as it stayed mostly unnoticeable (say, less than a couple hundred megabytes for a million keys), I was happy. I decided to give it a run against
+<code>std::map</code> (mostly to feel better about myself), and then <code>tr1::unordered_map</code>
+(mostly out of hubris). Although my rough implementation doesn’t (yet) include
+fancy-schmancy features like iterators, it <em>barely</em> edged out
+<code>tr1::unordered_map</code> for a small number of keys (less than 10k). When scaling
+up, however, the story was less than impressive.</p>
 
-This benchmark was performed using the first <em>k</em> words from Askitis&#8217; `distinct_1` data set, and the strings were loaded into memory before running the tests. These numbers are each the best of 10 consecutive runs (hoping to warm the cache and cast each of these in the best possible light), with each of these containers being a mapping of `std::string` to `size_t`. Each key was associated with the value 1, and when querying, it was verified that the resulting value was still 1. The query was performed on the same input set of keys, and random query was run exactly the same, but after performing `std::random_shuffle` on the vector. It was compiled with `g++-4.2` with flags `-O3 -Wall` (though other optimization levels had almost no impact). I also tried with `clang-2.1` and the results were very similar. I encourage you to run the same bench on your own system and your own compiler version.
+<p>This benchmark was performed using the first <em>k</em> words from Askitis’
+<code>distinct_1</code> data set, and the strings were loaded into memory before running
+the tests. These numbers are each the best of 10 consecutive runs (hoping to
+warm the cache and cast each of these in the best possible light), with each
+of these containers being a mapping of <code>std::string</code> to <code>size_t</code>. Each key was
+associated with the value 1, and when querying, it was verified that the
+resulting value was still 1. The query was performed on the same input set of
+keys, and random query was run exactly the same, but after performing
+<code>std::random_shuffle</code> on the vector. It was compiled with <code>g++-4.2</code> with flags
+<code>-O3 -Wall</code> (though other optimization levels had almost no impact). I also
+tried with <code>clang-2.1</code> and the results were very similar. I encourage you to
+run the same bench on your own system and your own compiler version.</p>
 
-[caption id=&#8221;attachment_1073&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Insertion Time Relative to std::tr1::unordered_map&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2012/07/insert.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2012/07/insert-300x200.png" alt="Insertion Time Relative to std::tr1::unordered_map" title="Insertion Time" width="300" height="200" class="size-medium wp-image-1073" /></a>[/caption]
+<p>[caption id=”attachment_1073” align=”aligncenter” width=”300” caption=”Insertion Time Relative to std::tr1::unordered_map”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2012/07/insert.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2012/07/insert-300x200.png" alt="Insertion Time Relative to std::tr1::unordered_map" title="Insertion Time" width="300" height="200" class="size-medium wp-image-1073" /></a>[/caption]</p>
 
-[caption id=&#8221;attachment_1074&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Query Time Relative to std::tr1::unordered_map&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2012/07/query.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2012/07/query-300x200.png" alt="Query Time Relative to std::tr1::unordered_map" title="Query Time" width="300" height="200" class="size-medium wp-image-1074" /></a>[/caption]
+<p>[caption id=”attachment_1074” align=”aligncenter” width=”300” caption=”Query Time Relative to std::tr1::unordered_map”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2012/07/query.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2012/07/query-300x200.png" alt="Query Time Relative to std::tr1::unordered_map" title="Query Time" width="300" height="200" class="size-medium wp-image-1074" /></a>[/caption]</p>
 
-[caption id=&#8221;attachment_1075&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Random Query Time Relative to std::tr1::unordered_map&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2012/07/random.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2012/07/random-300x200.png" alt="Random Query Time Relative to std::tr1::unordered_map" title="Random Query Time" width="300" height="200" class="size-medium wp-image-1075" /></a>[/caption]
+<p>[caption id=”attachment_1075” align=”aligncenter” width=”300” caption=”Random Query Time Relative to std::tr1::unordered_map”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2012/07/random.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2012/07/random-300x200.png" alt="Random Query Time Relative to std::tr1::unordered_map" title="Random Query Time" width="300" height="200" class="size-medium wp-image-1075" /></a>[/caption]</p>
 
-While `tr1::unordered_map` scaled better, at least for the purposes of HAT-trie, the number of items in the hash is relatively limited (roughly in the range of 10k). When testing the HAT-trie itself, I think the hash array map has earned at least a chance for a trial. For those curious, <a href="https://github.com/dlecocq/hat-trie" target="_blank">my source is available on github</a>.
+<p>While <code>tr1::unordered_map</code> scaled better, at least for the purposes of
+HAT-trie, the number of items in the hash is relatively limited (roughly in
+the range of 10k). When testing the HAT-trie itself, I think the hash array
+map has earned at least a chance for a trial. For those curious,
+<a href="https://github.com/dlecocq/hat-trie">my source is available on github</a>.</p>
 </div>
 
 

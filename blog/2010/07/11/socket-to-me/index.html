@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="I&#8217;m not a &#8220;network guy.&#8221; I still don&#8217;t know what exactly the subnet mask means, and I am often thankful that OS X is so &hellip;">
+  <meta name="description" content="I’m not a “network guy.” I still don’t know what exactly the subnet mask means, and I am often thankful that OS X is so willing to automatically &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,88 +134,125 @@
   </header>
 
 
-<div class="entry-content">I&#8217;m not a &#8220;network guy.&#8221;  I still don&#8217;t know what exactly the subnet mask means, and I am often thankful that OS X is so willing to automatically configure network settings for me well.
+<div class="entry-content"><p>I’m not a “network guy.”  I still don’t know what exactly the subnet mask means, and I am often thankful that OS X is so willing to automatically configure network settings for me well.</p>
 
-That said, recently I&#8217;ve been finding myself doing a lot of programming with sockets.  They provide a low-level network interface to communicate between computers, and are used like other file descriptors.  On the C side of things there&#8217;s a little more work than I&#8217;d like, and as such, I&#8217;ve found Python an invaluable tool.
+<p>That said, recently I’ve been finding myself doing a lot of programming with sockets.  They provide a low-level network interface to communicate between computers, and are used like other file descriptors.  On the C side of things there’s a little more work than I’d like, and as such, I’ve found Python an invaluable tool.</p>
 
-In fact, I think any time you&#8217;re working with a new concept, technique or algorithm it&#8217;s extremely helpful to use a scripting language.  Like others, Python offers an interactive session where you can develop code fragments by trial and error with each step, rather than trying to debug a chunk of code you&#8217;ve written with only a vague notion of what&#8217;s going on behind the scenes.  It allows you to pause between steps and see the effects and results of each function.
+<p>In fact, I think any time you’re working with a new concept, technique or algorithm it’s extremely helpful to use a scripting language.  Like others, Python offers an interactive session where you can develop code fragments by trial and error with each step, rather than trying to debug a chunk of code you’ve written with only a vague notion of what’s going on behind the scenes.  It allows you to pause between steps and see the effects and results of each function.</p>
 
-Interestingly enough, another tool has come in extremely handy - netcat.  It&#8217;s designed to print to stdout everything that it hears on the socket, and then it sends everything it receives on stdin through the socket.  It allows you to examine some of the specifics of a protocol without worrying about the details of your own code or whether or not your code works.  Netcat is tried and true, and will tell you exactly what&#8217;s happening.
+<p>Interestingly enough, another tool has come in extremely handy - netcat.  It’s designed to print to stdout everything that it hears on the socket, and then it sends everything it receives on stdin through the socket.  It allows you to examine some of the specifics of a protocol without worrying about the details of your own code or whether or not your code works.  Netcat is tried and true, and will tell you exactly what’s happening.</p>
 
-This all came up in the context of WebSockets.  They&#8217;re a part of the HTML5 spec and provide a JavaScript interface for real socket communication (there are of course some caveats, especially with respect to how to handle binary data).  We&#8217;ve been using them for a project where we&#8217;d like the client to not need a special program to interact with a piece of software, and so instead implemented the protocol in JavaScript.
+<p>This all came up in the context of WebSockets.  They’re a part of the HTML5 spec and provide a JavaScript interface for real socket communication (there are of course some caveats, especially with respect to how to handle binary data).  We’ve been using them for a project where we’d like the client to not need a special program to interact with a piece of software, and so instead implemented the protocol in JavaScript.</p>
 
-There was, however, some trouble at the offset.  I had a bit of difficulty finding out why exactly the WebSocket client would seem to start to make a connection but then immediately complain about handshakes.  What would have been much easier is to just open up netcat on the same port and have a conversation with the WebSocket itself.
-<code>
-# First off, I was running SimpleHTTPServer from a directory with a dummy html file
-$> python -m SimpleHTTPServer 8888
-# On the terminal, listen on port 35000
-$> netcat -l 35000
-</code>
+<p>There was, however, some trouble at the offset.  I had a bit of difficulty finding out why exactly the WebSocket client would seem to start to make a connection but then immediately complain about handshakes.  What would have been much easier is to just open up netcat on the same port and have a conversation with the WebSocket itself.</p>
 
-And then try to make a connection from the JavaScript side
-<code>
-# From a JavaScript terminal from that dummy html file, in Chrome or Safari for example
-ws = new WebSocket("ws://localhost:35000");
-ws.onopen = function() { window.console.log("Hello!"); };
-ws.onmessage = function(event) { window.console.log("Received " + event.data); };
-ws.onclose = function() { window.console.log("Goodbye!"); };
-</code>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="python"><span class="line"><span class="c"># First off, I was running SimpleHTTPServer from a directory with a dummy html file</span>
+</span><span class="line"><span class="err">$</span><span class="o">&gt;</span> <span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">SimpleHTTPServer</span> <span class="mi">8888</span>
+</span><span class="line"><span class="c"># On the terminal, listen on port 35000</span>
+</span><span class="line"><span class="err">$</span><span class="o">&gt;</span> <span class="n">netcat</span> <span class="o">-</span><span class="n">l</span> <span class="mi">35000</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-I had figured (incorrectly) that WebSockets would work in essentially the exact same way that sockets would.  This is what we&#8217;d then expect to receive:
-<code>
-GET / HTTP/1.1
-Upgrade: WebSocket
-Connection: Upgrade
-Host: localhost:35000
-Origin: http://localhost:8888
+<p>And then try to make a connection from the JavaScript side</p>
 
-</code>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="err">#</span> <span class="nx">From</span> <span class="nx">a</span> <span class="nx">JavaScript</span> <span class="nx">terminal</span> <span class="nx">from</span> <span class="nx">that</span> <span class="nx">dummy</span> <span class="nx">html</span> <span class="nx">file</span><span class="p">,</span> <span class="k">in</span> <span class="nx">Chrome</span> <span class="nx">or</span> <span class="nx">Safari</span> <span class="k">for</span> <span class="nx">example</span>
+</span><span class="line"><span class="nx">ws</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">WebSocket</span><span class="p">(</span><span class="s2">&quot;ws://localhost:35000&quot;</span><span class="p">);</span>
+</span><span class="line"><span class="nx">ws</span><span class="p">.</span><span class="nx">onopen</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nb">window</span><span class="p">.</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Hello!&quot;</span><span class="p">);</span> <span class="p">};</span>
+</span><span class="line"><span class="nx">ws</span><span class="p">.</span><span class="nx">onmessage</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span> <span class="nb">window</span><span class="p">.</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Received &quot;</span> <span class="o">+</span> <span class="nx">event</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span> <span class="p">};</span>
+</span><span class="line"><span class="nx">ws</span><span class="p">.</span><span class="nx">onclose</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nb">window</span><span class="p">.</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Goodbye!&quot;</span><span class="p">);</span> <span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-It was only after realizing that this is what the WebSocket was sending that it became clear that the reason that no connection was actually happening was because the browser wasn&#8217;t getting the rest of <a href="http://www.whatwg.org/specs/web-socket-protocol/">the handshake</a>:
-<code>
-HTTP/1.1 101 Web Socket Protocol Handshake\r
-Upgrade: WebSocket\r
-Connection: Upgrade\r
-WebSocket-Origin: http://localhost:8888\r
-WebSocket-Location: ws://localhost:35000/\r
-WebSocket-Protocol: sample\r\n\r\n
-</code>
+<p>I had figured (incorrectly) that WebSockets would work in essentially the exact same way that sockets would.  This is what we’d then expect to receive:</p>
 
-Oddly enough, I can&#8217;t seem to get netcat to play nice sending the response code, but it can easily-enough give us an indication of what was happening at first.  Python can handle the rest for us:
-<code>
-$> python
->>> import socket
->>> s = socket.socket()
->>> s.bind(('', 35000))
->>> s.listen(1)
->>> client, info = s.accept()
->>> client.recv(1024)
-'GET / HTTP/1.1\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nHost: localhost:35000\r\nOrigin: http://localhost:8888\r\n\r\n'
->>> client.send('HTTP/1.1 101 Web Socket Protocol Handshake\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nWebSocket-Origin: http://localhost:8888\r\nWebSocket-Location: ws://localhost:35000/\r\nWebSocket-Protocol: sample\r\n\r\n')
-199
-</code>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="nx">GET</span> <span class="o">/</span> <span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.1</span>
+</span><span class="line"><span class="nx">Upgrade</span><span class="o">:</span> <span class="nx">WebSocket</span>
+</span><span class="line"><span class="nx">Connection</span><span class="o">:</span> <span class="nx">Upgrade</span>
+</span><span class="line"><span class="nx">Host</span><span class="o">:</span> <span class="nx">localhost</span><span class="o">:</span><span class="mi">35000</span>
+</span><span class="line"><span class="nx">Origin</span><span class="o">:</span> <span class="nx">http</span><span class="o">:</span><span class="c1">//localhost:8888</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-And notice that it&#8217;s not until the listening socket sends its response portion of the handshake that the JavaScript console will print the &#8220;hello&#8221; we told it to upon opening the connection.  Now that we have the two talking, let&#8217;s actually send and receive a couple of messages:
-<code>
-# Again from the JavaScript console
-ws.send("Hello from JavaScript!")
-</code>
+<p>It was only after realizing that this is what the WebSocket was sending that it became clear that the reason that no connection was actually happening was because the browser wasn’t getting the rest of <a href="http://www.whatwg.org/specs/web-socket-protocol/">the handshake</a>:</p>
 
-And then we receive the message in Python:
-<code>
->>> client.recv(1024)
-'\x00Hello from JavaScript!\xff'
-</code>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.1</span> <span class="mi">101</span> <span class="nx">Web</span> <span class="nx">Socket</span> <span class="nx">Protocol</span> <span class="nx">Handshake</span><span class="err">\</span><span class="nx">r</span>
+</span><span class="line"><span class="nx">Upgrade</span><span class="o">:</span> <span class="nx">WebSocket</span><span class="err">\</span><span class="nx">r</span>
+</span><span class="line"><span class="nx">Connection</span><span class="o">:</span> <span class="nx">Upgrade</span><span class="err">\</span><span class="nx">r</span>
+</span><span class="line"><span class="nx">WebSocket</span><span class="o">-</span><span class="nx">Origin</span><span class="o">:</span> <span class="nx">http</span><span class="o">:</span><span class="c1">//localhost:8888\r</span>
+</span><span class="line"><span class="nx">WebSocket</span><span class="o">-</span><span class="nx">Location</span><span class="o">:</span> <span class="nx">ws</span><span class="o">:</span><span class="c1">//localhost:35000/\r</span>
+</span><span class="line"><span class="nx">WebSocket</span><span class="o">-</span><span class="nx">Protocol</span><span class="o">:</span> <span class="nx">sample</span><span class="err">\</span><span class="nx">r</span><span class="err">\</span><span class="nx">n</span><span class="err">\</span><span class="nx">r</span><span class="err">\</span><span class="nx">n</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-And here we find another oddity of WebSockets.  All messages seem to be prepended with \x00 and appended with \xff (though this is also mentioned in the specification).  If we try to send a message from Python without these two extra characters, we&#8217;ll get nothing out on the JavaScript side (go ahead and give it a try!):
-<code>
-# We get nothing on the JavaScript side :-/
-client.send('hello')
-# Magic happens!
-client.send('\x00hello\xff');
-</code>
+<p>Oddly enough, I can’t seem to get netcat to play nice sending the response code, but it can easily-enough give us an indication of what was happening at first.  Python can handle the rest for us:</p>
 
-Of course I&#8217;m sure there are other robust tools the real &#8220;networking guys&#8221; use to make their lives easier.  But outside of pulling up WireShark or trying to figure this out by writing C code, netcat and Python definitely saved the day.
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class="python"><span class="line"><span class="err">$</span><span class="o">&gt;</span> <span class="n">python</span>
+</span><span class="line"><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">socket</span>
+</span><span class="line"><span class="o">&gt;&gt;&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">()</span>
+</span><span class="line"><span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">bind</span><span class="p">((</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="mi">35000</span><span class="p">))</span>
+</span><span class="line"><span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span class="line"><span class="o">&gt;&gt;&gt;</span> <span class="n">client</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+</span><span class="line"><span class="o">&gt;&gt;&gt;</span> <span class="n">client</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+</span><span class="line"><span class="s">&#39;GET / HTTP/1.1</span><span class="se">\r\n</span><span class="s">Upgrade: WebSocket</span><span class="se">\r\n</span><span class="s">Connection: Upgrade</span><span class="se">\r\n</span><span class="s">Host: localhost:35000</span><span class="se">\r\n</span><span class="s">Origin: http://localhost:8888</span><span class="se">\r\n\r\n</span><span class="s">&#39;</span>
+</span><span class="line"><span class="o">&gt;&gt;&gt;</span> <span class="n">client</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s">&#39;HTTP/1.1 101 Web Socket Protocol Handshake</span><span class="se">\r\n</span><span class="s">Upgrade: WebSocket</span><span class="se">\r\n</span><span class="s">Connection: Upgrade</span><span class="se">\r\n</span><span class="s">WebSocket-Origin: http://localhost:8888</span><span class="se">\r\n</span><span class="s">WebSocket-Location: ws://localhost:35000/</span><span class="se">\r\n</span><span class="s">WebSocket-Protocol: sample</span><span class="se">\r\n\r\n</span><span class="s">&#39;</span><span class="p">)</span>
+</span><span class="line"><span class="mi">199</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>And notice that it’s not until the listening socket sends its response portion of the handshake that the JavaScript console will print the “hello” we told it to upon opening the connection.  Now that we have the two talking, let’s actually send and receive a couple of messages:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="err">#</span> <span class="nx">Again</span> <span class="nx">from</span> <span class="nx">the</span> <span class="nx">JavaScript</span> <span class="nx">console</span>
+</span><span class="line"><span class="nx">ws</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="s2">&quot;Hello from JavaScript!&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>And then we receive the message in Python:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="python"><span class="line"><span class="o">&gt;&gt;&gt;</span> <span class="n">client</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+</span><span class="line"><span class="s">&#39;</span><span class="se">\x00</span><span class="s">Hello from JavaScript!</span><span class="se">\xff</span><span class="s">&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>And here we find another oddity of WebSockets.  All messages seem to be prepended with \x00 and appended with \xff (though this is also mentioned in the specification).  If we try to send a message from Python without these two extra characters, we’ll get nothing out on the JavaScript side (go ahead and give it a try!):</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="err">#</span> <span class="nx">We</span> <span class="nx">get</span> <span class="nx">nothing</span> <span class="nx">on</span> <span class="nx">the</span> <span class="nx">JavaScript</span> <span class="nx">side</span> <span class="o">:-</span><span class="err">/</span>
+</span><span class="line"><span class="nx">client</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">)</span>
+</span><span class="line"><span class="err">#</span> <span class="nx">Magic</span> <span class="nx">happens</span><span class="o">!</span>
+</span><span class="line"><span class="nx">client</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="s1">&#39;\x00hello\xff&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Of course I’m sure there are other robust tools the real “networking guys” use to make their lives easier.  But outside of pulling up WireShark or trying to figure this out by writing C code, netcat and Python definitely saved the day.</p>
 </div>
 
 

@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,7 +134,7 @@
   </header>
 
 
-<div class="entry-content">This is Front Row - a little media center that ships with OS X that works wonderfully with the apple remote that comes with MacBooks, iMacs and Mac Minis.<br /><br />The video is a little joggy, and that&#8217;s a symptom of the screen capture tool, not the actual performance.  (I have the screen capture tool set to 10 fps as opposed to 30 or so.)<br /><embed style="width:400px; height:326px;" id="VideoPlayback" type="application/x-shockwave-flash" src="http://video.google.com/googleplayer.swf?docId=-3712420593176886051&hl=en" flashvars=""> </embed>
+<div class="entry-content"><p>This is Front Row - a little media center that ships with OS X that works wonderfully with the apple remote that comes with MacBooks, iMacs and Mac Minis.<br /><br />The video is a little joggy, and that’s a symptom of the screen capture tool, not the actual performance.  (I have the screen capture tool set to 10 fps as opposed to 30 or so.)<br /><embed style="width:400px; height:326px;" id="VideoPlayback" type="application/x-shockwave-flash" src="http://video.google.com/googleplayer.swf?docId=-3712420593176886051&amp;hl=en" flashvars="" /> &lt;/embed&gt;</p>
 </div>
 
 

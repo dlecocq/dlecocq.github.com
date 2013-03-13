@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="Git is not a complicated tool for most things. I still find it a little tricky to set up for multiple users, but even that&#8217;s pretty easy. It &hellip;">
+  <meta name="description" content="Git is not a complicated tool for most things. I still find it a little tricky to set up for multiple users, but even that’s pretty easy. It really &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,9 +134,9 @@
   </header>
 
 
-<div class="entry-content"><a href="http://book.git-scm.com/">Git</a> is not a complicated tool for most things. I still find it a little tricky to set up for multiple users, but even that&#8217;s pretty easy. It really caters to the use-case where you&#8217;re just starting a project, or are the sole developer, but just want to keep track of changes and versions, make branches, etc.
+<div class="entry-content"><p><a href="http://book.git-scm.com/">Git</a> is not a complicated tool for most things. I still find it a little tricky to set up for multiple users, but even that’s pretty easy. It really caters to the use-case where you’re just starting a project, or are the sole developer, but just want to keep track of changes and versions, make branches, etc.</p>
 
-The first major point of git is that everyone has their own copy of the repository. When you commit changes, you commit them to your local copy of the repository. If you are working on a group project, there is a shared resource that can be <strong>pushed to</strong> and <strong>pulled from</strong>, but I actually like that it takes an extra command to do that &#8211; it forces me to make sure that it&#8217;s what I actually want to do. Now, to the bare-bones commands:
+<p>The first major point of git is that everyone has their own copy of the repository. When you commit changes, you commit them to your local copy of the repository. If you are working on a group project, there is a shared resource that can be <strong>pushed to</strong> and <strong>pulled from</strong>, but I actually like that it takes an extra command to do that – it forces me to make sure that it’s what I actually want to do. Now, to the bare-bones commands:</p>
 <ol>
 	<li><strong>git init</strong> &#8211; Wherever you&#8217;re writing your code, type &#8220;git init&#8221;. It creates an empty repository in that directory (there&#8217;s a magical hidden folder &#8220;.git&#8221; that gets created and knows things).</li>
 	<li><strong>git status</strong> &#8211; Git knows which files have changed since you last saved changes, and it will happily tell you which files are new and changed with this command.</li>
@@ -113,7 +144,7 @@ The first major point of git is that everyone has their own copy of the reposito
 	<li><strong>git commit</strong> &#8211; When you have added a bunch of changed files to be committed, now you&#8217;re ready to actually commit those changes. Type &#8220;git commit -m &#8216;A short, meaningful summary of the changes that happened.&#8217;&#8221;</li>
 </ol>
 
-There is a lot more to git, and a <a href="http://www.kernel.org/pub/software/scm/git/docs/gittutorial.html">million tutorials</a>, that will explain things in more detail, but these are the commands I spend 95% of my time using, and enough to at least get you starting tracking changes for anything and everything. It doesn&#8217;t matter very much what version control you use, <strong>just use something.</strong>
+<p>There is a lot more to git, and a <a href="http://www.kernel.org/pub/software/scm/git/docs/gittutorial.html">million tutorials</a>, that will explain things in more detail, but these are the commands I spend 95% of my time using, and enough to at least get you starting tracking changes for anything and everything. It doesn’t matter very much what version control you use, <strong>just use something.</strong></p>
 </div>
 
 

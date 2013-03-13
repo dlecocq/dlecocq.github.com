@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,15 +134,15 @@
   </header>
 
 
-<div class="entry-content">I take another look at my Mandelbrot code because we recently did a project with antialiasing in a raytracer.  I updated my project so that instead of bouncing light, it would instead sample a point on the complex plane, and determine if it was in the Mandelbrot set, and so on and so forth.
+<div class="entry-content"><p>I take another look at my Mandelbrot code because we recently did a project with antialiasing in a raytracer.  I updated my project so that instead of bouncing light, it would instead sample a point on the complex plane, and determine if it was in the Mandelbrot set, and so on and so forth.</p>
 
-I ran the code with 10 passes and 16,384 by 16,384 pixels (~27 megapixels) on my desktop.  It took about an hour and a half, but this is the picture that came out of it (it&#8217;s a little big):
+<p>I ran the code with 10 passes and 16,384 by 16,384 pixels (~27 megapixels) on my desktop.  It took about an hour and a half, but this is the picture that came out of it (it’s a little big):</p>
 
-[caption id=&#8221;&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A recent rendering of mine of the Mandelbrot set.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/mandelbrot.png"><img alt="A recent rendering of mine of the Mandelbrot set." src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/mandelbrot-300x300.png" title="Mandelbrot Set" width="300" height="300" /></a>[/caption]
+<p>[caption id=”” align=”aligncenter” width=”300” caption=”A recent rendering of mine of the Mandelbrot set.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/mandelbrot.png"><img alt="A recent rendering of mine of the Mandelbrot set." src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/mandelbrot-300x300.png" title="Mandelbrot Set" width="300" height="300" /></a>[/caption]</p>
 
-I also have a couple of extra pictures that show portions of the set in their detail:
-[caption id=&#8221;attachment_475&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A region of the Mandelbrot set.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/zoom.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/zoom-300x172.png" alt="A region of the Mandelbrot set." title="Zoomed In" width="300" height="172" class="size-medium wp-image-475" /></a>[/caption]
-[caption id=&#8221;attachment_476&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Another zoomed-in portion of the set.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/zoom2.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/zoom2-300x172.png" alt="Another zoomed-in portion of the set." title="Zoomed In" width="300" height="172" class="size-medium wp-image-476" /></a>[/caption]
+<p>I also have a couple of extra pictures that show portions of the set in their detail:
+[caption id=”attachment<em>475” align=”aligncenter” width=”300” caption=”A region of the Mandelbrot set.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/zoom.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/zoom-300x172.png" alt="A region of the Mandelbrot set." title="Zoomed In" width="300" height="172" class="size-medium wp-image-475" /></a>[/caption]
+[caption id=”attachment</em>476” align=”aligncenter” width=”300” caption=”Another zoomed-in portion of the set.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/zoom2.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/zoom2-300x172.png" alt="Another zoomed-in portion of the set." title="Zoomed In" width="300" height="172" class="size-medium wp-image-476" /></a>[/caption]</p>
 
 </div>
 

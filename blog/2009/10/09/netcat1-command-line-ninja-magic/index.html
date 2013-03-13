@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,19 +134,19 @@
   </header>
 
 
-<div class="entry-content">The best way to learn what command-line tools you should be using is to hang out around system administrators.  There are a couple in this office space, and they&#8217;re always willing to give advice about which utility you should use instead of another.
+<div class="entry-content"><p>The best way to learn what command-line tools you should be using is to hang out around system administrators.  There are a couple in this office space, and they’re always willing to give advice about which utility you should use instead of another.</p>
 
-I&#8217;ve been using scp and rsync since I started using bash, and thought they were the bee&#8217;s knees.  Of course, they certainly have their purpose, but when it comes to sending files over the tubes quickly, I&#8217;ve learned of a better one: nc / netcat.
+<p>I’ve been using scp and rsync since I started using bash, and thought they were the bee’s knees.  Of course, they certainly have their purpose, but when it comes to sending files over the tubes quickly, I’ve learned of a better one: nc / netcat.</p>
 
-It goes like this: you&#8217;ve got a big file to transfer, and the tubes aren&#8217;t really your bottleneck.  You might not care about security in this instance, but just want to get it done quickly.  You start the netcat daemon on the remote machine, it listens on a port, and then things that get sent to that port are output to a file on that box:
+<p>It goes like this: you’ve got a big file to transfer, and the tubes aren’t really your bottleneck.  You might not care about security in this instance, but just want to get it done quickly.  You start the netcat daemon on the remote machine, it listens on a port, and then things that get sent to that port are output to a file on that box:</p>
 
-<code>my-remote-machine $> netcat -l -p 1234 > ubuntu.iso</code>
+<p><code>my-remote-machine $&gt; netcat -l -p 1234 &gt; ubuntu.iso</code></p>
 
-And then on the machine I&#8217;m transferring from:
+<p>And then on the machine I’m transferring from:</p>
 
-<code>my-local-machine $> netcat #remote-ip 1234 < ubuntu-9.04-desktop-i386.iso</code>
+<p><code>my-local-machine $&gt; netcat #remote-ip 1234 &lt; ubuntu-9.04-desktop-i386.iso</code></p>
 
-With scp for this same task, I was clocking about 28 MBps, but netcat posted 47 MBps pretty consistently.  This is a neat little tool I will be using with some regularity.
+<p>With scp for this same task, I was clocking about 28 MBps, but netcat posted 47 MBps pretty consistently.  This is a neat little tool I will be using with some regularity.</p>
 </div>
 
 

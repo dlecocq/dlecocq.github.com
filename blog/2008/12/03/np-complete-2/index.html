@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,17 +134,18 @@
   </header>
 
 
-<div class="entry-content">I had to give a talk on complexity theory and NP-completeness, and a friend suggested that I record it and post it for all the children of the world to enjoy.  Well, something like that.
+<div class="entry-content"><p>I had to give a talk on complexity theory and NP-completeness, and a friend suggested that I record it and post it for all the children of the world to enjoy.  Well, something like that.</p>
 
-I apologize for my verbal ticks - had I recorded myself beforehand and listened to it, I might have made an effort to correct them.  I make a few mistakes, but overall, I think there have been worse talks.  Enjoy.
+<p>I apologize for my verbal ticks - had I recorded myself beforehand and listened to it, I might have made an effort to correct them.  I make a few mistakes, but overall, I think there have been worse talks.  Enjoy.</p>
 
-(Note: I&#8217;m working on getting an embedded version, but until then, you&#8217;ll just have to click the link.)
+<p>(Note: I’m working on getting an embedded version, but until then, you’ll just have to click the link.)</p>
 
-<a href='http://dan.lecocq.us/wordpress/wp-content/uploads/2008/12/NPC.m4v'>Complexity Theory</a>
+<p><a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/12/NPC.m4v">Complexity Theory</a></p>
 
-(Update: Here&#8217;s the video on Google Video.  The quality is a little lower than the file above, so I&#8217;ll leave the link, and the choice to you.)
+<p>(Update: Here’s the video on Google Video.  The quality is a little lower than the file above, so I’ll leave the link, and the choice to you.)</p>
 
-<embed id="VideoPlayback" src="http://video.google.com/googleplayer.swf?docid=-2242278559304892171&hl=en&fs=true" style="width:400px;height:326px" allowFullScreen="true" allowScriptAccess="always" type="application/x-shockwave-flash"> </embed>
+<embed id="VideoPlayback" src="http://video.google.com/googleplayer.swf?docid=-2242278559304892171&amp;hl=en&amp;fs=true" style="width:400px;height:326px" allowfullscreen="true" allowscriptaccess="always" type="application/x-shockwave-flash" />
+<p>&lt;/embed&gt;</p>
 
 </div>
 

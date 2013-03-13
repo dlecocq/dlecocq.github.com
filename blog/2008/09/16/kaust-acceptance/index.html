@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="I found out yesterday that I got into KAUST. &#8216;Nough said? Well, maybe I need to add a &#8220;w00t!&#8221;
+  <meta name="description" content="I found out yesterday that I got into KAUST. ‘Nough said? Well, maybe I need to add a “w00t!”
 ">
   
 
@@ -45,6 +45,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -104,7 +135,7 @@
   </header>
 
 
-<div class="entry-content">I found out yesterday that I got into KAUST.  &#8216;Nough said?  Well, maybe I need to add a &#8220;w00t!&#8221;
+<div class="entry-content"><p>I found out yesterday that I got into KAUST.  ‘Nough said?  Well, maybe I need to add a “w00t!”</p>
 </div>
 
 

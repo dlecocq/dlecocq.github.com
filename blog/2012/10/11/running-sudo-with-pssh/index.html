@@ -9,7 +9,9 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="The pssh tool is great. Just great. At SEOmoz we use a number of deployment schemes, but every so often I find myself needing to log into 50 machines &hellip;">
+  <meta name="description" content="The pssh tool is great. Just great. At SEOmoz
+we use a number of deployment schemes, but every so often I find myself
+needing to log into 50 machines &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +46,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,21 +136,32 @@
   </header>
 
 
-<div class="entry-content">The <a href="http://www.theether.org/pssh/" title="pssh" target="_blank">pssh</a> tool is great. Just great. At SEOmoz we use a number of deployment schemes, but every so often I find myself needing to log into 50 machines and perform some simple one-off command. I&#8217;ve written such a line many times:
-<code>
-for i in {01..05}; do ssh -t ec2-user@some-host-$i 'sudo ...'; done
-</code>
+<div class="entry-content"><p>The <a href="http://www.theether.org/pssh/" title="Pssh">pssh</a> tool is great. Just great. At SEOmoz
+we use a number of deployment schemes, but every so often I find myself
+needing to log into 50 machines and perform some simple one-off command. I’ve
+written such a line many times:</p>
 
-This is fine if the command is quick, but it <em>really</em> sucks if it&#8217;s something that takes more than just a few seconds. So in the absence of needing to use sudo (and thus the &#8216;-t&#8217; flag), pssh makes it easy to run these all in parallel:
-<code>
-pssh -i --host=some-host-{01..50} -l ec2-user 'hostname'
-</code>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="k">for </span>i in <span class="o">{</span>01..05<span class="o">}</span>; <span class="k">do </span>ssh -t ec2-user@some-host-<span class="nv">$i</span> <span class="s1">&#39;sudo ...&#39;</span>; <span class="k">done</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-Coercing pssh to create a pseudo-tty to enable sudo commands was a little tricky, though:
-<code>
-# And now I can sudo!
-pssh -x '-t -t' -i --host=some-host-{01..50} -l ec2-user 'sudo hostname'
-</code>
+<p>This is fine if the command is quick, but it <em>really</em> sucks if it’s
+something that takes more than just a few seconds. So in the absence of
+needing to use sudo (and thus the <code>-t</code> flag), pssh makes it easy to run these
+all in parallel:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">pssh -i --host<span class="o">=</span>some-host-<span class="o">{</span>01..50<span class="o">}</span> -l ec2-user <span class="s1">&#39;hostname&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Coercing pssh to create a pseudo-tty to enable sudo commands was a little
+tricky, though:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># And now I can sudo!</span>
+</span><span class="line">pssh -x <span class="s1">&#39;-t -t&#39;</span> -i --host<span class="o">=</span>some-host-<span class="o">{</span>01..50<span class="o">}</span> -l ec2-user <span class="s1">&#39;sudo hostname&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
 
 

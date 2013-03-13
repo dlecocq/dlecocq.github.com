@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="I recently finished reading one of Kevin Mitnick&#8217;s books, Ghost in the Wires. Fantastic. I constantly found it amazing that someone had lived &hellip;">
+  <meta name="description" content="Python has a pretty useful policy: named arguments. When you call a function, you can explicitly say that such-and-such value is what you’re &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -83,6 +114,85 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2011/09/14/python-and-arbitrary-function-arguments-kwargs/">Python and Arbitrary Function Arguments - **kwargs</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-09-14T00:00:00-07:00" pubdate data-updated="true">Sep 14<span>th</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>Python has a pretty useful policy: named arguments. When you call a function, you can explicitly say that such-and-such value is what you’re providing for a particular argument, and can even include them in any order:</p>
+
+<pre lang="python">
+def hello(first, last):
+	print 'Hello %s %s' % (first, last)
+
+hello(last='Lecocq', first='Dan')
+</pre>
+
+<p>In fact, you can programmatically gain insight into functions with the <a href="http://docs.python.org/library/inspect.html" title="inspect" target="_blank">inspect module</a>. But suppose you want to be able to accept an arbitrary number of parameters. For example, for a printf equivalent. Or where I encountered it in wanting to read a module name from a configuration file, as well as the arguments to instantiate it. In this case, you’d get the module and class as a string and then a dictionary of the arguments to make an instance of it. Of course, Python always has a way. In this case, **kwargs.</p>
+
+<p>This is actually dictionary unpacking, taking all the keys in a dictionary and mapping them to argument names. For example, in the above example, I could say:</p>
+
+<pre lang="python">
+hello(**{'last':'Lecocq', 'first':'Dan'})
+</pre>
+
+<p>Of course, in that case it’s a little verbose, but if you’re getting a dictionary of arguments programmatically, then it’s invaluable. But wait, there’s more! Not only can you use the **dict operator to map a dictionary into parameters, but you can accept arbitrary parameters with it, too!</p>
+
+<pre lang="python">
+def kw(**kwargs):
+	for key, value in kwargs.items():
+		print '%s =&gt; %s' % (key, value)
+
+kw(**{'hello':'Howdy!', 'first':'Dan'})
+kw(hello='Howdy!', first='Dan')
+</pre>
+
+<p>Magic! <strong>No matter how you invoke the function, it has access to the parameters.</strong>  You can even split the difference, making some parameters named and some parameters variable. For example, if you wanted to create an instance of a class that you passed a name in for, initialized with the arguments you give it:</p>
+
+<pre lang="python">
+def factory(module, cls, **kwargs):
+	# The built-in __import__ does just what it sounds like
+	m = __import__(module)
+	# Now get the class in that module
+	c = getattr(m, cls)
+	# Now make an instance of it, given the args
+	return c(**kwargs)
+
+factory('datetime', 'datetime', year=2011, month=11, day=8)
+factory('decimal', 'Decimal', value=7)
+</pre>
+
+<p>This is one place where Python’s flexibility is extremely useful.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2011/09/12/kevin-mitnicks-ghost-in-the-wires/">Kevin Mitnick&#8217;s Ghost in the Wires</a></h1>
     
     
@@ -106,11 +216,11 @@
   </header>
 
 
-  <div class="entry-content">I recently finished reading one of <a href="http://en.wikipedia.org/wiki/Kevin_mitnick" title="Kevin Mitnick" target="_blank">Kevin Mitnick</a>&#8217;s books, <a href="http://www.amazon.com/Ghost-Wires-Adventures-Worlds-Wanted/dp/0316037702/" title="Ghost in the Wires" target="_blank">Ghost in the Wires</a>. Fantastic. I constantly found it amazing that someone had lived that life, hacking, evading capture, changing identities. Reads like an action movie at many points, and in fact, <a href="http://www.imdb.com/title/tt0159784/" title="Takedown" target="_blank">several</a> <a href="http://www.imdb.com/title/tt0086567/" title="War Games" target="_blank">movies</a> have been made loosely (and one very loosely) based on his life. Mitnick often talks about how much the &#8220;myth of Mitnick&#8221; is inflated or distorted, especially in the media and particularly with the movies.
+  <div class="entry-content"><p>I recently finished reading one of <a href="http://en.wikipedia.org/wiki/Kevin_mitnick" title="Kevin Mitnick" target="_blank">Kevin Mitnick</a>’s books, <a href="http://www.amazon.com/Ghost-Wires-Adventures-Worlds-Wanted/dp/0316037702/" title="Ghost in the Wires" target="_blank">Ghost in the Wires</a>. Fantastic. I constantly found it amazing that someone had lived that life, hacking, evading capture, changing identities. Reads like an action movie at many points, and in fact, <a href="http://www.imdb.com/title/tt0159784/" title="Takedown" target="_blank">several</a> <a href="http://www.imdb.com/title/tt0086567/" title="War Games" target="_blank">movies</a> have been made loosely (and one very loosely) based on his life. Mitnick often talks about how much the “myth of Mitnick” is inflated or distorted, especially in the media and particularly with the movies.</p>
 
-As it turns out, Mitnick lived briefly in Seattle, and with my interest piqued, I figured I might be able to track down his old apartment. He describes going home one day before realizing his was being followed, and in the course of the description he mentions a few street names and the part of town he lived in. And at the end of the book, there&#8217;s a photo of the apartment, slightly too grainy to read the name of the building. But clear enough to read the number. A little time with Google Maps and <a href="http://maps.google.com/maps?q=5227+brooklyn+ave,+seattle&ll=47.66676,-122.313173&spn=0.008425,0.019205&t=m&z=16&vpsrc=0&layer=c&cbll=47.667291,-122.314173&panoid=KavdrrIXVgsQzdBGPyfBvg&cbp=12,281.94,,1,0.79" title="Kevin Mitnick's old apartment" target="_blank">found it</a>! Being so close, I figured I&#8217;d drop by to take a picture:
+<p>As it turns out, Mitnick lived briefly in Seattle, and with my interest piqued, I figured I might be able to track down his old apartment. He describes going home one day before realizing his was being followed, and in the course of the description he mentions a few street names and the part of town he lived in. And at the end of the book, there’s a photo of the apartment, slightly too grainy to read the name of the building. But clear enough to read the number. A little time with Google Maps and <a href="http://maps.google.com/maps?q=5227+brooklyn+ave,+seattle&amp;ll=47.66676,-122.313173&amp;spn=0.008425,0.019205&amp;t=m&amp;z=16&amp;vpsrc=0&amp;layer=c&amp;cbll=47.667291,-122.314173&amp;panoid=KavdrrIXVgsQzdBGPyfBvg&amp;cbp=12,281.94,,1,0.79" title="Kevin Mitnick's old apartment" target="_blank">found it</a>! Being so close, I figured I’d drop by to take a picture:</p>
 
-<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2011/09/photo-1.jpg"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2011/09/photo-1-300x224.jpg" alt="" title="Kevin Mitnick&#039;s Old Apartment" width="300" height="224" class="aligncenter size-medium wp-image-1031" /></a>
+<p><a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2011/09/photo-1.jpg"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2011/09/photo-1-300x224.jpg" alt="" title="Kevin Mitnick&#039;s Old Apartment" width="300" height="224" class="aligncenter size-medium wp-image-1031" /></a></p>
 </div>
   
   
@@ -146,40 +256,40 @@ As it turns out, Mitnick lived briefly in Seattle, and with my interest piqued, 
   </header>
 
 
-  <div class="entry-content">Yesterday I encountered a concept I hadn&#8217;t known about: named pipes. They&#8217;re essentially a <strong>path that acts as a pipe</strong> for reading from / writing to. In that sense, you work with them like with file redirection and traditional files. But that data doesn&#8217;t get stored anywhere really permanent. All data that goes through it is meat to be written once, and read once, and it comes with a performance boost of not having to write large chunks to disk.
+  <div class="entry-content"><p>Yesterday I encountered a concept I hadn’t known about: named pipes. They’re essentially a <strong>path that acts as a pipe</strong> for reading from / writing to. In that sense, you work with them like with file redirection and traditional files. But that data doesn’t get stored anywhere really permanent. All data that goes through it is meat to be written once, and read once, and it comes with a performance boost of not having to write large chunks to disk.</p>
 
- Pipes, for those who don&#8217;t know, are the bees knees. They&#8217;re the cat&#8217;s meow. They allow you to (as the name implies) make a pipeline between one or more programs, with the output of one feeding into the input of others. Suppose, for example, that we want to find out how many files that contain &#8216;.a&#8217; there are in a directory. There&#8217;s a tool you might know, &#8216;ls,&#8217; that lists all the files in a directory. And &#8216;grep&#8217; is a tool to search for lines of text that match a regular expression. And &#8216;wc&#8217; is a tool that can count the number of bytes, words, lines, etc. in a file.
+<p>Pipes, for those who don’t know, are the bees knees. They’re the cat’s meow. They allow you to (as the name implies) make a pipeline between one or more programs, with the output of one feeding into the input of others. Suppose, for example, that we want to find out how many files that contain ‘.a’ there are in a directory. There’s a tool you might know, ‘ls,’ that lists all the files in a directory. And ‘grep’ is a tool to search for lines of text that match a regular expression. And ‘wc’ is a tool that can count the number of bytes, words, lines, etc. in a file.</p>
 
-Typically, each of these <strong>operates in isolation</strong>, reading from a file (in the case of grep and wc), or&#8230; standard input. And they all write to standard output. A pipe is away to hook up one&#8217;s process&#8217; standard output file descriptor to the standard input file descriptor of the another, making one the <strong>producer of information and the other the consumer</strong>:
+<p>Typically, each of these <strong>operates in isolation</strong>, reading from a file (in the case of grep and wc), or… standard input. And they all write to standard output. A pipe is away to hook up one’s process’ standard output file descriptor to the standard input file descriptor of the another, making one the <strong>producer of information and the other the consumer</strong>:</p>
 
-<pre lang='bash'>
+<pre lang="bash">
 ls -l /path/to/some/directory | grep '.a' | wc -l
 </pre>
 
-This is typical of the design of many command line utilities. Most either come with an option to read from standard in (usually either the absence of a filename or a single &#8216;-&#8216;). <strong>And most do exactly one task well</strong>. Each has one very specific purpose, but is generally happy to play along with others.
+<p>This is typical of the design of many command line utilities. Most either come with an option to read from standard in (usually either the absence of a filename or a single ‘-‘). <strong>And most do exactly one task well</strong>. Each has one very specific purpose, but is generally happy to play along with others.</p>
 
-File redirection is another handy tool that is related to named pipes. File redirection lets you either read the contents of a file as if it were standard input, or have a process write to it as if it were standard output. Going back to the earlier example, if we wanted to store a list of the all such files in our own file called &#8216;list&#8217;:
+<p>File redirection is another handy tool that is related to named pipes. File redirection lets you either read the contents of a file as if it were standard input, or have a process write to it as if it were standard output. Going back to the earlier example, if we wanted to store a list of the all such files in our own file called ‘list’:</p>
 
-<pre lang='bash'>
-ls | grep '.a' > list
+<pre lang="bash">
+ls | grep '.a' &gt; list
 </pre>
 
-Easy as pie. Now&#8230; for named pipes. They&#8217;re also called &#8217;<strong>FIFO</strong>&#8217;s for their first-in-first-out behavior. You can make one with &#8216;mkfifo &lt;filename&gt;&#8217;. And then, feel free to read from it and write to it. Perhaps in two different terminals:
+<p>Easy as pie. Now… for named pipes. They’re also called ‘<strong>FIFO</strong>’s for their first-in-first-out behavior. You can make one with ‘mkfifo &lt;filename&gt;’. And then, feel free to read from it and write to it. Perhaps in two different terminals:</p>
 
-<pre lang='bash'>
+<pre lang="bash">
 # In one terminal:
 mkfifo test
-cat < test
+cat &lt; test
 
 # In another terminal:
-echo 'hello' > test
+echo 'hello' &gt; test
 </pre>
 
-The first terminal, cat plugs along doing the one thing it knows how to do: display what it reads in out to standard out. Take a minute for what has just happened to sink in. You were able to have one process wait around until it had something read&#8230; from a pipe. And in a completely different terminal, you had a <em>different</em> process communicate with the first one through opening a file. This is a mechanism that&#8217;s commonly used for <strong>inter-process communication</strong> (IPC) for obvious reasons &#8211; everyone knows how to read from and write to a file, so it makes use of a known paradigm. But wait &#8211; it gets even better.
+<p>The first terminal, cat plugs along doing the one thing it knows how to do: display what it reads in out to standard out. Take a minute for what has just happened to sink in. You were able to have one process wait around until it had something read… from a pipe. And in a completely different terminal, you had a <em>different</em> process communicate with the first one through opening a file. This is a mechanism that’s commonly used for <strong>inter-process communication</strong> (IPC) for obvious reasons – everyone knows how to read from and write to a file, so it makes use of a known paradigm. But wait – it gets even better.</p>
 
-Suppose you want to aggregate some statistics about how many different types of requests your application serves, but you don&#8217;t want to have to write that in. Or maybe it&#8217;s an application that you know already just writes to a log file. Of course, you could trawl the log file, but there are conceivably cases where you don&#8217;t want the overhead of keeping around huge files, so you&#8217;d rather avoid it if possible. You have to be careful when doing this (not all applications play nicely with named pipes &#8211; mostly surrounding blocking described below), but chances are you might be able to dupe the application into just logging to a named pipe! If you remove the log file and in that same path you make a pipe, then your work is done &#8211; just read from that pipe to aggregate your statistics periodically. <strong>This works particularly well with the python logging module.</strong>
+<p>Suppose you want to aggregate some statistics about how many different types of requests your application serves, but you don’t want to have to write that in. Or maybe it’s an application that you know already just writes to a log file. Of course, you could trawl the log file, but there are conceivably cases where you don’t want the overhead of keeping around huge files, so you’d rather avoid it if possible. You have to be careful when doing this (not all applications play nicely with named pipes – mostly surrounding blocking described below), but chances are you might be able to dupe the application into just logging to a named pipe! If you remove the log file and in that same path you make a pipe, then your work is done – just read from that pipe to aggregate your statistics periodically. <strong>This works particularly well with the python logging module.</strong></p>
 
-Reading from and writing to a named pipe can be a little more nuanced, however. Some things to bear in mind:
+<p>Reading from and writing to a named pipe can be a little more nuanced, however. Some things to bear in mind:</p>
 
 <ul>
 <li><strong>Opening a named pipe can block</strong>, so consider opening them non-blocking. Of course, it depends on your access pattern, but if you&#8217;re not sure if another process has written to the pipe and you don&#8217;t want that to trip up your reading, non-blocking is the way to go.</li>
@@ -223,9 +333,9 @@ Reading from and writing to a named pipe can be a little more nuanced, however. 
   </header>
 
 
-  <div class="entry-content">Turns out, there&#8217;s a pretty handy package called <a href="http://code.google.com/p/psutil/" title="psutil" target="_blank">psutil</a> that allows you to not only gain insight into the currently-running process, but other processes, physical and virtual memory usage, and CPU usage. For example:
+  <div class="entry-content"><p>Turns out, there’s a pretty handy package called <a href="http://code.google.com/p/psutil/" title="psutil" target="_blank">psutil</a> that allows you to not only gain insight into the currently-running process, but other processes, physical and virtual memory usage, and CPU usage. For example:</p>
 
-<pre lang='python'>
+<pre lang="python">
 import psutil
 
 psutil.phymem_usage().percent
@@ -234,7 +344,112 @@ psutil.virtmem_usage().percent
 # 0.0
 </pre>
 
-Pretty handy tool if you&#8217;re doing any sort of monitoring!
+<p>Pretty handy tool if you’re doing any sort of monitoring!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2011/09/01/libcurl-curl_multi-and-endless-dns-pain/">Libcurl, Curl_multi, and Endless DNS Pain</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-09-01T00:00:00-07:00" pubdate data-updated="true">Sep 1<span>st</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p><strong>Curl is an awesome tool.</strong> Awesome. For example, suppose we want to fetch a <em>bunch</em> of urls as quickly as possible from code. Enter <a href="http://curl.haxx.se/libcurl/c/libcurl-multi.html" title="curl_multi" target="_blank">curl_multi</a>, which allows you to manage several requests in flight at the same time. You periodically make a request to curl to see which handles are finished successfully and which are in error, and then add those handles back into a pool that can handle requests.</p>
+
+<p>Any code that I use in this post will be in Python, using <a href="http://pycurl.sourceforge.net/" title="pycURL" target="_blank">pycurl</a> as, well, that’s what we’re using it in. The main flow of this has been (based on the <a href="http://pycurl.cvs.sourceforge.net/pycurl/pycurl/examples/retriever-multi.py?view=markup" title="pycURL Multi Example" target="_blank">example provided by pycurl</a>):
+&lt;pre lang=&#8221;python&#8221;&gt;
+import pycurl
+# Declare a queue 
+queue = [ url1, url2, … ]
+inFlight = 0
+# Make a multi handle
+multi = pycurl.CurlMulti()
+multi.handles = []
+# Allocate a bunch of individual handlers
+for i in range(poolSize):
+	c = pycurl.Curl()
+	# …
+	multi.handles.append(c)
+# Pool of our free handles
+pool = multi.handles[:]
+# Now, go through our requests:
+while len(queue) or inFlight:
+	c = pool.pop()
+	# Make your request
+	inFlight += 1
+while True:
+	ret, numHandles = multi.perform()
+	if ret != pycurl.E_CALL_MULI_PERFORM:
+		break
+while True:
+	numQ, ok, err = multi.info_read()
+	# ok is a list of completed requests
+	for c in ok:
+		# Get your data out
+		inFlight -= 1
+	# err is a list of errored requests
+	for c in err:
+		# Maybe report an error
+		inFlight -= 1
+&lt;/pre&gt;</p>
+
+<p>This is great – we get to make a bunch of requests and they respond quickly. But… there are some problems. When you start using thousands of handles, libcurl won’t miss a beat. Depending on how you have libcurl built, it may not have support for asynchronous DNS requests, and may in fact… <strong>use blocking DNS requests</strong>. So this high throughput means a lot of contention. Libcurl <em>can</em> do this, but it needs to be compiled against <a href="http://c-ares.haxx.se/" title="c-ares" target="_blank">c-ares</a>. Curl provides a quick way of telling you what it has support for:</p>
+
+<pre lang="bash">
+$&gt; curl --version
+curl 7.21.4 (universal-apple-darwin11.0) libcurl/7.21.4 OpenSSL/0.9.8r zlib/1.2.5
+Protocols: dict file ftp ftps gopher http https imap imaps ldap ldaps pop3 pop3s rtsp smtp smtps telnet tftp 
+Features: AsynchDNS GSS-Negotiate IPv6 Largefile NTLM SSL libz
+</pre>
+
+<p>If you don’t see AsynchDNS listed among those features, and you want to add support, this means DNS unpleasantness can ensue. Unfortunately, building and installing the c-ares library library isn’t the only concern. You may have gotten curl with your OS, or you may have gotten it through your package manager. But if you find you <em>need</em> this support, you’ll have to <strong>build libcurl from source.</strong> First, install some generic dependencies you’ll probably want to include:</p>
+
+<pre lang="bash">
+# On Ubuntu, it's pretty simple:
+sudo apt-get install zlib1g-dev libssh2-dev libssl-dev libc-ares2 libc-ares-dev libidn11-dev libldab2-dev
+# On Mac, you can 1) build from source, 2) use port
+sudo port install libidn openssl libssh2 zlib c-ares
+</pre>
+
+<p>Then, you’ll just have to download, configure, compile and install libcurl:
+&lt;pre lang=&#8221;bash&#8221;&gt;
+# First, get the source:
+curl -O http://curl.haxx.se/download/curl-7.21.7.tar.gz
+tar xf curl-7.21.7.tar.gz
+cd curl-7.21.7
+# Now, build everything. This assumes that you installed stuff in /usr
+./configure –with-{ssl,libss2,zlib,libidn}=/usr –enable-{ares,ldap}
+make
+sudo make install
+&lt;/pre&gt;</p>
+
+<p>And now, we have asynchronous DNS in libcurl! It’s really not a feature that’s mission critical for many / most applications of curl. I have invoked curl hundreds of time, and used libcurl on occasion, and have not found it to be an issue until this scale. There are some <a href="http://devblog.seomoz.org/2011/02/high-performance-libcurl-tips/" title="High-Performance Libcurl Tips" target="_blank">other issues</a> that a former SEOmoz’zer wrote about earlier this year, which we intend to include. For example, we may find that the curl-internal multi perform may be based heavily on select, in which case we’ll have to adapt our code to make use of epoll or kqueue. In all likelihood, we’d probably rather use <a href="http://monkey.org/~provos/libevent/" title="libevent" target="_blank">libevent</a>, which has <a href="http://code.google.com/p/pyevent/" title="pyevent" target="_blank">bindings</a> in python and helps to abstract the differences between BSD’s kqueue and epoll on Linux.</p>
 </div>
   
   
@@ -270,7 +485,7 @@ Pretty handy tool if you&#8217;re doing any sort of monitoring!
   </header>
 
 
-  <div class="entry-content">I began work almost a month ago at a Seattle company, <a href="http://www.seomoz.org/" title="SEOmoz" target="_blank">SEOmoz</a>. Interesting projects, talented people, and a good place to be. Today I posted my first contribution to their <a href="http://devblog.seomoz.org/" title="Dev Blog" target="_blank">Dev Blog</a> talking about <a href="http://devblog.seomoz.org/2011/08/launching-and-deploying-instances-with-boto-and-fabric/" title="Launching and Deploying Instances with Boto and Fabric" target="_blank">scripting the launching  and deployment of EC2 instances with boto and frabric</a>.
+  <div class="entry-content"><p>I began work almost a month ago at a Seattle company, <a href="http://www.seomoz.org/" title="SEOmoz" target="_blank">SEOmoz</a>. Interesting projects, talented people, and a good place to be. Today I posted my first contribution to their <a href="http://devblog.seomoz.org/" title="Dev Blog" target="_blank">Dev Blog</a> talking about <a href="http://devblog.seomoz.org/2011/08/launching-and-deploying-instances-with-boto-and-fabric/" title="Launching and Deploying Instances with Boto and Fabric" target="_blank">scripting the launching  and deployment of EC2 instances with boto and frabric</a>.</p>
 </div>
   
   
@@ -306,11 +521,13 @@ Pretty handy tool if you&#8217;re doing any sort of monitoring!
   </header>
 
 
-  <div class="entry-content">Yes, yes(1) is built-in to Mac and Linux (at least OS X Lion and Ubuntu 11.04). And, as you might guess, it repeatedly prints a string of your choice (&#8216;y&#8217; by default) followed by a newline to stdout. Its sole purpose in life is to automate agreeing to prompts. I encountered it recently in a script that was automating RAID array deployment on EC2 ephemeral disks:
-<code>
-# mdadm doesn't let you automate by default, so pipe in 'y'!
-yes | mdadm ...
-</code>
+  <div class="entry-content"><p>Yes, yes(1) is built-in to Mac and Linux (at least OS X Lion and Ubuntu 11.04). And, as you might guess, it repeatedly prints a string of your choice (‘y’ by default) followed by a newline to stdout. Its sole purpose in life is to automate agreeing to prompts. I encountered it recently in a script that was automating RAID array deployment on EC2 ephemeral disks:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># mdadm doesn&#39;t let you automate by default, so pipe in &#39;y&#39;!</span>
+</span><span class="line">yes | mdadm ...
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
   
   
@@ -346,20 +563,20 @@ yes | mdadm ...
   </header>
 
 
-  <div class="entry-content">I initial put off upgrading to Snow Leopard until almost a year after its release because I was worried about rebuilding my development environment. It&#8217;s amazing how many packages one accumulates over time without thinking about it, and when you have deadlines to meet it can be disastrous to risk your current working setup.
+  <div class="entry-content"><p>I initial put off upgrading to Snow Leopard until almost a year after its release because I was worried about rebuilding my development environment. It’s amazing how many packages one accumulates over time without thinking about it, and when you have deadlines to meet it can be disastrous to risk your current working setup.</p>
 
-But rebuilding your development environment comes up more than just upgrading your OS. If you need to migrate to that new computer you got, or that work gave you, or help someone else get up and running with a project you&#8217;re thinking about releasing. Admittedly, it took me a little while to learn this lesson, but finally it&#8217;s drilled into my head: <strong>keep build notes!</strong>
+<p>But rebuilding your development environment comes up more than just upgrading your OS. If you need to migrate to that new computer you got, or that work gave you, or help someone else get up and running with a project you’re thinking about releasing. Admittedly, it took me a little while to learn this lesson, but finally it’s drilled into my head: <strong>keep build notes!</strong></p>
 
-A couple weeks ago I was trying to install an internal package whose docs hadn&#8217;t been updated in a very long time. After struggling and hitting countless snags, I finally got it up and running when I got an email that was along the lines of, &#8220;Oh, if you could write down what problems you ran into, that would be great.&#8221; Fortunately, I just made notes of what I had done in order to get it built, and I was able to whip off a reply with speed that surprised the recipient.
+<p>A couple weeks ago I was trying to install an internal package whose docs hadn’t been updated in a very long time. After struggling and hitting countless snags, I finally got it up and running when I got an email that was along the lines of, “Oh, if you could write down what problems you ran into, that would be great.” Fortunately, I just made notes of what I had done in order to get it built, and I was able to whip off a reply with speed that surprised the recipient.</p>
 
-Even at a system-wide level, I try to make it a habit to record every package I install/build associated with development. It makes it extremely easy to get set up on the next system, even if the instructions have to be updated for a new environment. I call it a manifest and I manage it as a flat file, though I know there are package managers that can do a lot of heavy lifting for me. However, I find that no package manager is perfect and so even if I make use of one for certain libraries, it&#8217;s important to me to have everything documented in one place. At a minimum (and you probably don&#8217;t need more than this) keep the following:
+<p>Even at a system-wide level, I try to make it a habit to record every package I install/build associated with development. It makes it extremely easy to get set up on the next system, even if the instructions have to be updated for a new environment. I call it a manifest and I manage it as a flat file, though I know there are package managers that can do a lot of heavy lifting for me. However, I find that no package manager is perfect and so even if I make use of one for certain libraries, it’s important to me to have everything documented in one place. At a minimum (and you probably don’t need more than this) keep the following:</p>
 <ol>
 	<li><strong>Package name and version</strong> - Maybe you needed readline 6.1 to get your project running, or you know that such-and-such version is buggy for your purposes.</li>
 	<li><strong>Why you installed it</strong> - I find that many libraries I install are used for a particular project, and so it&#8217;s useful to have the motivation for getting it.</li>
 	<li><strong>How you installed it</strong> - Whether it was macports or a typical configure, make and install, how did you build it? Did you need special flags to make it go? You will absolutely forget these, so why not write them down? Even just copy and paste from your history!</li>
 </ol>
 
-I can&#8217;t stress enough how much easier this has made my development life in a lot of ways, and how little a time investment it is.
+<p>I can’t stress enough how much easier this has made my development life in a lot of ways, and how little a time investment it is.</p>
 </div>
   
   
@@ -395,31 +612,47 @@ I can&#8217;t stress enough how much easier this has made my development life in
   </header>
 
 
-  <div class="entry-content">Last week I had the (dis)pleasure of porting some code to Mac, and today it came time to merge with the original codebase. As helpful as it was to use macros for different code paths, we needed something in the makefile to optionally add flags when compiling on Mac.
-<code>
-// This is all well and good
-#ifndef __APPLE__
-    // Do your Linux-y includes here
-#else
-    // Do your Apple-y includes here
-#endif
-</code>
+  <div class="entry-content"><p>Last week I had the (dis)pleasure of porting some code to Mac, and today it came time to merge with the original codebase. As helpful as it was to use macros for different code paths, we needed something in the makefile to optionally add flags when compiling on Mac.</p>
 
-Apparently, there are a couple conventions for doing this. First, you can inject a configuration step (à la autoconf, for example) which would detect what platform you&#8217;re building on in a robust way and build a Makefile for you. Second, if you&#8217;re lazy or autoconf would be like hitting a fly with a hammer, you can use make&#8217;s conditionals:
-<code>
-# Ensure that this gets declared in time,
-# and fill it with the result of `uname`
-UNAME := $(shell uname)
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="c"><span class="line"><span class="c1">// This is all well and good</span>
+</span><span class="line"><span class="cp">#ifndef __APPLE__</span>
+</span><span class="line">    <span class="c1">// Do your Linux-y includes here</span>
+</span><span class="line"><span class="cp">#else</span>
+</span><span class="line">    <span class="c1">// Do your Apple-y includes here</span>
+</span><span class="line"><span class="cp">#endif</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-# If the environment is Darwin...
-ifeq ($(UNAME), Darwin)
-    CXXFLAGS = # Something Apple-y
-else
-    CXXFLAGS = # Something Linux-y
-endif
-</code>
+<p>Apparently, there are a couple conventions for doing this. First, you can inject a configuration step (à la autoconf, for example) which would detect what platform you’re building on in a robust way and build a Makefile for you. Second, if you’re lazy or autoconf would be like hitting a fly with a hammer, you can use make’s conditionals:</p>
 
-Simple enough!
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># Ensure that this gets declared in time,</span>
+</span><span class="line"><span class="c"># and fill it with the result of `uname`</span>
+</span><span class="line">UNAME :<span class="o">=</span> <span class="k">$(</span>shell uname<span class="k">)</span>
+</span><span class="line">
+</span><span class="line"><span class="c"># If the environment is Darwin...</span>
+</span><span class="line">ifeq <span class="o">(</span><span class="k">$(</span>UNAME<span class="k">)</span>, Darwin<span class="o">)</span>
+</span><span class="line">    <span class="nv">CXXFLAGS</span> <span class="o">=</span> <span class="c"># Something Apple-y</span>
+</span><span class="line"><span class="k">else</span>
+</span><span class="line"><span class="k">    </span><span class="nv">CXXFLAGS</span> <span class="o">=</span> <span class="c"># Something Linux-y</span>
+</span><span class="line">endif
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Simple enough!</p>
 </div>
   
   
@@ -455,167 +688,107 @@ Simple enough!
   </header>
 
 
-  <div class="entry-content">A feature I only recently learned about are type-conversion operators. For any class, if you want to support type conversion to any type, you can do so by merely declaring (and of course defining) operators of the form <em>operator type()</em>:
-<code>
-class Widget {
-...
-operator bool();
-operator thing();
-operator Foo();
-...
-}
-</code>
+  <div class="entry-content"><p>A feature I only recently learned about are type-conversion operators. For any class, if you want to support type conversion to any type, you can do so by merely declaring (and of course defining) operators of the form <code>operator type()</code>:</p>
 
-While this is fine and dandy (and admittedly obviously attractive in ways), there is a big problem SEOmoz co-worker Brandon pointed out: <strong>There&#8217;s no way to determine which code path will be taken.</strong>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="c++"><span class="line"><span class="k">class</span> <span class="nc">Widget</span> <span class="p">{</span>
+</span><span class="line"><span class="p">...</span>
+</span><span class="line"><span class="k">operator</span> <span class="kt">bool</span><span class="p">();</span>
+</span><span class="line"><span class="k">operator</span> <span class="n">thing</span><span class="p">();</span>
+</span><span class="line"><span class="k">operator</span> <span class="n">Foo</span><span class="p">();</span>
+</span><span class="line"><span class="p">...</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-For a little bit of context, I came across a set of type-conversion operators that seemed reasonable enough. They tried to cover the whole gamut of possible primitive types:
-<code>
-operator unsigned long long() const;
-operator long long() const;
-operator unsigned long() const { return operator unsigned long long(); }
-operator long() const { return operator long long(); }
-...
-</code>
+<p>While this is fine and dandy (and admittedly obviously attractive in ways), there is a big problem SEOmoz co-worker Brandon pointed out: <strong>There’s no way to determine which code path will be taken.</strong></p>
 
-<strong>The compiler has absolutely no problem with the above declaration.</strong> The class you put that in will happily compile, but the problem arises when you try to use it:
-<code>
-Widget w(...);
-// Suddenly, the compiler complains, not knowing which operator to use
-unsigned long int foo = w;
-</code>
+<p>For a little bit of context, I came across a set of type-conversion operators that seemed reasonable enough. They tried to cover the whole gamut of possible primitive types:</p>
 
-At this point, the compiler puts its foot down. What to me seems unintuitive is that even though there is an conversion operator to this exact type, the compiler won&#8217;t use it. What&#8217;s even more bizarre to me is that typedefs and in-header definitions can further muddle things up:
-<code>
-operator long long() const;
-operator long() const;
-operator int() const;
-operator short() const;
-// For whatever reason, let's say you do this:
-operator int32_t() const {
-    return operator long long();
-}
-</code>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="c++"><span class="line"><span class="k">operator</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">long</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+</span><span class="line"><span class="k">operator</span> <span class="kt">long</span> <span class="kt">long</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+</span><span class="line"><span class="k">operator</span> <span class="kt">unsigned</span> <span class="kt">long</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="k">operator</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">long</span><span class="p">();</span> <span class="p">}</span>
+</span><span class="line"><span class="k">operator</span> <span class="kt">long</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="k">operator</span> <span class="kt">long</span> <span class="kt">long</span><span class="p">();</span> <span class="p">}</span>
+</span><span class="line"><span class="p">...</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<strong>Even though int32_t will be the same as one of those other types, this will still compile.</strong> It makes a certain amount of sense when viewed in the context of the compiler because after all, it only does so much processing on headers because they&#8217;re going to be directly included wherever you use them. <strong>You actually don&#8217;t get duplicate symbols in this case, and thus no &#8220;previously-defined&#8221; error.</strong> In reality, their function definitions are the same, and they actually get mangled to the same name (on my system the operators for int32_t and int both mangle to &#8216;_ZNK6WidgetcviEv&#8217;):
-<code>
-# See what mangled symbols actually appear
-nm -j widget.o
-# See what demangled symbols are actually there
-nm -j widget.o | sed s/__/_/ | grep -v .eh | c++filt -n
-</code>
+<p><strong>The compiler has absolutely no problem with the above declaration.</strong> The class you put that in will happily compile, but the problem arises when you try to use it:</p>
 
-The above (with in-header definitions) is exactly what we encountered in the code. We (well, a co-worker) suspected that the reason that the sort of multiple definition was allowed was that the names were getting mangled based on their typedef name string (mangled on int32_t instead of the actual type it maps to), but this is not the case. If you move the in-header definition for the int32_t operator into the .cpp file, the compiler will complain to you earlier.
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="c++"><span class="line"><span class="n">Widget</span> <span class="n">w</span><span class="p">(...);</span>
+</span><span class="line"><span class="c1">// Suddenly, the compiler complains, not knowing which operator to use</span>
+</span><span class="line"><span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">int</span> <span class="n">foo</span> <span class="o">=</span> <span class="n">w</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-My first inclination when dealing with the &#8220;conversion to type long long is ambiguous&#8221; error was to ask for an explicit conversion: static_cast&lt;long long int&gt;(myWidget). However, this doesn&#8217;t work either. So even in this scenario, <strong>you can&#8217;t even ask for a specific type conversion operator.</strong> From what I can gather, type-conversion operators are a double-edged lightsaber: few things in C++ were added without a purpose, but it&#8217;s extremely important to understand that exact purpose and its risks. To require that type conversions are <strong>explicit</strong> you should generally use something like:
-<code>
-template <class T>
-const T convert() const {
-...
-}
+<p>At this point, the compiler puts its foot down. What to me seems unintuitive is that even though there is an conversion operator to this exact type, the compiler won’t use it. What’s even more bizarre to me is that typedefs and in-header definitions can further muddle things up:</p>
 
-template <>
-const bool convert<bool>() const {
-// Your conversion to bool
-...
-}
-</code>
-</div>
-  
-  
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="c++"><span class="line"><span class="k">operator</span> <span class="kt">long</span> <span class="kt">long</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+</span><span class="line"><span class="k">operator</span> <span class="kt">long</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+</span><span class="line"><span class="k">operator</span> <span class="kt">int</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+</span><span class="line"><span class="k">operator</span> <span class="kt">short</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+</span><span class="line"><span class="c1">// For whatever reason, let&#39;s say you do this:</span>
+</span><span class="line"><span class="k">operator</span> <span class="n">int32_t</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+</span><span class="line">    <span class="k">return</span> <span class="k">operator</span> <span class="kt">long</span> <span class="kt">long</span><span class="p">();</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
+<p><strong>Even though <code>int32_t</code> will be the same as one of those other types, this will still compile.</strong> It makes a certain amount of sense when viewed in the context of the compiler because after all, it only does so much processing on headers because they’re going to be directly included wherever you use them. <strong>You actually don’t get duplicate symbols in this case, and thus no “previously-defined” error.</strong> In reality, their function definitions are the same, and they actually get mangled to the same name (on my system the operators for <code>int32_t</code> and <code>int</code> both mangle to ‘_ZNK6WidgetcviEv’):</p>
 
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/08/05/port1-a-four-letter-word/">Port(1): A Four-Letter Word?</a></h1>
-    
-    
-      <p class="meta">
-        
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># See what mangled symbols actually appear</span>
+</span><span class="line">nm -j widget.o
+</span><span class="line"><span class="c"># See what demangled symbols are actually there</span>
+</span><span class="line">nm -j widget.o | sed s/__/_/ | grep -v .eh | c++filt -n
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
+<p>The above (with in-header definitions) is exactly what we encountered in the code. We (well, a co-worker) suspected that the reason that the sort of multiple definition was allowed was that the names were getting mangled based on their typedef name string (mangled on <code>int32_t</code> instead of the actual type it maps to), but this is not the case. If you move the in-header definition for the <code>int32_t</code> operator into the .cpp file, the compiler will complain to you earlier.</p>
 
+<p>My first inclination when dealing with the “conversion to type long long is ambiguous” error was to ask for an explicit conversion: static_cast&lt;long long int&gt;(myWidget). However, this doesn’t work either. So even in this scenario, <strong>you can’t even ask for a specific type conversion operator.</strong> From what I can gather, type-conversion operators are a double-edged lightsaber: few things in C++ were added without a purpose, but it’s extremely important to understand that exact purpose and its risks. To require that type conversions are <strong>explicit</strong> you should generally use something like:</p>
 
-
-
-
-
-
-  
-
-
-<time datetime="2011-08-05T00:00:00-07:00" pubdate data-updated="true">Aug 5<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content">To me, port has always been kind of a dirty word. Sure, it&#8217;s nice to have a package manager for Mac, especially after getting used to apt-get. Still, things tend to show up in weird places, and paths get confused.
-
-For instance, I was extremely frustrated this week to find that on OS X Lion, gcc-4.4.5 just would&#8230; not&#8230; compile. Frustrating stuff. I was tasked with porting this enormous existing in-house code base (of about 60-100k lines) to Mac, but was dismayed to find that they required C++0x features, which are unsupported in gcc 4.2.
-
-Giving up, I turned to MacPorts as a broken, empty shell of a man. MacPorts was able to compile it, though relegated to /opt/, and though I could add that to my path, this new version of gcc wasn&#8217;t ready to consider the libraries I had installed in /usr/local/ by hand. Of course, I could edit all the makefiles, or do some other magics, but it turns out MacPorts can be bent to your will.
-
-Like most, I had installed the binary release of MacPorts, configured to live in /opt/, but if you instead <strong>build from source</strong>, you can:
-<code>
-./configure --prefix=/usr/local --with-unsupported-prefix
-</code>
-
-This has not only MacPorts reside in /usr/local/, but then it will also in turn install its packages there as well! I don&#8217;t think I&#8217;m the only one who appreciates that kind of consistency &#8211; all my libraries in the right place. I still feel slightly dirty whenever I have to rely on port, but at least when I do, I can save a little face.
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2011/08/05/error-macro-win/">Error Macro Win</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2011-08-05T00:00:00-07:00" pubdate data-updated="true">Aug 5<span>th</span>, 2011</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content">Still porting Linux code to Mac, I&#8217;ve been trying to keep a useful habit: using the #warning and #error macros. This new code is riddled with #ifdef&#8217;s checking whether or not we&#8217;re trying to build on a Mac, and using alternatives to the Linux-only system calls, but in parsing these large chunks of code, sometimes I forget what I&#8217;m doing. How horrible would it be to accidentally leave empty the Mac-only code block when it&#8217;s meant to actually do something.
-
-So, whenever I open up one such block, I add a little macro:
-<code>
-#ifndef MAC
-// ... The Linux-only code
-// ... takes up
-// ... a lot
-// ... of space
-#else
-#error "Don't forget to implement it as Mac!"
-#endif
-</code>
-
-At least I&#8217;ll always catch it at compile time, and when I fix/add the Mac-only code, then I can go ahead and remove that macro. It&#8217;s not that I&#8217;m forgetful, but I&#8217;ve shot myself in the foot so much at this point.
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class="c++"><span class="line"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+</span><span class="line"><span class="k">const</span> <span class="n">T</span> <span class="n">convert</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+</span><span class="line"><span class="p">...</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="k">template</span> <span class="o">&lt;&gt;</span>
+</span><span class="line"><span class="k">const</span> <span class="kt">bool</span> <span class="n">convert</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+</span><span class="line"><span class="c1">// Your conversion to bool</span>
+</span><span class="line"><span class="p">...</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
   
   

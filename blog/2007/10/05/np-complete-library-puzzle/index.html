@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,17 +134,17 @@
   </header>
 
 
-<div class="entry-content">It seems like the last month, the only thing on my mind is NP-completeness.  For those of you who are not cool enough, er, nerdy enough to know about this class of problems, the basic idea is this: if you want to solve a NPC problem, you&#8217;re f**ked.  See <a href="http://en.wikipedia.org/wiki/NP-complete">Wikipedia</a>.
+<div class="entry-content"><p>It seems like the last month, the only thing on my mind is NP-completeness.  For those of you who are not cool enough, er, nerdy enough to know about this class of problems, the basic idea is this: if you want to solve a NPC problem, you’re f**ked.  See <a href="http://en.wikipedia.org/wiki/NP-complete">Wikipedia</a>.</p>
 
-The library on campus has had a puzzle available for people to take a crack at, with the potential for $50 at the book store.  If you can solve one half of it, you get one entry, and if you can solve the other half, you get a second.  The drawing is at 1 PM today.
+<p>The library on campus has had a puzzle available for people to take a crack at, with the potential for $50 at the book store.  If you can solve one half of it, you get one entry, and if you can solve the other half, you get a second.  The drawing is at 1 PM today.</p>
 
-The problem?  Shape-separability.  You&#8217;ve seen these genre of puzzles before: a hopeless tangle of metal parts one of which can be removed from the mess.  This&#8230; is an NP-Complete problem.
+<p>The problem?  Shape-separability.  You’ve seen these genre of puzzles before: a hopeless tangle of metal parts one of which can be removed from the mess.  This… is an NP-Complete problem.</p>
 
-We even talked about shape-separability in Applied Algorithms, proving that it&#8217;s NPC by reducing it from set-partition - a problem we proved NPC on a homework (I used subset-sum).  (A quick note: a problem is shown NPC by demonstrating that a known NPC problem, and reduce it to your problem, the thinking being that if you can solve your problem in polynomial time, you can solve this NPC complete problem in polynomial time.  Therefore, your problem is in NPC.)
+<p>We even talked about shape-separability in Applied Algorithms, proving that it’s NPC by reducing it from set-partition - a problem we proved NPC on a homework (I used subset-sum).  (A quick note: a problem is shown NPC by demonstrating that a known NPC problem, and reduce it to your problem, the thinking being that if you can solve your problem in polynomial time, you can solve this NPC complete problem in polynomial time.  Therefore, your problem is in NPC.)</p>
 
-I took a look at it yesterday and played with it for about an hour, leaving irked that I couldn&#8217;t solve it - I had expected not a physical puzzle, but rather something a computer scientist might like.  I had also expected that it would be the kind of thing I could just show up for and solve on the spot.  On the way to school this morning, I had a sort of &#8216;ah-ha&#8217; moment (no, not &#8220;Take On Me&#8221;), and so before class, I hopped on over the library and the solution was exactly what I had come up with.  A good start to hopefully a good day.
+<p>I took a look at it yesterday and played with it for about an hour, leaving irked that I couldn’t solve it - I had expected not a physical puzzle, but rather something a computer scientist might like.  I had also expected that it would be the kind of thing I could just show up for and solve on the spot.  On the way to school this morning, I had a sort of ‘ah-ha’ moment (no, not “Take On Me”), and so before class, I hopped on over the library and the solution was exactly what I had come up with.  A good start to hopefully a good day.</p>
 
-I&#8217;ve got my two entries and we&#8217;ll see what happens at 1 - it&#8217;s a tough problem (after all, it&#8217;s NPC), and it was not well-advertised.
+<p>I’ve got my two entries and we’ll see what happens at 1 - it’s a tough problem (after all, it’s NPC), and it was not well-advertised.</p>
 </div>
 
 

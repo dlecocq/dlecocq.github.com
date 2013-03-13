@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,9 +134,9 @@
   </header>
 
 
-<div class="entry-content">Two days ago I finished my final for Scientific Computing (it was a take-home final), and was somewhat sad to see the end of it.  Sure, it was a lot of work (too much, according to Matt Matteson) - I spent literally upwards of a hundred hours this semester working on the homework and exams.  I recently tallied up the number of pages I submitted, and it was upwards of a 135 8.5 x 11 pages, most of it marked up in LaTeX.  (Because of this class my LaTeX-fu has grown significantly stronger.)
+<div class="entry-content"><p>Two days ago I finished my final for Scientific Computing (it was a take-home final), and was somewhat sad to see the end of it.  Sure, it was a lot of work (too much, according to Matt Matteson) - I spent literally upwards of a hundred hours this semester working on the homework and exams.  I recently tallied up the number of pages I submitted, and it was upwards of a 135 8.5 x 11 pages, most of it marked up in LaTeX.  (Because of this class my LaTeX-fu has grown significantly stronger.)</p>
 
-I look forward to any more classes I have with this prof.
+<p>I look forward to any more classes I have with this prof.</p>
 </div>
 
 

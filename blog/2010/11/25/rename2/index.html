@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,16 +134,17 @@
   </header>
 
 
-<div class="entry-content">I found myself needing to systematically rename a bunch of files, and previously the only way I knew to do it was with a loop, passing each filename into sed, and using the output as the destination filename.  Tedious and error prone!
+<div class="entry-content"><p>I found myself needing to systematically rename a bunch of files, and previously the only way I knew to do it was with a loop, passing each filename into sed, and using the output as the destination filename.  Tedious and error prone!</p>
 
-However, it turns out that people have anticipated this use case, and there is a utility for this exact purpose, called &#8220;rename.&#8221;  It allows you to provide a perl-style regular expression whose input is the existing filename found by your search expression, and whose output is what that file should be renamed.  There&#8217;s even an <em>especially useful option</em> to take no action, but only to print out what the new filenames would be, allowing you to perform a dry-run before you rename 100000 files.
+<p>However, it turns out that people have anticipated this use case, and there is a utility for this exact purpose, called “rename.”  It allows you to provide a perl-style regular expression whose input is the existing filename found by your search expression, and whose output is what that file should be renamed.  There’s even an <em>especially useful option</em> to take no action, but only to print out what the new filenames would be, allowing you to perform a dry-run before you rename 100000 files.</p>
 
-Example:
-<code>
-rename -n 's/^/some.file.prefix./' *.jpg
-</code>
+<p>Example:</p>
 
-Happy renaming!
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">rename -n <span class="s1">&#39;s/^/some.file.prefix./&#39;</span> *.jpg
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Happy renaming!</p>
 </div>
 
 

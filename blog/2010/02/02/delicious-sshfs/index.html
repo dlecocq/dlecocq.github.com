@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="It is extremely easy for computer scientists (well, and the rest of humanity) to get entrenched in their ways. You&#8217;ve learned and taken the &hellip;">
+  <meta name="description" content="It is extremely easy for computer scientists (well, and the rest of humanity) to get entrenched in their ways. You’ve learned and taken the time to &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,22 +134,25 @@
   </header>
 
 
-<div class="entry-content">It is extremely easy for computer scientists (well, and the rest of humanity) to get entrenched in their ways.  You&#8217;ve learned and taken the time to become a master of a programming language, or tool, and it&#8217;s a serious time investment.  As such, new tools generally have to be very compelling in order to get someone to switch.  For example, I&#8217;m a recent svn-to-git convert, and am often met with horrified looks when I suggest others give it a shot.  A visiting professor I spoke to yesterday said that it would be years before they stopped using svn.
+<div class="entry-content"><p>It is extremely easy for computer scientists (well, and the rest of humanity) to get entrenched in their ways.  You’ve learned and taken the time to become a master of a programming language, or tool, and it’s a serious time investment.  As such, new tools generally have to be very compelling in order to get someone to switch.  For example, I’m a recent svn-to-git convert, and am often met with horrified looks when I suggest others give it a shot.  A visiting professor I spoke to yesterday said that it would be years before they stopped using svn.</p>
 
-Recently, I&#8217;ve begun using sshfs.  It mounts a volume over ssh and appears as any normal folder on your computer.  It behaves that way at the command line, or your text editor, or as far as VLC is concerned.  For development, I had always maintained a local copy and rsync&#8217;d changes to the remote machine I was using.  It worked well enough, and was often more convenient than using a tool like Cyberduck.
+<p>Recently, I’ve begun using sshfs.  It mounts a volume over ssh and appears as any normal folder on your computer.  It behaves that way at the command line, or your text editor, or as far as VLC is concerned.  For development, I had always maintained a local copy and rsync’d changes to the remote machine I was using.  It worked well enough, and was often more convenient than using a tool like Cyberduck.</p>
 
-Aron recommended sshfs, and though it took me a while to try it out, I&#8217;m hooked.  No more trying to remember if I&#8217;ve synchronized my code with the other machine I&#8217;m using, only editing and saving.  It&#8217;s really easy when you have ssh keys set up as well.  To mount your home directory on a remote machine:
-<code>
-$> mkdir datastore_mount
-$> sshfs datastore: datastore_mount
-</code>
+<p>Aron recommended sshfs, and though it took me a while to try it out, I’m hooked.  No more trying to remember if I’ve synchronized my code with the other machine I’m using, only editing and saving.  It’s really easy when you have ssh keys set up as well.  To mount your home directory on a remote machine:</p>
 
-And now, I&#8217;ve got access to remote files on datastore as if they lived in the directory datastore_mount.  Unmounting is business as usual:
-<code>
-$> umount datastore_mount
-</code>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="nv">$&gt;</span> mkdir datastore_mount
+</span><span class="line"><span class="nv">$&gt;</span> sshfs datastore: datastore_mount
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-Try it, use it, live it.  You won&#8217;t regret it.
+<p>And now, I’ve got access to remote files on datastore as if they lived in the directory datastore_mount.  Unmounting is business as usual:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="nv">$&gt;</span> umount datastore_mount
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Try it, use it, live it.  You won’t regret it.</p>
 </div>
 
 

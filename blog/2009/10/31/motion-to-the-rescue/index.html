@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,25 +134,25 @@
   </header>
 
 
-<div class="entry-content">For the last several weeks, things have been disappearing from my office area.  First, a backpack I had left out.  I had assumed that people in an academic building full of offices would be trustworthy, perhaps I had this one coming.  A couple weeks after that, I went to use my camera only to find it gone.  Funny, I thought I locked that drawer.  I guess I must have been mistaken.  A couple weeks after that, my iPhone gone.  This time, I&#8217;m certain I locked the drawer, and there are marks on the cabinet that indicate it being forced open.
+<div class="entry-content"><p>For the last several weeks, things have been disappearing from my office area.  First, a backpack I had left out.  I had assumed that people in an academic building full of offices would be trustworthy, perhaps I had this one coming.  A couple weeks after that, I went to use my camera only to find it gone.  Funny, I thought I locked that drawer.  I guess I must have been mistaken.  A couple weeks after that, my iPhone gone.  This time, I’m certain I locked the drawer, and there are marks on the cabinet that indicate it being forced open.</p>
 
-Fed up with the disappearing devices, my friend Tyler and I set out on a mission.  We went into Jeddah, bought a webcam and using the <a href="http://www.theregister.co.uk/2005/02/17/chav_burglar/">popular</a> (thank to Iain for the link) Linux package <a href="http://www.lavrsen.dk/twiki/bin/view/Motion/WebHome">motion</a>, we set up a hidden motion-detecting spy cam in our office.  We have a Linux box sitting near our desk (we&#8217;ve locked it to the floor), and so we hid the camera, trained on the place where most of disappearances had taken place.
+<p>Fed up with the disappearing devices, my friend Tyler and I set out on a mission.  We went into Jeddah, bought a webcam and using the <a href="http://www.theregister.co.uk/2005/02/17/chav_burglar/">popular</a> (thank to Iain for the link) Linux package <a href="http://www.lavrsen.dk/twiki/bin/view/Motion/WebHome">motion</a>, we set up a hidden motion-detecting spy cam in our office.  We have a Linux box sitting near our desk (we’ve locked it to the floor), and so we hid the camera, trained on the place where most of disappearances had taken place.</p>
 
-[caption id=&#8221;attachment_680&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A test shot of Tyler as we&#39;re setting it up.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/10/01-20091023174435-04.jpg"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/10/01-20091023174435-04-300x225.jpg" alt="A test shot of Tyler as we&#039;re setting it up." title="01-20091023174435-04" width="300" height="225" class="size-medium wp-image-680" /></a>[/caption]
+<p>[caption id=”attachment_680” align=”aligncenter” width=”300” caption=”A test shot of Tyler as we&#8217;re setting it up.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/10/01-20091023174435-04.jpg"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/10/01-20091023174435-04-300x225.jpg" alt="A test shot of Tyler as we&#039;re setting it up." title="01-20091023174435-04" width="300" height="225" class="size-medium wp-image-680" /></a>[/caption]</p>
 
-What motion does is that every time it detects the picture it sees changing, it takes pictures for five seconds (or until the motion stops - which ever takes longer).  It&#8217;s supposed to be able to encode a video with ffmpeg on the fly, but as it wasn&#8217;t working right for us, we decided to just go ahead and throw it into a script.  I wrote a short bash script that just took all the photos, archived them and then generated a video (when dealing with the tens of thousands of photos generated in an average day and night I learned about xargs).  It also provides triggers for when motion is captured (for example, if you&#8217;d like to update <a href="http://tech.shantanugoel.com/2008/05/14/keep-tab-on-home-security-with-a-webcam-and-twitter.html">Twitter</a> (via <a href="http://lifehacker.com/391141/get-twitter-notifications-from-a-motion+detecting-webcam">Lifehacker</a>) you can do this with curl).
+<p>What motion does is that every time it detects the picture it sees changing, it takes pictures for five seconds (or until the motion stops - which ever takes longer).  It’s supposed to be able to encode a video with ffmpeg on the fly, but as it wasn’t working right for us, we decided to just go ahead and throw it into a script.  I wrote a short bash script that just took all the photos, archived them and then generated a video (when dealing with the tens of thousands of photos generated in an average day and night I learned about xargs).  It also provides triggers for when motion is captured (for example, if you’d like to update <a href="http://tech.shantanugoel.com/2008/05/14/keep-tab-on-home-security-with-a-webcam-and-twitter.html">Twitter</a> (via <a href="http://lifehacker.com/391141/get-twitter-notifications-from-a-motion+detecting-webcam">Lifehacker</a>) you can do this with curl).</p>
 
-One night, when bored and filled with anger about the situation, I decided to check the feed and found footage of someone clear-as-day breaking into my cabinet.  I first saw it about 20 minutes after the fact, but I was sure the guy was still there.  I called Tyler and we quickly deliberated (after getting the opinions of a couple officemates) and we decided to wait until the morning and talk to the security officer.
+<p>One night, when bored and filled with anger about the situation, I decided to check the feed and found footage of someone clear-as-day breaking into my cabinet.  I first saw it about 20 minutes after the fact, but I was sure the guy was still there.  I called Tyler and we quickly deliberated (after getting the opinions of a couple officemates) and we decided to wait until the morning and talk to the security officer.</p>
 
-[caption id=&#8221;attachment_681&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Looking for goodies.  The man&#39;s face is not visible in this shot nor is this frame alone incriminating.  In the context of the video, you can see him gain entry, begin rummaging and removing items.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/10/01-20091026215724-10.jpg"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/10/01-20091026215724-10-300x225.jpg" alt="Looking for goodies.  The man&#039;s face is not visible in this shot nor is this frame alone incriminating.  In the context of the video, you can see him gain entry, begin rummaging and removing items." title="01-20091026215724-10" width="300" height="225" class="size-medium wp-image-681" /></a>[/caption]
+<p>[caption id=”attachment_681” align=”aligncenter” width=”300” caption=”Looking for goodies.  The man&#8217;s face is not visible in this shot nor is this frame alone incriminating.  In the context of the video, you can see him gain entry, begin rummaging and removing items.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/10/01-20091026215724-10.jpg"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/10/01-20091026215724-10-300x225.jpg" alt="Looking for goodies.  The man&#039;s face is not visible in this shot nor is this frame alone incriminating.  In the context of the video, you can see him gain entry, begin rummaging and removing items." title="01-20091026215724-10" width="300" height="225" class="size-medium wp-image-681" /></a>[/caption]</p>
 
-We spent some time with them the next morning, giving them footage and printing key frames, and then they said they&#8217;d look into it.  They assured us they would not involve the local authorities if they didn&#8217;t have to (the penalty for such crimes in Saudi Arabia can be quite stiff) and would take care of it discreetly.  That night, they arrested four people and recovered a number of electronic devices.  They held them as evidence for a bit, but today, I was given back my camera and iPhone (the only really big-ticket items I had stolen).
+<p>We spent some time with them the next morning, giving them footage and printing key frames, and then they said they’d look into it.  They assured us they would not involve the local authorities if they didn’t have to (the penalty for such crimes in Saudi Arabia can be quite stiff) and would take care of it discreetly.  That night, they arrested four people and recovered a number of electronic devices.  They held them as evidence for a bit, but today, I was given back my camera and iPhone (the only really big-ticket items I had stolen).</p>
 
-I am extremely relieved to have these back, especially my camera as I had been wanting to take photos of trips, events, etc. in its absence.  Our next step was going to have off-site storage in case the bandits took off with our computer, but it would seem it wasn&#8217;t necessary.
+<p>I am extremely relieved to have these back, especially my camera as I had been wanting to take photos of trips, events, etc. in its absence.  Our next step was going to have off-site storage in case the bandits took off with our computer, but it would seem it wasn’t necessary.</p>
 
-Motion: 1, Thieves: 0
+<p>Motion: 1, Thieves: 0</p>
 
-Of course, this was not a solo effort by any means.  Some system admins and colleagues in the office park offered input, and the evidence wouldn&#8217;t have left our webcam if not for the security staff.  Thanks, guys.
+<p>Of course, this was not a solo effort by any means.  Some system admins and colleagues in the office park offered input, and the evidence wouldn’t have left our webcam if not for the security staff.  Thanks, guys.</p>
 </div>
 
 

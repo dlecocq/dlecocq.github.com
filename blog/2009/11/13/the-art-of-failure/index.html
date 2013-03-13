@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="I&#8217;ve failed before, at many things, and it is a habit I can&#8217;t seem to break. It&#8217;s inevitable that things won&#8217;t work ( &hellip;">
+  <meta name="description" content="I’ve failed before, at many things, and it is a habit I can’t seem to break. It’s inevitable that things won’t work (especially not the first time) &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,11 +134,11 @@
   </header>
 
 
-<div class="entry-content">I&#8217;ve failed before, at many things, and it is a habit I can&#8217;t seem to break.  It&#8217;s inevitable that things won&#8217;t work (especially not the first time) and in fact programmers know that it&#8217;s a beautiful thing when code compiles the first time, let alone works correctly the first time.
+<div class="entry-content"><p>I’ve failed before, at many things, and it is a habit I can’t seem to break.  It’s inevitable that things won’t work (especially not the first time) and in fact programmers know that it’s a beautiful thing when code compiles the first time, let alone works correctly the first time.</p>
 
-With graphics, the results are sometimes cool, sometimes horrifying and sometimes beautiful.  I make a habit of documenting the results of broken code as much as I can, and after a recent one, I thought I&#8217;d share some of the more interesting ones.
+<p>With graphics, the results are sometimes cool, sometimes horrifying and sometimes beautiful.  I make a habit of documenting the results of broken code as much as I can, and after a recent one, I thought I’d share some of the more interesting ones.</p>
 
-[gallery link=&#8221;file&#8221;]
+<p>[gallery link=”file”]</p>
 </div>
 
 

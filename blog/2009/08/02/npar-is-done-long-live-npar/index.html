@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,11 +134,11 @@
   </header>
 
 
-<div class="entry-content">NPAR (Non-Photorealistic Animation and Rendering) 2009 finished wrapped today and I found it entirely compelling.  Stunning keynotes from Disney/Pixar and Ubisoft reminded me of why I&#8217;m so interested in graphics - pretty pictures.
+<div class="entry-content"><p>NPAR (Non-Photorealistic Animation and Rendering) 2009 finished wrapped today and I found it entirely compelling.  Stunning keynotes from Disney/Pixar and Ubisoft reminded me of why I’m so interested in graphics - pretty pictures.</p>
 
-Going into this, I had anticipated that I would be far out-shined by the presenters and papers, but now more than ever I feel as though I can really compete with these guys.
+<p>Going into this, I had anticipated that I would be far out-shined by the presenters and papers, but now more than ever I feel as though I can really compete with these guys.</p>
 
-I&#8217;m still sort of shopping for a thesis, and there are a million ideas I&#8217;ve come across here to develop.  I&#8217;m keeping a list of techniques I&#8217;d like to apply to these problems and a list of projects and things to implement hopefully in a weekend.  A non-exhaustive list would include:
+<p>I’m still sort of shopping for a thesis, and there are a million ideas I’ve come across here to develop.  I’m keeping a list of techniques I’d like to apply to these problems and a list of projects and things to implement hopefully in a weekend.  A non-exhaustive list would include:</p>
 <ul>
 	<li>feature lines in raytracing</li>
 	<li>stippling</li>
@@ -115,7 +146,7 @@ I&#8217;m still sort of shopping for a thesis, and there are a million ideas I&#
 	<li>exploring space-filling curves</li>
 </ul>
 
-Thank you to all the presenters and keynote speakers - you were all fantastic.  And thanks to all the planners and sponsors of the conference.
+<p>Thank you to all the presenters and keynote speakers - you were all fantastic.  And thanks to all the planners and sponsors of the conference.</p>
 </div>
 
 

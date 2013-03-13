@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="Up to this point, my ray tracer had been limited to rendering spheres and triangles, and, while there&#8217;s a lot you can do with these primitives &hellip;">
+  <meta name="description" content="I got a new render up from my ray tracer that applies planetary textures to spheres and makes them spin on their respective axes (none of the planets &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -83,6 +114,177 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2009/04/26/new-render/">New Render</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-04-26T00:00:00-07:00" pubdate data-updated="true">Apr 26<span>th</span>, 2009</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>I got a new render up from my ray tracer that applies planetary textures to spheres and makes them spin on their respective axes (none of the planets in our solar system spin on a “vertical” axis).  I hope to do one with their orbits, but I haven’t had a chance to get to it; though, the nice thing is, I just have to define their paths and rotations as a function of time, and where I want the viewpoint to be.  It took about 15 minutes to render in full HD 1080x1920 on 18 processors:</p>
+
+<object width="480" height="295"><param name="movie" value="http://www.youtube.com/v/z56qL2bHqNo&amp;hl=en&amp;fs=1&amp;rel=0&amp;color1=0x2b405b&amp;color2=0x6b8ab6" /><param name="allowFullScreen" value="true" /><param name="allowscriptaccess" value="always" /><embed src="http://www.youtube.com/v/z56qL2bHqNo&amp;hl=en&amp;fs=1&amp;rel=0&amp;color1=0x2b405b&amp;color2=0x6b8ab6" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="480" height="295" /></object>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/04/24/ray-tracer-texturing-support/">Ray Tracer - Texturing Support</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-04-24T00:00:00-07:00" pubdate data-updated="true">Apr 24<span>th</span>, 2009</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>It’s all well and good to be able to render shapes in space in a photorealistic way, but at some point you’d like to draw something that doesn’t have just one surface color.  After all, a billboard isn’t just a bunch of shapes each of which has one color - it’s one object with paint / ink placed on it in an ordered way.</p>
+
+<p>Texturing accomplishes by taking a primitive shape (like a sphere, triangle, surface of revolution, etc.) and wrapping an image onto and over it.  Let’s consider a sphere in space:
+[caption id=”attachment_502” align=”aligncenter” width=”300” caption=”A white sphere in space.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output4.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output4-300x168.png" alt="A white sphere in space." title="sphere" width="300" height="168" class="size-medium wp-image-502" /></a>[/caption]</p>
+
+<p>Now let’s say we mean it to be Earth.  Then we can take a picture of Earth that’s flat:
+[caption id=”attachment_503” align=”aligncenter” width=”300” caption=”Flattened map of Earth”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/texturesmall.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/texturesmall-300x150.png" alt="Flattened map of Earth" title="texturesmall" width="300" height="150" class="size-medium wp-image-503" /></a>[/caption]</p>
+
+<p>and then map it onto a sphere to get a picture of what we all know Earth to look like:
+[caption id=”attachment<em>504” align=”aligncenter” width=”300” caption=”Behold!”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/earth.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/earth-300x168.png" alt="Behold!" title="Planet Earth" width="300" height="168" class="size-medium wp-image-504" /></a>[/caption]
+[caption id=”attachment</em>506” align=”aligncenter” width=”300” caption=”Two Mars globes where the left is what is seen with the eye, and the right is a topographic map.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/mars-twin.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/mars-twin-300x168.png" alt="Two Mars globes where the left is what is seen with the eye, and the right is a topographic map." title="mars" width="300" height="168" class="size-medium wp-image-506" /></a>[/caption]</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/04/16/ip-geolocation/">IP Geolocation</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-04-16T00:00:00-07:00" pubdate data-updated="true">Apr 16<span>th</span>, 2009</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>There are a million services out there where you type in an IP address and get an estimate as to its location.  A few months ago I stumbled across a free IP geolocation database because I find myself using online services from time to time - I was sort of surprised how often it’s helpful to know where traffic is coming from (outside of Google Analytics, etc.).</p>
+
+<p>Using the <a href="http://www.iplocationtools.com/sql_database.php">database</a> I found, I threw together a script that takes a list of domain names and / or IP addresses and gives you an idea of where it lives:</p>
+
+<p><code>
+dan-lecocqs-macbook:~ dlecocq$ ipquery google.com
+ 209.85.171.100        Mountain View, US 94043 37.4192 -122.0570
+dan-lecocqs-macbook:~ dlecocq$ ipquery yahoo.com
+ 68.180.206.184            Sunnyvale, US 94089 37.4249 -122.0070
+dan-lecocqs-macbook:~ dlecocq$ ipquery apple.com
+  17.251.200.70            Cupertino, US 95014 37.3042 -122.0950
+dan-lecocqs-macbook:~ dlecocq$ ipquery mines.edu
+     138.67.1.8               Golden, US 80401 39.7146 -105.2430
+</code></p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2009/04/06/ray-tracer-now-with-animation/">Ray Tracer - Now With Animation</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2009-04-06T00:00:00-07:00" pubdate data-updated="true">Apr 6<span>th</span>, 2009</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>It occurred to me today that I could render a scene several times with slight perturbations and then mesh them together into a movie.  It took about 15 minutes to render on a cluster at Mines, and then about a minute to stitch together with Mencoder.  At 18 frames per second, here is the result.  Enjoy!</p>
+
+<object width="425" height="344"><param name="movie" value="http://www.youtube.com/v/mWT0UOBTT5Y&amp;hl=en&amp;fs=1&amp;rel=0&amp;color1=0x006699&amp;color2=0x54abd6" /><param name="allowFullScreen" value="true" /><param name="allowscriptaccess" value="always" /><embed src="http://www.youtube.com/v/mWT0UOBTT5Y&amp;hl=en&amp;fs=1&amp;rel=0&amp;color1=0x006699&amp;color2=0x54abd6" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="425" height="344" /></object>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2009/04/04/ray-tracer-feature-lathes/">Ray Tracer Feature: Lathes</a></h1>
     
     
@@ -106,12 +308,12 @@
   </header>
 
 
-  <div class="entry-content">Up to this point, my ray tracer had been limited to rendering spheres and triangles, and, while there&#8217;s a lot you can do with these primitives, it&#8217;s often more efficient and effective to use a lathe or surface or rotation.  Imagine you&#8217;ve got a curve, and you rotate it around some axis, keeping track of the surface it swept out.
+  <div class="entry-content"><p>Up to this point, my ray tracer had been limited to rendering spheres and triangles, and, while there’s a lot you can do with these primitives, it’s often more efficient and effective to use a lathe or surface or rotation.  Imagine you’ve got a curve, and you rotate it around some axis, keeping track of the surface it swept out.</p>
 
-Alternatively, imagine a lump of clay on a clay wheel.  As the wheel rotates, if you hold some shape against the clay, it will become a solid that&#8217;s symmetrical about the vertical axis.  Here&#8217;s a sine curve rotated about $$x = 0$$:
-[caption id=&#8221;attachment_489&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A sinusoidal lathe and a sphere.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output3.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output3-300x300.png" alt="A sinusoidal lathe and a sphere." title="Lathe" width="300" height="300" class="size-medium wp-image-489" /></a>[/caption]
+<p>Alternatively, imagine a lump of clay on a clay wheel.  As the wheel rotates, if you hold some shape against the clay, it will become a solid that’s symmetrical about the vertical axis.  Here’s a sine curve rotated about <script type="math/tex">x = 0</script>:
+[caption id=”attachment_489” align=”aligncenter” width=”300” caption=”A sinusoidal lathe and a sphere.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output3.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output3-300x300.png" alt="A sinusoidal lathe and a sphere." title="Lathe" width="300" height="300" class="size-medium wp-image-489" /></a>[/caption]</p>
 
-[caption id=&#8221;attachment_491&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A polynomial curve rotated about x=0.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/poly_lathe_1_reflect.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/poly_lathe_1_reflect-300x300.png" alt="A polynomial curve rotated about x=0." title="Polynomial Lathe" width="300" height="300" class="size-medium wp-image-491" /></a>[/caption]
+<p>[caption id=”attachment_491” align=”aligncenter” width=”300” caption=”A polynomial curve rotated about x=0.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/poly_lathe_1_reflect.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/poly_lathe_1_reflect-300x300.png" alt="A polynomial curve rotated about x=0." title="Polynomial Lathe" width="300" height="300" class="size-medium wp-image-491" /></a>[/caption]</p>
 </div>
   
   
@@ -147,11 +349,11 @@ Alternatively, imagine a lump of clay on a clay wheel.  As the wheel rotates, if
   </header>
 
 
-  <div class="entry-content">This afternoon I was able to successfully parallelize the ray tracer I wrote for Graphics II to run on the Alamode cluster at Mines.  Using 17 machines, I was able to render a 4,096 x 4,096 pixel image with 25 passes and up to 5 reflections.  It took only 1 minute and 20 seconds.
-[caption id=&#8221;attachment_481&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Reflective spheres rendered at high resolution on a small cluster.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output-300x300.png" alt="Reflective spheres rendered at high resolution on a small cluster." title="Spheres" width="300" height="300" class="size-medium wp-image-481" /></a>[/caption]
-[caption id=&#8221;&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Another image rendered on the same cluster&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output1.png"><img alt="Another image rendered on the same cluster" src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output8-300x300.png" title="Sphere and Triangles" width="300" height="300" /></a>[/caption]
+  <div class="entry-content"><p>This afternoon I was able to successfully parallelize the ray tracer I wrote for Graphics II to run on the Alamode cluster at Mines.  Using 17 machines, I was able to render a 4,096 x 4,096 pixel image with 25 passes and up to 5 reflections.  It took only 1 minute and 20 seconds.
+[caption id=”attachment_481” align=”aligncenter” width=”300” caption=”Reflective spheres rendered at high resolution on a small cluster.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output-300x300.png" alt="Reflective spheres rendered at high resolution on a small cluster." title="Spheres" width="300" height="300" class="size-medium wp-image-481" /></a>[/caption]
+[caption id=”” align=”aligncenter” width=”300” caption=”Another image rendered on the same cluster”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output1.png"><img alt="Another image rendered on the same cluster" src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output8-300x300.png" title="Sphere and Triangles" width="300" height="300" /></a>[/caption]</p>
 
-For the benefit of those who are not computer scientists, this is what the input file looks like:
+<p>For the benefit of those who are not computer scientists, this is what the input file looks like:
 <code>
 8192 8192
 0 0 20
@@ -209,7 +411,7 @@ T
 S
 0 0 0 0.5
 1 0 1 1 0 1 0 1 0.3
-</code>
+</code></p>
 </div>
   
   
@@ -245,15 +447,15 @@ S
   </header>
 
 
-  <div class="entry-content">I take another look at my Mandelbrot code because we recently did a project with antialiasing in a raytracer.  I updated my project so that instead of bouncing light, it would instead sample a point on the complex plane, and determine if it was in the Mandelbrot set, and so on and so forth.
+  <div class="entry-content"><p>I take another look at my Mandelbrot code because we recently did a project with antialiasing in a raytracer.  I updated my project so that instead of bouncing light, it would instead sample a point on the complex plane, and determine if it was in the Mandelbrot set, and so on and so forth.</p>
 
-I ran the code with 10 passes and 16,384 by 16,384 pixels (~27 megapixels) on my desktop.  It took about an hour and a half, but this is the picture that came out of it (it&#8217;s a little big):
+<p>I ran the code with 10 passes and 16,384 by 16,384 pixels (~27 megapixels) on my desktop.  It took about an hour and a half, but this is the picture that came out of it (it’s a little big):</p>
 
-[caption id=&#8221;&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A recent rendering of mine of the Mandelbrot set.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/mandelbrot.png"><img alt="A recent rendering of mine of the Mandelbrot set." src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/mandelbrot-300x300.png" title="Mandelbrot Set" width="300" height="300" /></a>[/caption]
+<p>[caption id=”” align=”aligncenter” width=”300” caption=”A recent rendering of mine of the Mandelbrot set.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/mandelbrot.png"><img alt="A recent rendering of mine of the Mandelbrot set." src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/mandelbrot-300x300.png" title="Mandelbrot Set" width="300" height="300" /></a>[/caption]</p>
 
-I also have a couple of extra pictures that show portions of the set in their detail:
-[caption id=&#8221;attachment_475&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A region of the Mandelbrot set.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/zoom.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/zoom-300x172.png" alt="A region of the Mandelbrot set." title="Zoomed In" width="300" height="172" class="size-medium wp-image-475" /></a>[/caption]
-[caption id=&#8221;attachment_476&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Another zoomed-in portion of the set.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/zoom2.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/zoom2-300x172.png" alt="Another zoomed-in portion of the set." title="Zoomed In" width="300" height="172" class="size-medium wp-image-476" /></a>[/caption]
+<p>I also have a couple of extra pictures that show portions of the set in their detail:
+[caption id=”attachment<em>475” align=”aligncenter” width=”300” caption=”A region of the Mandelbrot set.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/zoom.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/zoom-300x172.png" alt="A region of the Mandelbrot set." title="Zoomed In" width="300" height="172" class="size-medium wp-image-475" /></a>[/caption]
+[caption id=”attachment</em>476” align=”aligncenter” width=”300” caption=”Another zoomed-in portion of the set.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/zoom2.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/zoom2-300x172.png" alt="Another zoomed-in portion of the set." title="Zoomed In" width="300" height="172" class="size-medium wp-image-476" /></a>[/caption]</p>
 
 </div>
   
@@ -290,9 +492,9 @@ I also have a couple of extra pictures that show portions of the set in their de
   </header>
 
 
-  <div class="entry-content">I was notified today that I was not accepted into the CLS program for Intermediate Arabic.  While I am disappointed and frankly a little surprised, it is a competitive scholarship with acceptance rates under 10%.
+  <div class="entry-content"><p>I was notified today that I was not accepted into the CLS program for Intermediate Arabic.  While I am disappointed and frankly a little surprised, it is a competitive scholarship with acceptance rates under 10%.</p>
 
-To those of you who were accepted, congratulations.
+<p>To those of you who were accepted, congratulations.</p>
 </div>
   
   
@@ -328,19 +530,19 @@ To those of you who were accepted, congratulations.
   </header>
 
 
-  <div class="entry-content">For Graphics II, we had to implement a raytracer, and then add anti-aliasing and a feature of our choice.  I selected mirrored surfaces.
+  <div class="entry-content"><p>For Graphics II, we had to implement a raytracer, and then add anti-aliasing and a feature of our choice.  I selected mirrored surfaces.</p>
 
-First, anti-aliasing.  Here are a few pictures of the same image rendered with a different number of passes to change the smoothness.
+<p>First, anti-aliasing.  Here are a few pictures of the same image rendered with a different number of passes to change the smoothness.</p>
 
-[caption id=&#8221;attachment_459&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Using one pass&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/anti-alias-1.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/anti-alias-1-300x300.png" alt="Using one pass" title="anti-alias-1" width="300" height="300" class="size-medium wp-image-459" /></a>[/caption]
-[caption id=&#8221;attachment_460&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Using 5 passes.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/anti-alias-5.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/anti-alias-5-300x300.png" alt="Using 5 passes." title="anti-alias-5" width="300" height="300" class="size-medium wp-image-460" /></a>[/caption]
-[caption id=&#8221;attachment_461&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Using 50 passes.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/anti-alias-50.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/anti-alias-50-300x300.png" alt="Using 50 passes." title="anti-alias-50" width="300" height="300" class="size-medium wp-image-461" /></a>[/caption]
+<p>[caption id=”attachment<em>459” align=”aligncenter” width=”300” caption=”Using one pass”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/anti-alias-1.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/anti-alias-1-300x300.png" alt="Using one pass" title="anti-alias-1" width="300" height="300" class="size-medium wp-image-459" /></a>[/caption]
+[caption id=”attachment</em>460” align=”aligncenter” width=”300” caption=”Using 5 passes.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/anti-alias-5.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/anti-alias-5-300x300.png" alt="Using 5 passes." title="anti-alias-5" width="300" height="300" class="size-medium wp-image-460" /></a>[/caption]
+[caption id=”attachment_461” align=”aligncenter” width=”300” caption=”Using 50 passes.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/anti-alias-50.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/anti-alias-50-300x300.png" alt="Using 50 passes." title="anti-alias-50" width="300" height="300" class="size-medium wp-image-461" /></a>[/caption]</p>
 
-And lastly, here&#8217;s a scene of several spheres, some of which are reflective.
-[caption id=&#8221;attachment_462&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A set of spheres, some of which are mirror-like.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/output.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/output-300x300.png" alt="A set of spheres, some of which are mirror-like." title="Spheres" width="300" height="300" class="size-medium wp-image-462" /></a>[/caption]
-[caption id=&#8221;attachment_467&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A reflective sphere next to some triangles.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/input8r.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/input8r-300x300.png" alt="A reflective sphere next to some triangles." title="input8r" width="300" height="300" class="size-medium wp-image-467" /></a>[/caption]
-[caption id=&#8221;attachment_469&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A mirrored sphere in the center of four other sphere.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/input12r.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/input12r-300x300.png" alt="A mirrored sphere in the center of four other sphere." title="input12r" width="300" height="300" class="size-medium wp-image-469" /></a>[/caption]
-[caption id=&#8221;attachment_470&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;More spheres!&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/input16r.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/input16r-300x300.png" alt="More spheres!" title="input16r" width="300" height="300" class="size-medium wp-image-470" /></a>[/caption]
+<p>And lastly, here’s a scene of several spheres, some of which are reflective.
+[caption id=”attachment<em>462” align=”aligncenter” width=”300” caption=”A set of spheres, some of which are mirror-like.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/output.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/output-300x300.png" alt="A set of spheres, some of which are mirror-like." title="Spheres" width="300" height="300" class="size-medium wp-image-462" /></a>[/caption]
+[caption id=”attachment</em>467” align=”aligncenter” width=”300” caption=”A reflective sphere next to some triangles.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/input8r.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/input8r-300x300.png" alt="A reflective sphere next to some triangles." title="input8r" width="300" height="300" class="size-medium wp-image-467" /></a>[/caption]
+[caption id=”attachment<em>469” align=”aligncenter” width=”300” caption=”A mirrored sphere in the center of four other sphere.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/input12r.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/input12r-300x300.png" alt="A mirrored sphere in the center of four other sphere." title="input12r" width="300" height="300" class="size-medium wp-image-469" /></a>[/caption]
+[caption id=”attachment</em>470” align=”aligncenter” width=”300” caption=”More spheres!”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/input16r.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/input16r-300x300.png" alt="More spheres!" title="input16r" width="300" height="300" class="size-medium wp-image-470" /></a>[/caption]</p>
 </div>
   
   
@@ -376,176 +578,10 @@ And lastly, here&#8217;s a scene of several spheres, some of which are reflectiv
   </header>
 
 
-  <div class="entry-content">I made a lamp this weekend for Rachel as a belated Valentine&#8217;s Day gift.  Made from balsa wood, vellum, hot glue and the electrical components, I got my inspiration from <a href="http://www.instructables.com/id/5-Japanese-lamp-from-recycled-materials/">Instructables</a>.  It didn&#8217;t look well put-together, and so I made my own interpretation:
+  <div class="entry-content"><p>I made a lamp this weekend for Rachel as a belated Valentine’s Day gift.  Made from balsa wood, vellum, hot glue and the electrical components, I got my inspiration from <a href="http://www.instructables.com/id/5-Japanese-lamp-from-recycled-materials/">Instructables</a>.  It didn’t look well put-together, and so I made my own interpretation:</p>
 
-[gallery link=&#8221;file&#8221; orderby=&#8221;ID&#8221;]
+<p>[gallery link=”file” orderby=”ID”]</p>
 
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2009/02/17/raytracer/">Raytracer</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-02-17T00:00:00-08:00" pubdate data-updated="true">Feb 17<span>th</span>, 2009</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content">Last semester for Graphics, we each wrote raytracers, and this semester for Graphics II, we&#8217;ve been asked to add more advanced features to them.
-
-I had written mine in Ruby for its short development cycle, but raytracers aren&#8217;t the most efficient renderers on the planet, and it would take hours to run on a single input on occasion.  So, not wanting to deal with that this semester, I rewrote it in C++.  Much faster.  The most difficult input (same set) now takes about a minute.  I finished it up today, and here are some pretty pictures to sate you:
-
-[gallery link=&#8221;file&#8221; orderby=&#8221;ID&#8221;]
-
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2009/02/12/texttwist/">Texttwist</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-02-12T00:00:00-08:00" pubdate data-updated="true">Feb 12<span>th</span>, 2009</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content">Anyone who knows me knows my obsessions with anagrams and this game, Texttwist.  At one point it actually became relatively problematic - hours and hours spent playing it with Rachel.
-
-Like sudoku before it, I set out on a quest to conquer it.
-
-I downloaded an open-source dictionary, took an hour to parse it out, code a program to compute unique permutations of the input words and see which ones are valid words in English.
-
-Dan - 1; Texttwist - 0
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2009/02/11/when-rarers-hate-you/">When Rar&#8217;ers Hate You</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-02-11T00:00:00-08:00" pubdate data-updated="true">Feb 11<span>th</span>, 2009</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content">There are few things that I absolutely loathe more in coding than when someone rars a set of files instead of a folder.  It&#8217;s as if they&#8217;re saying, &#8220;whatever you had in this folder is completely worthless, and I&#8217;m going to dump 1000 byzantine files here for your to sift through.  Oh, and have a nice day.&#8221;
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2009/02/07/vector/">Vector</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2009-02-07T00:00:00-08:00" pubdate data-updated="true">Feb 7<span>th</span>, 2009</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content">Had a bizarre C.S. / kitten related dream.  Apparently I was giving way kittens, and I wanted to make sure I had one left for myself, and so I thought it would be a good idea to declare a standard template library vector of kittens, fill it with my kittens, and only give away more kittens while there was still more than one left:
-
-<pre lang='cpp'>
-vector<kitten> kitties;
-
-# Put kittens in vector
-# ...
-
-while(kitties.length() > 1) {
-	give_away(kitties.pop());
-}
-</pre>
 </div>
   
   

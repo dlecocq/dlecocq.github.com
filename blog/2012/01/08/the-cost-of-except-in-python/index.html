@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,103 +134,171 @@
   </header>
 
 
-<div class="entry-content">I was curious recently about how much of a performance penalty try/except blocks incur in python. Specifically, 1) does it incur much of a cost if no exception is thrown (accepting only a penalty when something exceptional happens) and 2) how does it compare to if/else statements where possible? A snippet to answer the first question:
+<div class="entry-content"><p>I was curious recently about how much of a performance penalty try/except blocks incur in python. Specifically, 1) does it incur much of a cost if no exception is thrown (accepting only a penalty when something exceptional happens) and 2) how does it compare to if/else statements where possible? A snippet to answer the first question:</p>
 
-<pre lang='python'>
-import timeit
- 
-withTryNoThrow = '''
-	try:
-		a = int('5')
-	except ValueError:
-		pass
-'''
- 
-withTryThrow = '''
-	try:
-		a = int('z')
-	except ValueError:
-		pass
-'''
- 
-withoutTry = '''
-	a = int('5')
-'''
- 
-results = {
-	'withoutTry'    : timeit.Timer(withoutTry    ).timeit(100000),
-	'withTryNoThrow': timeit.Timer(withTryNoThrow).timeit(100000),
-	'withTryThrow'  : timeit.Timer(withTryThrow  ).timeit(100000)
-}
- 
-for k, v in results.items():
-	print '%20s => %fs' % (k, v)
-</pre>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+</pre></td><td class="code"><pre><code class="python"><span class="line"><span class="kn">import</span> <span class="nn">timeit</span>
+</span><span class="line">
+</span><span class="line"><span class="n">withTryNoThrow</span> <span class="o">=</span> <span class="s">&#39;&#39;&#39;</span>
+</span><span class="line"><span class="s">	try:</span>
+</span><span class="line"><span class="s">		a = int(&#39;5&#39;)</span>
+</span><span class="line"><span class="s">	except ValueError:</span>
+</span><span class="line"><span class="s">		pass</span>
+</span><span class="line"><span class="s">&#39;&#39;&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">withTryThrow</span> <span class="o">=</span> <span class="s">&#39;&#39;&#39;</span>
+</span><span class="line"><span class="s">	try:</span>
+</span><span class="line"><span class="s">		a = int(&#39;z&#39;)</span>
+</span><span class="line"><span class="s">	except ValueError:</span>
+</span><span class="line"><span class="s">		pass</span>
+</span><span class="line"><span class="s">&#39;&#39;&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">withoutTry</span> <span class="o">=</span> <span class="s">&#39;&#39;&#39;</span>
+</span><span class="line"><span class="s">	a = int(&#39;5&#39;)</span>
+</span><span class="line"><span class="s">&#39;&#39;&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">results</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class="line">	<span class="s">&#39;withoutTry&#39;</span>    <span class="p">:</span> <span class="n">timeit</span><span class="o">.</span><span class="n">Timer</span><span class="p">(</span><span class="n">withoutTry</span>    <span class="p">)</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="mi">100000</span><span class="p">),</span>
+</span><span class="line">	<span class="s">&#39;withTryNoThrow&#39;</span><span class="p">:</span> <span class="n">timeit</span><span class="o">.</span><span class="n">Timer</span><span class="p">(</span><span class="n">withTryNoThrow</span><span class="p">)</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="mi">100000</span><span class="p">),</span>
+</span><span class="line">	<span class="s">&#39;withTryThrow&#39;</span>  <span class="p">:</span> <span class="n">timeit</span><span class="o">.</span><span class="n">Timer</span><span class="p">(</span><span class="n">withTryThrow</span>  <span class="p">)</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="mi">100000</span><span class="p">)</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+</span><span class="line">	<span class="k">print</span> <span class="s">&#39;</span><span class="si">%20s</span><span class="s"> =&gt; </span><span class="si">%f</span><span class="s">s&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-For me, the results looked something like this:
+<p>For me, the results looked something like this:</p>
 
-<pre>
-      withTryNoThrow => 0.082781s
-          withoutTry => 0.082880s
-        withTryThrow => 0.261147s
-</pre>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="python"><span class="line">  <span class="n">withTryNoThrow</span> <span class="o">=&gt;</span> <span class="mf">0.082781</span><span class="n">s</span>
+</span><span class="line">      <span class="n">withoutTry</span> <span class="o">=&gt;</span> <span class="mf">0.082880</span><span class="n">s</span>
+</span><span class="line">    <span class="n">withTryThrow</span> <span class="o">=&gt;</span> <span class="mf">0.261147</span><span class="n">s</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-It would appear that while catching exceptions is expensive, catching non-exceptions is very cheap. I imagine that the reason is mostly because when you throw an exception, you actually instantiate an exception object of some kind, which necessarily introduces some overhead. In the absence of that object creation, things can be relatively fast.
+<p>It would appear that while catching exceptions is expensive, catching non-exceptions is very cheap. I imagine that the reason is mostly because when you throw an exception, you actually instantiate an exception object of some kind, which necessarily introduces some overhead. In the absence of that object creation, things can be relatively fast. <!-- more --></p>
 
-Now, for the second question. This particular question came up when deciding whether or not I should try fetching a key from a dictionary and catching an exception when it&#8217;s absent, or if I should use the get method and then check if the result is None.
+<p>Now, for the second question. This particular question came up when deciding whether or not I should try fetching a key from a dictionary and catching an exception when it’s absent, or if I should use the get method and then check if the result is None.</p>
 
-<pre lang='python'>
-import timeit
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+<span class="line-number">16</span>
+<span class="line-number">17</span>
+<span class="line-number">18</span>
+<span class="line-number">19</span>
+<span class="line-number">20</span>
+<span class="line-number">21</span>
+<span class="line-number">22</span>
+<span class="line-number">23</span>
+<span class="line-number">24</span>
+<span class="line-number">25</span>
+<span class="line-number">26</span>
+<span class="line-number">27</span>
+<span class="line-number">28</span>
+<span class="line-number">29</span>
+<span class="line-number">30</span>
+<span class="line-number">31</span>
+<span class="line-number">32</span>
+<span class="line-number">33</span>
+<span class="line-number">34</span>
+<span class="line-number">35</span>
+<span class="line-number">36</span>
+<span class="line-number">37</span>
+<span class="line-number">38</span>
+</pre></td><td class="code"><pre><code class="python"><span class="line"><span class="kn">import</span> <span class="nn">timeit</span>
+</span><span class="line">
+</span><span class="line"><span class="n">setup</span> <span class="o">=</span> <span class="s">&#39;&#39;&#39;d = dict({</span>
+</span><span class="line"><span class="s">	&#39;some&#39;   : 1,</span>
+</span><span class="line"><span class="s">	&#39;keys&#39;   : 2,</span>
+</span><span class="line"><span class="s">	&#39;are&#39;    : 3,</span>
+</span><span class="line"><span class="s">	&#39;present&#39;: 4,</span>
+</span><span class="line"><span class="s">	&#39;others&#39; : 5,</span>
+</span><span class="line"><span class="s">	&#39;arent&#39;  : 6</span>
+</span><span class="line"><span class="s">})&#39;&#39;&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">tryExcept</span> <span class="o">=</span> <span class="s">&#39;&#39;&#39;</span>
+</span><span class="line"><span class="s">	try:</span>
+</span><span class="line"><span class="s">		a = d[&#39;doesntexist&#39;]</span>
+</span><span class="line"><span class="s">	except KeyError:</span>
+</span><span class="line"><span class="s">		pass</span>
+</span><span class="line"><span class="s">&#39;&#39;&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">getIfElse</span> <span class="o">=</span> <span class="s">&#39;&#39;&#39;</span>
+</span><span class="line"><span class="s">	a = d.get(&#39;doesntexist&#39;, None)</span>
+</span><span class="line"><span class="s">	if a == None:</span>
+</span><span class="line"><span class="s">		pass</span>
+</span><span class="line"><span class="s">	else:</span>
+</span><span class="line"><span class="s">		pass</span>
+</span><span class="line"><span class="s">&#39;&#39;&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">getNoIf</span> <span class="o">=</span> <span class="s">&#39;&#39;&#39;</span>
+</span><span class="line"><span class="s">	a = d.get(&#39;doesntexist&#39;, None)</span>
+</span><span class="line"><span class="s">&#39;&#39;&#39;</span>
+</span><span class="line">
+</span><span class="line"><span class="n">results</span> <span class="o">=</span> <span class="p">{</span>
+</span><span class="line">	<span class="s">&#39;tryExcept&#39;</span> <span class="p">:</span> <span class="n">timeit</span><span class="o">.</span><span class="n">Timer</span><span class="p">(</span><span class="n">tryExcept</span><span class="p">,</span> <span class="n">setup</span><span class="p">)</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="mi">100000</span><span class="p">),</span>
+</span><span class="line">	<span class="s">&#39;getIfElse&#39;</span> <span class="p">:</span> <span class="n">timeit</span><span class="o">.</span><span class="n">Timer</span><span class="p">(</span><span class="n">getIfElse</span><span class="p">,</span> <span class="n">setup</span><span class="p">)</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="mi">100000</span><span class="p">),</span>
+</span><span class="line">	<span class="s">&#39;getNoIf&#39;</span>   <span class="p">:</span> <span class="n">timeit</span><span class="o">.</span><span class="n">Timer</span><span class="p">(</span><span class="n">getNoIf</span>  <span class="p">,</span> <span class="n">setup</span><span class="p">)</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="mi">100000</span><span class="p">)</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+</span><span class="line">	<span class="k">print</span> <span class="s">&#39;</span><span class="si">%20s</span><span class="s"> =&gt; </span><span class="si">%f</span><span class="s">s&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-setup = '''d = dict({
-	'some'   : 1,
-	'keys'   : 2,
-	'are'    : 3,
-	'present': 4,
-	'others' : 5,
-	'arent'  : 6
-})'''
+<p>For this second test, the results looked something like this for me:</p>
 
-tryExcept = '''
-	try:
-		a = d['doesntexist']
-	except KeyError:
-		pass
-'''
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="python"><span class="line">         <span class="n">getNoIf</span> <span class="o">=&gt;</span> <span class="mf">0.019980</span><span class="n">s</span>
+</span><span class="line">       <span class="n">tryExcept</span> <span class="o">=&gt;</span> <span class="mf">0.083638</span><span class="n">s</span>
+</span><span class="line">       <span class="n">getIfElse</span> <span class="o">=&gt;</span> <span class="mf">0.027422</span><span class="n">s</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-getIfElse = '''
-	a = d.get('doesntexist', None)
-	if a == None:
-		pass
-	else:
-		pass
-'''
+<p>Obviously, if your program is amenable to just using a default value, then happiness ensues. Failing that, using the get method and then if/else is much faster than the try/except alternative.</p>
 
-getNoIf = '''
-	a = d.get('doesntexist', None)
-'''
-
-results = {
-	'tryExcept' : timeit.Timer(tryExcept, setup).timeit(100000),
-	'getIfElse' : timeit.Timer(getIfElse, setup).timeit(100000),
-	'getNoIf'   : timeit.Timer(getNoIf  , setup).timeit(100000)
-}
-
-for k, v in results.items():
-	print '%20s => %fs' % (k, v)
-</pre>
-
-For this second test, the results looked something like this for me:
-
-<pre>
-             getNoIf => 0.019980s
-           tryExcept => 0.083638s
-           getIfElse => 0.027422s
-</pre>
-
-Obviously, if your program is amenable to just using a default value, then happiness ensues. Failing that, using the get method and then if/else is much faster than the try/except alternative.
-
-<em>Fine Print</em>: I am running Python 2.7.1 on a 2011-ish MacBookPro.
+<p><em>Fine Print</em>: I am running Python 2.7.1 on a 2011-ish MacBookPro.</p>
 </div>
 
 

@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,70 +134,107 @@
   </header>
 
 
-<div class="entry-content">A feature I only recently learned about are type-conversion operators. For any class, if you want to support type conversion to any type, you can do so by merely declaring (and of course defining) operators of the form <em>operator type()</em>:
-<code>
-class Widget {
-...
-operator bool();
-operator thing();
-operator Foo();
-...
-}
-</code>
+<div class="entry-content"><p>A feature I only recently learned about are type-conversion operators. For any class, if you want to support type conversion to any type, you can do so by merely declaring (and of course defining) operators of the form <code>operator type()</code>:</p>
 
-While this is fine and dandy (and admittedly obviously attractive in ways), there is a big problem SEOmoz co-worker Brandon pointed out: <strong>There&#8217;s no way to determine which code path will be taken.</strong>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="c++"><span class="line"><span class="k">class</span> <span class="nc">Widget</span> <span class="p">{</span>
+</span><span class="line"><span class="p">...</span>
+</span><span class="line"><span class="k">operator</span> <span class="kt">bool</span><span class="p">();</span>
+</span><span class="line"><span class="k">operator</span> <span class="n">thing</span><span class="p">();</span>
+</span><span class="line"><span class="k">operator</span> <span class="n">Foo</span><span class="p">();</span>
+</span><span class="line"><span class="p">...</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-For a little bit of context, I came across a set of type-conversion operators that seemed reasonable enough. They tried to cover the whole gamut of possible primitive types:
-<code>
-operator unsigned long long() const;
-operator long long() const;
-operator unsigned long() const { return operator unsigned long long(); }
-operator long() const { return operator long long(); }
-...
-</code>
+<p>While this is fine and dandy (and admittedly obviously attractive in ways), there is a big problem SEOmoz co-worker Brandon pointed out: <strong>There’s no way to determine which code path will be taken.</strong></p>
 
-<strong>The compiler has absolutely no problem with the above declaration.</strong> The class you put that in will happily compile, but the problem arises when you try to use it:
-<code>
-Widget w(...);
-// Suddenly, the compiler complains, not knowing which operator to use
-unsigned long int foo = w;
-</code>
+<p>For a little bit of context, I came across a set of type-conversion operators that seemed reasonable enough. They tried to cover the whole gamut of possible primitive types:</p>
 
-At this point, the compiler puts its foot down. What to me seems unintuitive is that even though there is an conversion operator to this exact type, the compiler won&#8217;t use it. What&#8217;s even more bizarre to me is that typedefs and in-header definitions can further muddle things up:
-<code>
-operator long long() const;
-operator long() const;
-operator int() const;
-operator short() const;
-// For whatever reason, let's say you do this:
-operator int32_t() const {
-    return operator long long();
-}
-</code>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="c++"><span class="line"><span class="k">operator</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">long</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+</span><span class="line"><span class="k">operator</span> <span class="kt">long</span> <span class="kt">long</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+</span><span class="line"><span class="k">operator</span> <span class="kt">unsigned</span> <span class="kt">long</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="k">operator</span> <span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">long</span><span class="p">();</span> <span class="p">}</span>
+</span><span class="line"><span class="k">operator</span> <span class="kt">long</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="k">return</span> <span class="k">operator</span> <span class="kt">long</span> <span class="kt">long</span><span class="p">();</span> <span class="p">}</span>
+</span><span class="line"><span class="p">...</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-<strong>Even though int32_t will be the same as one of those other types, this will still compile.</strong> It makes a certain amount of sense when viewed in the context of the compiler because after all, it only does so much processing on headers because they&#8217;re going to be directly included wherever you use them. <strong>You actually don&#8217;t get duplicate symbols in this case, and thus no &#8220;previously-defined&#8221; error.</strong> In reality, their function definitions are the same, and they actually get mangled to the same name (on my system the operators for int32_t and int both mangle to &#8216;_ZNK6WidgetcviEv&#8217;):
-<code>
-# See what mangled symbols actually appear
-nm -j widget.o
-# See what demangled symbols are actually there
-nm -j widget.o | sed s/__/_/ | grep -v .eh | c++filt -n
-</code>
+<p><strong>The compiler has absolutely no problem with the above declaration.</strong> The class you put that in will happily compile, but the problem arises when you try to use it:</p>
 
-The above (with in-header definitions) is exactly what we encountered in the code. We (well, a co-worker) suspected that the reason that the sort of multiple definition was allowed was that the names were getting mangled based on their typedef name string (mangled on int32_t instead of the actual type it maps to), but this is not the case. If you move the in-header definition for the int32_t operator into the .cpp file, the compiler will complain to you earlier.
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="c++"><span class="line"><span class="n">Widget</span> <span class="n">w</span><span class="p">(...);</span>
+</span><span class="line"><span class="c1">// Suddenly, the compiler complains, not knowing which operator to use</span>
+</span><span class="line"><span class="kt">unsigned</span> <span class="kt">long</span> <span class="kt">int</span> <span class="n">foo</span> <span class="o">=</span> <span class="n">w</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-My first inclination when dealing with the &#8220;conversion to type long long is ambiguous&#8221; error was to ask for an explicit conversion: static_cast&lt;long long int&gt;(myWidget). However, this doesn&#8217;t work either. So even in this scenario, <strong>you can&#8217;t even ask for a specific type conversion operator.</strong> From what I can gather, type-conversion operators are a double-edged lightsaber: few things in C++ were added without a purpose, but it&#8217;s extremely important to understand that exact purpose and its risks. To require that type conversions are <strong>explicit</strong> you should generally use something like:
-<code>
-template <class T>
-const T convert() const {
-...
-}
+<p>At this point, the compiler puts its foot down. What to me seems unintuitive is that even though there is an conversion operator to this exact type, the compiler won’t use it. What’s even more bizarre to me is that typedefs and in-header definitions can further muddle things up:</p>
 
-template <>
-const bool convert<bool>() const {
-// Your conversion to bool
-...
-}
-</code>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="c++"><span class="line"><span class="k">operator</span> <span class="kt">long</span> <span class="kt">long</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+</span><span class="line"><span class="k">operator</span> <span class="kt">long</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+</span><span class="line"><span class="k">operator</span> <span class="kt">int</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+</span><span class="line"><span class="k">operator</span> <span class="kt">short</span><span class="p">()</span> <span class="k">const</span><span class="p">;</span>
+</span><span class="line"><span class="c1">// For whatever reason, let&#39;s say you do this:</span>
+</span><span class="line"><span class="k">operator</span> <span class="n">int32_t</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+</span><span class="line">    <span class="k">return</span> <span class="k">operator</span> <span class="kt">long</span> <span class="kt">long</span><span class="p">();</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p><strong>Even though <code>int32_t</code> will be the same as one of those other types, this will still compile.</strong> It makes a certain amount of sense when viewed in the context of the compiler because after all, it only does so much processing on headers because they’re going to be directly included wherever you use them. <strong>You actually don’t get duplicate symbols in this case, and thus no “previously-defined” error.</strong> In reality, their function definitions are the same, and they actually get mangled to the same name (on my system the operators for <code>int32_t</code> and <code>int</code> both mangle to ‘_ZNK6WidgetcviEv’):</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># See what mangled symbols actually appear</span>
+</span><span class="line">nm -j widget.o
+</span><span class="line"><span class="c"># See what demangled symbols are actually there</span>
+</span><span class="line">nm -j widget.o | sed s/__/_/ | grep -v .eh | c++filt -n
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>The above (with in-header definitions) is exactly what we encountered in the code. We (well, a co-worker) suspected that the reason that the sort of multiple definition was allowed was that the names were getting mangled based on their typedef name string (mangled on <code>int32_t</code> instead of the actual type it maps to), but this is not the case. If you move the in-header definition for the <code>int32_t</code> operator into the .cpp file, the compiler will complain to you earlier.</p>
+
+<p>My first inclination when dealing with the “conversion to type long long is ambiguous” error was to ask for an explicit conversion: static_cast&lt;long long int&gt;(myWidget). However, this doesn’t work either. So even in this scenario, <strong>you can’t even ask for a specific type conversion operator.</strong> From what I can gather, type-conversion operators are a double-edged lightsaber: few things in C++ were added without a purpose, but it’s extremely important to understand that exact purpose and its risks. To require that type conversions are <strong>explicit</strong> you should generally use something like:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class="c++"><span class="line"><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
+</span><span class="line"><span class="k">const</span> <span class="n">T</span> <span class="n">convert</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+</span><span class="line"><span class="p">...</span>
+</span><span class="line"><span class="p">}</span>
+</span><span class="line">
+</span><span class="line"><span class="k">template</span> <span class="o">&lt;&gt;</span>
+</span><span class="line"><span class="k">const</span> <span class="kt">bool</span> <span class="n">convert</span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span>
+</span><span class="line"><span class="c1">// Your conversion to bool</span>
+</span><span class="line"><span class="p">...</span>
+</span><span class="line"><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
 
 

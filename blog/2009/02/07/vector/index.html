@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,18 +134,19 @@
   </header>
 
 
-<div class="entry-content">Had a bizarre C.S. / kitten related dream.  Apparently I was giving way kittens, and I wanted to make sure I had one left for myself, and so I thought it would be a good idea to declare a standard template library vector of kittens, fill it with my kittens, and only give away more kittens while there was still more than one left:
+<div class="entry-content"><p>Had a bizarre C.S. / kitten related dream.  Apparently I was giving way kittens, and I wanted to make sure I had one left for myself, and so I thought it would be a good idea to declare a standard template library vector of kittens, fill it with my kittens, and only give away more kittens while there was still more than one left:</p>
 
-<pre lang='cpp'>
+<pre lang="cpp">
 vector<kitten> kitties;
 
 # Put kittens in vector
 # ...
 
-while(kitties.length() > 1) {
+while(kitties.length() &gt; 1) {
 	give_away(kitties.pop());
 }
-</pre>
+
+</kitten></pre>
 </div>
 
 

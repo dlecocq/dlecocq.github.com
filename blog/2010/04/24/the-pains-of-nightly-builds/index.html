@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="I&#8217;ve been working with WebKit a lot lately. Specifically, WebGL. It&#8217;s fantastic, and it has the potential to change a lot of important &hellip;">
+  <meta name="description" content="I’ve been working with WebKit a lot lately. Specifically, WebGL. It’s fantastic, and it has the potential to change a lot of important applications, &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,13 +134,13 @@
   </header>
 
 
-<div class="entry-content">I&#8217;ve been working with WebKit a lot lately.  Specifically, WebGL.  It&#8217;s fantastic, and it has the potential to change a lot of important applications, but working with nightly builds is&#8230; well, frustrating.
+<div class="entry-content"><p>I’ve been working with WebKit a lot lately.  Specifically, WebGL.  It’s fantastic, and it has the potential to change a lot of important applications, but working with nightly builds is… well, frustrating.</p>
 
-I&#8217;ve been using a revision released in December.  Some later revisions have weird behaviors and draw pixelated, but I&#8217;ve finally come across a problem with r52426 that I just can&#8217;t circumvent - floating-point textures.  They just don&#8217;t seem to work properly.  I had noticed the bug before, but it wasn&#8217;t absolutely crucial before.  Rather, the real bug is that you can&#8217;t initialize floating-point textures from the JavaScript side.
+<p>I’ve been using a revision released in December.  Some later revisions have weird behaviors and draw pixelated, but I’ve finally come across a problem with r52426 that I just can’t circumvent - floating-point textures.  They just don’t seem to work properly.  I had noticed the bug before, but it wasn’t absolutely crucial before.  Rather, the real bug is that you can’t initialize floating-point textures from the JavaScript side.</p>
 
-They&#8217;ve fixed this in later versions, but many of these that have this bug fixed also have a problem with gl.viewport, which is pretty mission-critical.  So now I&#8217;m sifting through the changelog, hoping to find a release somewhere in the middle that isn&#8217;t completely broken.
+<p>They’ve fixed this in later versions, but many of these that have this bug fixed also have a problem with gl.viewport, which is pretty mission-critical.  So now I’m sifting through the changelog, hoping to find a release somewhere in the middle that isn’t completely broken.</p>
 
-<strong>Update:</strong> Victory! If you&#8217;re going to be developing WebGL stuff on Mac, I&#8217;d recommend WebKit r53036.  It seems to have everything I need (so far) fixed.
+<p><strong>Update:</strong> Victory! If you’re going to be developing WebGL stuff on Mac, I’d recommend WebKit r53036.  It seems to have everything I need (so far) fixed.</p>
 </div>
 
 
@@ -149,7 +180,7 @@ They&#8217;ve fixed this in later versions, but many of these that have this bug
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2010/02/07/tech-addiction/" title="Previous Post: Tech Addiction">&laquo; Tech Addiction</a>
+        <a class="basic-alignment left" href="/blog/2010/03/08/fix-warnings/" title="Previous Post: Fix Warnings">&laquo; Fix Warnings</a>
       
       
         <a class="basic-alignment right" href="/blog/2010/05/07/the-life-aquatic/" title="Next Post: The Life Aquatic">The Life Aquatic &raquo;</a>

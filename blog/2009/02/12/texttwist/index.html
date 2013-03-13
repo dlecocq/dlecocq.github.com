@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,13 +134,13 @@
   </header>
 
 
-<div class="entry-content">Anyone who knows me knows my obsessions with anagrams and this game, Texttwist.  At one point it actually became relatively problematic - hours and hours spent playing it with Rachel.
+<div class="entry-content"><p>Anyone who knows me knows my obsessions with anagrams and this game, Texttwist.  At one point it actually became relatively problematic - hours and hours spent playing it with Rachel.</p>
 
-Like sudoku before it, I set out on a quest to conquer it.
+<p>Like sudoku before it, I set out on a quest to conquer it.</p>
 
-I downloaded an open-source dictionary, took an hour to parse it out, code a program to compute unique permutations of the input words and see which ones are valid words in English.
+<p>I downloaded an open-source dictionary, took an hour to parse it out, code a program to compute unique permutations of the input words and see which ones are valid words in English.</p>
 
-Dan - 1; Texttwist - 0
+<p>Dan - 1; Texttwist - 0</p>
 </div>
 
 

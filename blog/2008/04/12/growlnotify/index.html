@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="If you&#8217;re a Growl user, you probably appreciate (or are annoyed by) being able to get updates from various applications in a relatively out-of- &hellip;">
+  <meta name="description" content="If you’re a Growl user, you probably appreciate (or are annoyed by) being able to get updates from various applications in a relatively out-of-the- &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,29 +134,35 @@
   </header>
 
 
-<div class="entry-content">If you&#8217;re a <a href="http://growl.info">Growl</a> user, you probably appreciate (or are annoyed by) being able to get updates from various applications in a relatively out-of-the-way fashion.
+<div class="entry-content"><p>If you’re a <a href="http://growl.info">Growl</a> user, you probably appreciate (or are annoyed by) being able to get updates from various applications in a relatively out-of-the-way fashion.</p>
 
-There is a command line utility included with Growl called growlnotify.  It allows you to send up your own alerts from your own code (say using exec(3) or in your shell scripts), but it&#8217;s nice to use for other things, too.  If I have a command that&#8217;s conceivably going to take a while, I tack on a && and growlnotify.  Just like some people use
+<p>There is a command line utility included with Growl called growlnotify.  It allows you to send up your own alerts from your own code (say using exec(3) or in your shell scripts), but it’s nice to use for other things, too.  If I have a command that’s conceivably going to take a while, I tack on a &amp;&amp; and growlnotify.  Just like some people use</p>
 
-<code>make && ./myapp</code>
+<p><code>make &amp;&amp; ./myapp</code></p>
 
-when they run their code to ensure it&#8217;s running the latest saved version, it&#8217;s a nice way to get a heads-up instead of waiting a few minutes for that god-awful command to run.  For example, recently I was using curl(1) to get a bunch of files off of a server (when I fall behind on a webcomic, it&#8217;s just easier to download a bunch of them and browse them quickly in Preview instead of clicking through each), and it ended up taking a good 10 minutes:
+<p>when they run their code to ensure it’s running the latest saved version, it’s a nice way to get a heads-up instead of waiting a few minutes for that god-awful command to run.  For example, recently I was using curl(1) to get a bunch of files off of a server (when I fall behind on a webcomic, it’s just easier to download a bunch of them and browse them quickly in Preview instead of clicking through each), and it ended up taking a good 10 minutes:</p>
 
-<code>curl http://boasas.com/boasas/[1-940].gif -o "#1.gif" && growlnotify --message "I'm done downloading" --title "curl"</code>
+<p><code>curl http://boasas.com/boasas/[1-940].gif -o "#1.gif" &amp;&amp; growlnotify --message "I'm done downloading" --title "curl"</code></p>
 
-I get back to reading my dailies, and by the time I&#8217;ve forgotten that I set it going, up pops a nice little notification:
+<p>I get back to reading my dailies, and by the time I’ve forgotten that I set it going, up pops a nice little notification:</p>
 
-<a href='http://dan.lecocq.us/wordpress/wp-content/uploads/2008/04/picture-1.png' title='Growlnotify'><img src='http://dan.lecocq.us/wordpress/wp-content/uploads/2008/04/picture-1.thumbnail.png' alt='Growlnotify' /></a>
+<p><a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/04/picture-1.png" title="Growlnotify"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/04/picture-1.thumbnail.png" alt="Growlnotify" /></a></p>
 
-I will note that it can be a little finnicky.  It generally has better success when no title is supplied, and if you&#8217;re going to be running it with &&, I might suggest making it a 
+<p>I will note that it can be a little finnicky.  It generally has better success when no title is supplied, and if you’re going to be running it with &amp;&amp;, I might suggest making it a </p>
 
-<code>mycommand && echo $? && growlnotify --message "my message" --title "mycommand"</code>
+<p><code>mycommand &amp;&amp; echo $? &amp;&amp; growlnotify --message "my message" --title "mycommand"</code></p>
 
-Since it gets its message argument from standard in, you can also pipe to it if your command returns a value of which you&#8217;d like to be notified:
+<p>Since it gets its message argument from standard in, you can also pipe to it if your command returns a value of which you’d like to be notified:</p>
 
-<code>make ; if [ $? -eq 0 ]; then echo "Success"; else echo "Failure"; fi | growlnotify --title "make"</code>
+<table>
+  <tbody>
+    <tr>
+      <td><code>make ; if [ $? -eq 0 ]; then echo "Success"; else echo "Failure"; fi | growlnotify --title "make"</code></td>
+    </tr>
+  </tbody>
+</table>
 
-<a href='http://dan.lecocq.us/wordpress/wp-content/uploads/2008/04/picture-2.png' title='Growlnotify Make'><img src='http://dan.lecocq.us/wordpress/wp-content/uploads/2008/04/picture-2.thumbnail.png' alt='Growlnotify Make' /></a>
+<p><a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/04/picture-2.png" title="Growlnotify Make"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/04/picture-2.thumbnail.png" alt="Growlnotify Make" /></a></p>
 </div>
 
 

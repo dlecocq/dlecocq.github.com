@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,9 +134,9 @@
   </header>
 
 
-<div class="entry-content">I got a new render up from my ray tracer that applies planetary textures to spheres and makes them spin on their respective axes (none of the planets in our solar system spin on a &#8220;vertical&#8221; axis).  I hope to do one with their orbits, but I haven&#8217;t had a chance to get to it; though, the nice thing is, I just have to define their paths and rotations as a function of time, and where I want the viewpoint to be.  It took about 15 minutes to render in full HD 1080x1920 on 18 processors:
+<div class="entry-content"><p>I got a new render up from my ray tracer that applies planetary textures to spheres and makes them spin on their respective axes (none of the planets in our solar system spin on a “vertical” axis).  I hope to do one with their orbits, but I haven’t had a chance to get to it; though, the nice thing is, I just have to define their paths and rotations as a function of time, and where I want the viewpoint to be.  It took about 15 minutes to render in full HD 1080x1920 on 18 processors:</p>
 
-<object width="480" height="295"><param name="movie" value="http://www.youtube.com/v/z56qL2bHqNo&hl=en&fs=1&rel=0&color1=0x2b405b&color2=0x6b8ab6"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/z56qL2bHqNo&hl=en&fs=1&rel=0&color1=0x2b405b&color2=0x6b8ab6" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="480" height="295"></embed></object>
+<object width="480" height="295"><param name="movie" value="http://www.youtube.com/v/z56qL2bHqNo&amp;hl=en&amp;fs=1&amp;rel=0&amp;color1=0x2b405b&amp;color2=0x6b8ab6" /><param name="allowFullScreen" value="true" /><param name="allowscriptaccess" value="always" /><embed src="http://www.youtube.com/v/z56qL2bHqNo&amp;hl=en&amp;fs=1&amp;rel=0&amp;color1=0x2b405b&amp;color2=0x6b8ab6" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="480" height="295" /></object>
 </div>
 
 

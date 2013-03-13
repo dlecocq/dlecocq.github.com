@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="Last week I was in Los Angeles, CA for SIGGRAPH, and though I discovered that I far prefer New York to LA (sorry, Angelinos) I did get something &hellip;">
+  <meta name="description" content="A few weeks ago, I got myself an iPad. Ebook readers are well and good in principle, but as my friend Tyler pointed out, for technical papers and &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -83,6 +114,138 @@
       
   <header>
     
+      <h1 class="entry-title"><a href="/blog/2010/08/20/ipad/">iPad</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-08-20T00:00:00-07:00" pubdate data-updated="true">Aug 20<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>A few weeks ago, I got myself an iPad.  Ebook readers are well and good in principle, but as my friend Tyler pointed out, for technical papers and books that are rife with figures, it becomes necessary to zoom in and out, and ebook readers just aren’t there yet.  Plus, this gives me the internet, directions, my news, email, pictures, and movies on long flights (which have become a part of living in Saudi Arabia).</p>
+
+<p>Getting the device, however, proved interesting.  I had originally planned to get one almost two months ago, and called up the 5th Avenue Apple store around 11 at night, thinking it would be less busy.  They’re open 24/7, and the idea of walking into the store in the middle of the night and buying a device held a certain appeal.  After 20 minutes on hold, I talked to a guy, and asked him if they had any in stock (after all, it’s kind of a long walk).  He sort of laughed, said ‘no,’ and that I’d have to make an appointment to buy one.  This didn’t seem right to me, but it was late and I wasn’t in the mood to deal with a smarmy Apple employee.</p>
+
+<p>A few weeks after that, I figured I’d bike down to the Upper West Side store, figuring out that it would be faster to ride there than to wait on hold.  I asked if they had stock, and someone told me they did, and that he’d go back and get it.  Then, 15 minutes later he returns saying he was mistaken.  Then, I zip off to the 5th Ave store, where it’s the same story.  Then downtown to the 14th St. store, and eventually the SoHo store.  Nothing.  And, it was actually faster to bike to every Apple store in Manhattan than to call them.</p>
+
+<p>It wasn’t until two weeks after that when I drove up to New Hampshire to see my sister that I was finally able to get one.  I called her campus book store, and they had everything in stock.  And to boot, there’s no sales tax there.  A 10-minute phone call (and a five-hour drive I was making anyway) later, I finally had an iPad.  Such an ordeal!</p>
+
+<p>In the end, I wonder, why does Apple make it so hard to love them?  All I want to do is buy their latest polished turd of a device.  That said, I really have been enjoying the hell out of it.  But the spite is growing, Apple.  The spite is growing.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/08/13/promises-to-my-os-prof/">Promises to My OS Prof</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-08-13T00:00:00-07:00" pubdate data-updated="true">Aug 13<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>For me, operating systems was one of the most worth-while courses in my undergraduate career.  Not only gaining insight into the black-box that can be the operating system, but learning a bunch of skills that I have found invaluable since then.</p>
+
+<p>Even in graduate school, I encounter computer scientists that have never used the command line.  While its all well and good to use your IDE, it is absolutely crippling to not be able to do all the same magics from the command line.  Not only that, but there is a wealth of tools accessible from your favorite shell and bash scripting is a useful piece to keep in one’s toolbox.  The command line was one thing with which I was better acquainted through operating systems; this was especially true in one project where we had to roll our own shell.  This was particularly good because the shell gives access to a lot of system tools that I’ve since found I want to use in other programs: forking, dup’ing, interacting with environment variables, etc.</p>
+
+<p>Other good experiences were working with threading libraries and even booting up EC2 instances and testing out code there.  I am extremely grateful to then-professor Mike Colagrosso for making it such a worthwhile experience.  Lately I’ve been working with code where I remember quality code promises he made us make:</p>
+
+<p><strong>ALWAYS save the return value of system calls.</strong>  I try to avoid programming in C as much as possible (after all, C++ is usually an alternative, if not Python), but whenever I do I am constantly reminded of this one.  The most common design for functions that I encounter in that kind of code is to accept the variable that is to be updated, and return instead, a code indicating the success/failure/warnings/etc. of the code.  In some cases, the return value is the only way you’ll have access to the resource just requested (for example in the case of fork(2) ), but either way it’s the basic mechanism for getting feedback about how code has executed.</p>
+
+<p><strong>NEVER use strcpy(3).</strong> I’ve never used a buffer overflow in a clever way (though this is a someday project), or I should say on purpose.  But I’ve dealt with enough instances of me being distracted and writing bad code that I’ve gotten to know gdb (the GNU DeBugger) better than I would like.  The strcpy(3) function relies on null character termination to stop copying memory from one string into another.  If, however, a string isn’t null terminated or isn’t terminated before the length of the string buffer being copied into, then the operation will overrun the buffer.  Instead, <strong>ALWAYS use strncpy(3)</strong>.  It allows you to specify the maximum length that should be copied (like, for instance the length of the buffer being copied into) so as to avoid this embarrassing problem.</p>
+
+<p>Despite the taking the class just over three years ago (it’s unsettling to realize its been so long), these few promises have stuck with me.  So Mike, if you’re reading this, I’m doing my part!</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
+      <h1 class="entry-title"><a href="/blog/2010/08/04/a-bad-first-instinct/">A Bad First Instinct</a></h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2010-08-04T00:00:00-07:00" pubdate data-updated="true">Aug 4<span>th</span>, 2010</time>
+        
+      </p>
+    
+  </header>
+
+
+  <div class="entry-content"><p>It’s an itch.  A compulsion.  Sometimes when working with a new library I get a very strong impulse to do a very bad thing – reinvent the wheel.  Or, in this case, re-write the wheel.</p>
+
+<p>It’s easy to object to the way code is organized, and can cause a certain amount of discomfort.  Whether it’s the desire to go through and reformat code (braces belong on the same line as the if statement!) or the pain of hacking together relatively incompatible library designs, it can be unpleasant.</p>
+
+<p>Something that I’ve been pushing myself to do, and slowly learning to do is to be comfortable with that discomfort.  To resist the urge to rewrite code, as it’s never just a matter of rewriting it, but also testing it, an so forth.  I’m slowly beginning to accept the painful truth: no code is perfect.</p>
+
+<p>That said, there are times when I do rewrite libraries.  Sometimes you’re handed code from ten years ago that’s no longer applicable, or antiquated, or just plain ugly.  In these scenarios it’s perfectly justified to make large sweeping structural changes (with the protection of your favorite version control, of course).  Just, hold off.  Wait, and try to use the library, and the first-pass issues will either grow into systemic problems or wither and recede into the cracks.</p>
+</div>
+  
+  
+
+
+    </article>
+  
+  
+    <article>
+      
+  <header>
+    
       <h1 class="entry-title"><a href="/blog/2010/08/03/channel-islands-national-park/">Channel Islands National Park</a></h1>
     
     
@@ -106,25 +269,26 @@
   </header>
 
 
-  <div class="entry-content">Last week I was in Los Angeles, CA for SIGGRAPH, and though I discovered that I far prefer New York to LA (sorry, Angelinos) I did get something great out of it &#8211; a trip to Channel Islands National Park.
+  <div class="entry-content"><p>Last week I was in Los Angeles, CA for SIGGRAPH, and though I discovered that I far prefer New York to LA (sorry, Angelinos) I did get something great out of it – a trip to Channel Islands National Park.</p>
 
-About 30,000 visitors step onto its shores every year, making it one of the least-visited national parks.  It consists of five islands of varying sizes, and we stayed on one of the larger ones.  There were a few dozen other campers we saw, but the vast majority of people on the boat were day-trippers.
+<p>About 30,000 visitors step onto its shores every year, making it one of the least-visited national parks.  It consists of five islands of varying sizes, and we stayed on one of the larger ones.  There were a few dozen other campers we saw, but the vast majority of people on the boat were day-trippers.</p>
 
-<iframe width="590" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps/ms?ie=UTF8&amp;hl=en&amp;t=h&amp;msa=0&amp;msid=104143756793913968082.00048cf5d071b3373ec9d&amp;ll=34.043557,-119.805908&amp;spn=0.796545,1.620483&amp;z=9&amp;output=embed"></iframe><br /><small>View <a href="http://maps.google.com/maps/ms?ie=UTF8&amp;hl=en&amp;t=h&amp;msa=0&amp;msid=104143756793913968082.00048cf5d071b3373ec9d&amp;ll=34.043557,-119.805908&amp;spn=0.796545,1.620483&amp;z=9&amp;source=embed" style="text-align:left">Channel Islands National Park Trip</a> in a larger map</small>
+<iframe width="590" height="350" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="http://maps.google.com/maps/ms?ie=UTF8&amp;hl=en&amp;t=h&amp;msa=0&amp;msid=104143756793913968082.00048cf5d071b3373ec9d&amp;ll=34.043557,-119.805908&amp;spn=0.796545,1.620483&amp;z=9&amp;output=embed"></iframe>
+<p><br /><small>View <a href="http://maps.google.com/maps/ms?ie=UTF8&amp;hl=en&amp;t=h&amp;msa=0&amp;msid=104143756793913968082.00048cf5d071b3373ec9d&amp;ll=34.043557,-119.805908&amp;spn=0.796545,1.620483&amp;z=9&amp;source=embed" style="text-align:left">Channel Islands National Park Trip</a> in a larger map</small></p>
 
-We &#8220;set sail&#8221; at 8 am with <a href="http://www.islandpackers.com/">Island Packers</a>, who were fantastically efficient and a pleasure to travel with despite their apparent monopoly on service out to the islands.  Upon landing, the campers were required to get a brief orientation from the live-in park ranger describing their pack-in pack-out policy and the fact that we should never leave zippers exposed as the island&#8217;s ravens have learned to unzip backpacks.
+<p>We “set sail” at 8 am with <a href="http://www.islandpackers.com/">Island Packers</a>, who were fantastically efficient and a pleasure to travel with despite their apparent monopoly on service out to the islands.  Upon landing, the campers were required to get a brief orientation from the live-in park ranger describing their pack-in pack-out policy and the fact that we should never leave zippers exposed as the island’s ravens have learned to unzip backpacks.</p>
 
-With wetsuits rented from <a href="http://www.venturadive.com/">Ventura Dive and Sport</a>, plunged into the icy waters (ok, they&#8217;re not icy, but they&#8217;re pretty frigid compared to the warm Red Sea).  The kelp beds were amazing, stretching below beyond visibility and then tangling at the surface, creating an enormous labyrinth of giant leaves.  Their bases covered in sea urchins eating away at the tendrils.  On the second day we saw a couple of stingrays, and a school of fish thousands strong trolling the area.  I had hoped to swim and play with the local sea lions, but they weren&#8217;t particularly interested in us apparently.
+<p>With wetsuits rented from <a href="http://www.venturadive.com/">Ventura Dive and Sport</a>, plunged into the icy waters (ok, they’re not icy, but they’re pretty frigid compared to the warm Red Sea).  The kelp beds were amazing, stretching below beyond visibility and then tangling at the surface, creating an enormous labyrinth of giant leaves.  Their bases covered in sea urchins eating away at the tendrils.  On the second day we saw a couple of stingrays, and a school of fish thousands strong trolling the area.  I had hoped to swim and play with the local sea lions, but they weren’t particularly interested in us apparently.</p>
 
-While not freezing in the water, we hiked the many trails, perching atop the various cliffs overlooking the many harbors.  And when not hiking, we ate and watched the chihuahua-sized island foxes looking for food and fending off the comparably-sized ravens.
+<p>While not freezing in the water, we hiked the many trails, perching atop the various cliffs overlooking the many harbors.  And when not hiking, we ate and watched the chihuahua-sized island foxes looking for food and fending off the comparably-sized ravens.</p>
 
-<a href="http://www.flickr.com/photos/danlecocq/4858699346/" title="panorama2 by danlecocq, on Flickr"><img src="http://farm5.static.flickr.com/4138/4858699346_9f72fb0111.jpg" width="500" height="125" alt="panorama2" class="aligncenter"/></a>
+<p><a href="http://www.flickr.com/photos/danlecocq/4858699346/" title="panorama2 by danlecocq, on Flickr"><img src="http://farm5.static.flickr.com/4138/4858699346_9f72fb0111.jpg" width="500" height="125" alt="panorama2" class="aligncenter" /></a></p>
 
-It was a fun excursion, and I hope to go back for more diving and exploration of the islands.  During the year they see countless whales and dolphins, and organize dive trips.  Oddly enough, I found out about it two years ago from an in-flight magazine on my way to a KAUST orientation meetup.  Chalk one up to the in-flight magazine!
+<p>It was a fun excursion, and I hope to go back for more diving and exploration of the islands.  During the year they see countless whales and dolphins, and organize dive trips.  Oddly enough, I found out about it two years ago from an in-flight magazine on my way to a KAUST orientation meetup.  Chalk one up to the in-flight magazine!</p>
 
-I must admit, at times, looking down at the bright blue water, and ships coming into harbor, I felt a little bit like a pirate.
+<p>I must admit, at times, looking down at the bright blue water, and ships coming into harbor, I felt a little bit like a pirate.</p>
 
-<a href="http://www.flickr.com/photos/danlecocq/4857595030/" title="DSC_0097.NEF by danlecocq, on Flickr"><img src="http://farm5.static.flickr.com/4140/4857595030_e455bac17e.jpg" width="500" height="334" alt="DSC_0097.NEF" class="aligncenter" /></a>
+<p><a href="http://www.flickr.com/photos/danlecocq/4857595030/" title="DSC_0097.NEF by danlecocq, on Flickr"><img src="http://farm5.static.flickr.com/4140/4857595030_e455bac17e.jpg" width="500" height="334" alt="DSC_0097.NEF" class="aligncenter" /></a></p>
 </div>
   
   
@@ -160,13 +324,13 @@ I must admit, at times, looking down at the bright blue water, and ships coming 
   </header>
 
 
-  <div class="entry-content">This last week saw SIGGRAPH 2010 in Los Angeles, sunny California.  It was there that I gave my first talk at a real conference.  One request that I had not anticipated was for the <a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2010/08/siggraph2010-webglot.pdf">slides from the talk</a>, and so I post them here now.
+  <div class="entry-content"><p>This last week saw SIGGRAPH 2010 in Los Angeles, sunny California.  It was there that I gave my first talk at a real conference.  One request that I had not anticipated was for the <a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2010/08/siggraph2010-webglot.pdf">slides from the talk</a>, and so I post them here now.</p>
 
-Pending some red tape resolution, I hope to post the live-working demos soon.  Until then, I hope that this video from the original conference submission will whet your appetite!
+<p>Pending some red tape resolution, I hope to post the live-working demos soon.  Until then, I hope that this video from the original conference submission will whet your appetite!</p>
 
-<object width="590" height="369"><param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://vimeo.com/moogaloop.swf?clip_id=9584857&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=00ADEF&amp;fullscreen=1" /><embed src="http://vimeo.com/moogaloop.swf?clip_id=9584857&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=00ADEF&amp;fullscreen=1" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="590" height="369"></embed></object>
+<object width="590" height="369"><param name="allowfullscreen" value="true" /><param name="allowscriptaccess" value="always" /><param name="movie" value="http://vimeo.com/moogaloop.swf?clip_id=9584857&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=00ADEF&amp;fullscreen=1" /><embed src="http://vimeo.com/moogaloop.swf?clip_id=9584857&amp;server=vimeo.com&amp;show_title=1&amp;show_byline=1&amp;show_portrait=0&amp;color=00ADEF&amp;fullscreen=1" type="application/x-shockwave-flash" allowfullscreen="true" allowscriptaccess="always" width="590" height="369" /></object>
 
-For those particularly curious, feel free to contact me or refer to the <a href="http://portal.acm.org/citation.cfm?id=1837072">abstract</a>.
+<p>For those particularly curious, feel free to contact me or refer to the <a href="http://portal.acm.org/citation.cfm?id=1837072">abstract</a>.</p>
 </div>
   
   
@@ -202,9 +366,9 @@ For those particularly curious, feel free to contact me or refer to the <a href=
   </header>
 
 
-  <div class="entry-content">I arrived in Los Angeles yesterday to attend (and talk at) SIGGRAPH 2010.  This is not the first time the conference has been here, but it is certainly my first time to this smoggy city.
+  <div class="entry-content"><p>I arrived in Los Angeles yesterday to attend (and talk at) SIGGRAPH 2010.  This is not the first time the conference has been here, but it is certainly my first time to this smoggy city.</p>
 
-Adjacent to the Los Angeles Convention Center is the Staples Center, where workers have been setting up for the X Games.  Fortunately they won&#8217;t begin until July 29th, the last day of this conference, but in watching the setup I was imagining an enormous re-enactment of high school stereotypes.  Tens of thousands of jocks right next door to tens of thousands of nerds.
+<p>Adjacent to the Los Angeles Convention Center is the Staples Center, where workers have been setting up for the X Games.  Fortunately they won’t begin until July 29th, the last day of this conference, but in watching the setup I was imagining an enormous re-enactment of high school stereotypes.  Tens of thousands of jocks right next door to tens of thousands of nerds.</p>
 </div>
   
   
@@ -240,25 +404,25 @@ Adjacent to the Los Angeles Convention Center is the Staples Center, where worke
   </header>
 
 
-  <div class="entry-content">It&#8217;s a question that comes up often in conversation, and especially when meeting new people.  The normal pleasantries of where one is from and what one does naturally lead there.  &#8220;High-Performance Computing, eh?  What&#8217;s that?&#8221;
+  <div class="entry-content"><p>It’s a question that comes up often in conversation, and especially when meeting new people.  The normal pleasantries of where one is from and what one does naturally lead there.  “High-Performance Computing, eh?  What’s that?”</p>
 
-I sometimes feel it a mission to dispel myths about supercomputing that the layperson might have.  Pop culture is full of stern-looking authority figures leering at a screen, looking over the shoulder of an endearingly-disheveled nerd.  Or I think Chuck represents this well:
+<p>I sometimes feel it a mission to dispel myths about supercomputing that the layperson might have.  Pop culture is full of stern-looking authority figures leering at a screen, looking over the shoulder of an endearingly-disheveled nerd.  Or I think Chuck represents this well:</p>
 
-<object width="600" height="475"><param name="movie" value="http://www.youtube.com/v/hNYbw3ZqzQw&amp;hl=en_US&amp;fs=1?rel=0"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/hNYbw3ZqzQw&amp;hl=en_US&amp;fs=1?rel=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="600" height="475"></embed></object>
+<object width="600" height="475"><param name="movie" value="http://www.youtube.com/v/hNYbw3ZqzQw&amp;hl=en_US&amp;fs=1?rel=0" /><param name="allowFullScreen" value="true" /><param name="allowscriptaccess" value="always" /><embed src="http://www.youtube.com/v/hNYbw3ZqzQw&amp;hl=en_US&amp;fs=1?rel=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="600" height="475" /></object>
 
-So when answering this seemingly question about what exactly my job entails, I have to start at the bottom, explaining how processors aren&#8217;t getting any faster (and haven&#8217;t been for quite a while, relatively speaking).  And how this fact necessitates a different way of looking at programming tasks, moving from &#8220;fast&#8221; or &#8220;deep&#8221; to &#8220;wide.&#8221;  Supercomputers aren&#8217;t single small boxes in the middle of a vast room covered in billions of pixels, as Chuck would seem to suggest.  No, nothing so glamorous.  In fact, seeing a rack of IBM&#8217;s Blue Gene is more akin to <em>2001: A Space Odyssey</em> - being confronted with a towering black monolith:
+<p>So when answering this seemingly question about what exactly my job entails, I have to start at the bottom, explaining how processors aren’t getting any faster (and haven’t been for quite a while, relatively speaking).  And how this fact necessitates a different way of looking at programming tasks, moving from “fast” or “deep” to “wide.”  Supercomputers aren’t single small boxes in the middle of a vast room covered in billions of pixels, as Chuck would seem to suggest.  No, nothing so glamorous.  In fact, seeing a rack of IBM’s Blue Gene is more akin to <em>2001: A Space Odyssey</em> - being confronted with a towering black monolith:</p>
 
-[caption id=&#8221;attachment_875&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;The BlueGene/P system at Argonne National Lab.  The man in the picture is actually now an awesome system administrator for the KAUST Supercomputing Lab!&#8221;]<a href="http://www.alcf.anl.gov/news/media_files/bluegene_p.jpg"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2010/07/bluegene_p-300x198.jpg" alt="" title="bluegene_p" width="300" height="198" class="size-medium wp-image-875" /></a>[/caption]
+<p>[caption id=”attachment_875” align=”aligncenter” width=”300” caption=”The BlueGene/P system at Argonne National Lab.  The man in the picture is actually now an awesome system administrator for the KAUST Supercomputing Lab!”]<a href="http://www.alcf.anl.gov/news/media_files/bluegene_p.jpg"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2010/07/bluegene_p-300x198.jpg" alt="" title="bluegene_p" width="300" height="198" class="size-medium wp-image-875" /></a>[/caption]</p>
 
-So modern supercomputers are not a single chip that can perform trillions of calculations per second, but are rather a set of relatively simple processors that each perform modestly.  Though when working in concert, the results are astounding.  Not long ago a supercomputer sustained calculations at a rate of 1 <a href="http://en.wikipedia.org/wiki/Petaflop">petaflop</a>, or a million billion operations every second.  If we were to compare that to a relatively modern desktop, a second on that computer is the equivalent of about <em>four days</em> of computation on your desktop.  If the same code were to run on the <a href="http://en.wikipedia.org/wiki/Apollo_Guidance_Computer">computers used in the Apollo missions</a>, it would take approximately 630 years (this is a rough approximation based on a figure of 20 microseconds per add).
+<p>So modern supercomputers are not a single chip that can perform trillions of calculations per second, but are rather a set of relatively simple processors that each perform modestly.  Though when working in concert, the results are astounding.  Not long ago a supercomputer sustained calculations at a rate of 1 <a href="http://en.wikipedia.org/wiki/Petaflop">petaflop</a>, or a million billion operations every second.  If we were to compare that to a relatively modern desktop, a second on that computer is the equivalent of about <em>four days</em> of computation on your desktop.  If the same code were to run on the <a href="http://en.wikipedia.org/wiki/Apollo_Guidance_Computer">computers used in the Apollo missions</a>, it would take approximately 630 years (this is a rough approximation based on a figure of 20 microseconds per add).</p>
 
-The reason for the modest clock rates of each processor in modern devices is power.  Intel successfully grew processor performance by increasing the rate at which operations were performed (among other advances), but at a great cost in power.  For example, a chip on a BlueGene/P compute node runs at a mere 850MHz, though it&#8217;s impossible to use this number alone to compare performance.  In fact, of the budget allocated for the purchase of a system like that, only half that money goes towards actual equipment.  The rest goes towards the power of not only running it, but cooling the damn thing off.
+<p>The reason for the modest clock rates of each processor in modern devices is power.  Intel successfully grew processor performance by increasing the rate at which operations were performed (among other advances), but at a great cost in power.  For example, a chip on a BlueGene/P compute node runs at a mere 850MHz, though it’s impossible to use this number alone to compare performance.  In fact, of the budget allocated for the purchase of a system like that, only half that money goes towards actual equipment.  The rest goes towards the power of not only running it, but cooling the damn thing off.</p>
 
-Graphics cards have become an unlikely source of high-performance computing in the last ten years or so.  It&#8217;s seen many struggles, from being difficult to program and even harder to debug, to early cards not supporting floating-point calculations and not supporting certain types of loops.  And yet NVIDIA now markets a graphics card with as many as 480 cores.
+<p>Graphics cards have become an unlikely source of high-performance computing in the last ten years or so.  It’s seen many struggles, from being difficult to program and even harder to debug, to early cards not supporting floating-point calculations and not supporting certain types of loops.  And yet NVIDIA now markets a graphics card with as many as 480 cores.</p>
 
-I recently happened upon this video of Jamie Hyneman and Adam Savage of Myth Busters explaining the difference between a CPU (the brain of your computer for the uninitiated) and a GPU (the part the handles much of the graphics).  When presented with explosions, robots and paintballs, the difference really lights up (skip to 8 minutes in for the <em>really</em> good bit, but the whole thing is worth a watch):
+<p>I recently happened upon this video of Jamie Hyneman and Adam Savage of Myth Busters explaining the difference between a CPU (the brain of your computer for the uninitiated) and a GPU (the part the handles much of the graphics).  When presented with explosions, robots and paintballs, the difference really lights up (skip to 8 minutes in for the <em>really</em> good bit, but the whole thing is worth a watch):</p>
 
-<object width="600" height="475"><param name="movie" value="http://www.youtube.com/v/XtGf0HaW7x4&amp;hl=en_US&amp;fs=1?rel=0"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/XtGf0HaW7x4&amp;hl=en_US&amp;fs=1?rel=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="600" height="475"></embed></object>
+<object width="600" height="475"><param name="movie" value="http://www.youtube.com/v/XtGf0HaW7x4&amp;hl=en_US&amp;fs=1?rel=0" /><param name="allowFullScreen" value="true" /><param name="allowscriptaccess" value="always" /><embed src="http://www.youtube.com/v/XtGf0HaW7x4&amp;hl=en_US&amp;fs=1?rel=0" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="600" height="475" /></object>
 </div>
   
   
@@ -294,56 +458,77 @@ I recently happened upon this video of Jamie Hyneman and Adam Savage of Myth Bus
   </header>
 
 
-  <div class="entry-content">I&#8217;ve been working with a large shared system at my school, sometimes building packages for myself and sometimes for others.  The one thing that&#8217;s almost certain across all such installations is that it&#8217;s difficult.  Installing dependencies can be a very deep rabbit hole, and there are seemingly more configuration, build and source control systems than there are atoms in the universe.
+  <div class="entry-content"><p>I’ve been working with a large shared system at my school, sometimes building packages for myself and sometimes for others.  The one thing that’s almost certain across all such installations is that it’s difficult.  Installing dependencies can be a very deep rabbit hole, and there are seemingly more configuration, build and source control systems than there are atoms in the universe.</p>
 
-On this particular shared system, our awesome sysadmins (these guys are really pretty great!) use a package called <a href="http://modules.sourceforge.net/">modules</a> to set environment variables for use with various packages.  Suppose you have several versions of a library that you&#8217;re working with.  Let&#8217;s say some users need Python 2.4, and other 2.6 and 3.0.  Instead of managing your path yourself, modules can help:
-<code>
-$> module load python-2.4
-$> which python
-/opt/share/python/2.4/ppc64/bin/python
-</code>
+<p>On this particular shared system, our awesome sysadmins (these guys are really pretty great!) use a package called <a href="http://modules.sourceforge.net/">modules</a> to set environment variables for use with various packages.  Suppose you have several versions of a library that you’re working with.  Let’s say some users need Python 2.4, and other 2.6 and 3.0.  Instead of managing your path yourself, modules can help:</p>
 
-One of the really great things about modules is that the way so-called <a href="http://modules.sourceforge.net/man/modulefile.html">modulefiles</a> are written, not only can you load modules easily, but you can also <em>unload</em> them just as easily:
-<code>
-$> which python
-/opt/share/python/2.4/ppc64/bin/python
-$> module unload python-2.4
-$> module load python-2.6
-$> which python
-/opt/share/python/2.6/ppc64/bin/python
-</code>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="nv">$&gt;</span> module load python-2.4
+</span><span class="line"><span class="nv">$&gt;</span> which python
+</span><span class="line">/opt/share/python/2.4/ppc64/bin/python
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-It&#8217;s of course not limited to any particular environment variable.  The modulefile can specify where the man pages are, what paths to include when using <a href="http://www.cmake.org/">cmake</a>, dynamic library path and whatever you&#8217;d like.
+<p>One of the really great things about modules is that the way so-called <a href="http://modules.sourceforge.net/man/modulefile.html">modulefiles</a> are written, not only can you load modules easily, but you can also <em>unload</em> them just as easily:</p>
 
-Modulefiles are also extremely convenient places to store information on how you actually built the library.  When you come back to it three months from now to build the next version of some code base, you won&#8217;t remember the complex arguments you had to pass into configure or cmake in order to get the damned thing to build.  Build notes are an essential part of maintaining code, especially if other people will be using the libraries you&#8217;ve built.
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="nv">$&gt;</span> which python
+</span><span class="line">/opt/share/python/2.4/ppc64/bin/python
+</span><span class="line"><span class="nv">$&gt;</span> module unload python-2.4
+</span><span class="line"><span class="nv">$&gt;</span> module load python-2.6
+</span><span class="line"><span class="nv">$&gt;</span> which python
+</span><span class="line">/opt/share/python/2.6/ppc64/bin/python
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-Speaking of which, I&#8217;ve worked on other shared systems before where several people need to use the same library and end up building it separately.  Frank and Steve both need libX, and have made their installations accessible to the other users on the system, but who wants to sully their .bash_profile by adding some long and ugly paths to their PATH?  If Steve makes his modulefiles directory public, too, then you can just that directory in MODULEPATH:
-<code>
-# in ~/.bash_profile
-...
-export MODULEPATH=~/modules/:/home/frank/modules/
-...
-</code>
+<p>It’s of course not limited to any particular environment variable.  The modulefile can specify where the man pages are, what paths to include when using <a href="http://www.cmake.org/">cmake</a>, dynamic library path and whatever you’d like.</p>
 
-Perhaps it&#8217;s not the best thing since sliced bread, but I like that it affords me a way to bridge the gap between having a convention for where libraries are installed (say, if you use MacPorts, for example?) and being able to easily set all your environment variables to <em>easier</em> if not easy compilation.
+<p>Modulefiles are also extremely convenient places to store information on how you actually built the library.  When you come back to it three months from now to build the next version of some code base, you won’t remember the complex arguments you had to pass into configure or cmake in order to get the damned thing to build.  Build notes are an essential part of maintaining code, especially if other people will be using the libraries you’ve built.</p>
 
-By way of a way that its helped me, I&#8217;ve been compiling quite a few projects recently that rely on cmake.  These projects also have a whole lot of dependencies, but my build process is now something along the lines of:
-<code>
-$> module load libxml2
-$> module load vtk
-$> module load osmesa
-$> ...
-$> cmake ~/ParaView
-</code>
+<p>Speaking of which, I’ve worked on other shared systems before where several people need to use the same library and end up building it separately.  Frank and Steve both need libX, and have made their installations accessible to the other users on the system, but who wants to sully their .bash_profile by adding some long and ugly paths to their PATH?  If Steve makes his modulefiles directory public, too, then you can just that directory in MODULEPATH:</p>
 
-This, compared to:
-<code>
-CMAKE_INCLUDE_PATH=$CMAKE_INCLUDE_PATH:/opt/share/libxml2/2.7.7/ppc64/include:/opt/share/vtk/5.6.0/ppc64/include/:...\
-CMAKE_LIBRARY_PATH=$CMAKE_LIBRARY_PATH:/opt/share/libxml2/2.7.7/ppc64/include:/opt/share/vtk/5.6.0/ppc64/lib/:...\
-cmake ~/ParaView
-</code>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># in ~/.bash_profile</span>
+</span><span class="line">...
+</span><span class="line"><span class="nb">export </span><span class="nv">MODULEPATH</span><span class="o">=</span>~/modules/:/home/frank/modules/
+</span><span class="line">...
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-Computers aren&#8217;t perfect, but they are experts at remembering the details.  Almost to a fault.  Modules helps my interactions to be a little more equitable where I have to remember the important parts (the names of the modules I need, for example) and the computer can keep track of where the hell I put everything!
+<p>Perhaps it’s not the best thing since sliced bread, but I like that it affords me a way to bridge the gap between having a convention for where libraries are installed (say, if you use MacPorts, for example?) and being able to easily set all your environment variables to <em>easier</em> if not easy compilation.</p>
+
+<p>By way of a way that its helped me, I’ve been compiling quite a few projects recently that rely on cmake.  These projects also have a whole lot of dependencies, but my build process is now something along the lines of:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="nv">$&gt;</span> module load libxml2
+</span><span class="line"><span class="nv">$&gt;</span> module load vtk
+</span><span class="line"><span class="nv">$&gt;</span> module load osmesa
+</span><span class="line"><span class="nv">$&gt;</span> ...
+</span><span class="line"><span class="nv">$&gt;</span> cmake ~/ParaView
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>This, compared to:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="nv">CMAKE_INCLUDE_PATH</span><span class="o">=</span><span class="nv">$CMAKE_INCLUDE_PATH</span>:/opt/share/libxml2/2.7.7/ppc64/include:/opt/share/vtk/5.6.0/ppc64/include/:...<span class="se">\</span>
+</span><span class="line"><span class="nv">CMAKE_LIBRARY_PATH</span><span class="o">=</span><span class="nv">$CMAKE_LIBRARY_PATH</span>:/opt/share/libxml2/2.7.7/ppc64/include:/opt/share/vtk/5.6.0/ppc64/lib/:...<span class="se">\</span>
+</span><span class="line">cmake ~/ParaView
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Computers aren’t perfect, but they are experts at remembering the details.  Almost to a fault.  Modules helps my interactions to be a little more equitable where I have to remember the important parts (the names of the modules I need, for example) and the computer can keep track of where the hell I put everything!</p>
 </div>
   
   
@@ -379,8 +564,8 @@ Computers aren&#8217;t perfect, but they are experts at remembering the details.
   </header>
 
 
-  <div class="entry-content">I&#8217;m not quite sure what the message here is.
-[caption id=&#8221;attachment_870&#8221; align=&#8221;aligncenter&#8221; width=&#8221;225&#8221; caption=&#8221;Freshest dolphin in town?&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2010/07/IMG_0111.jpg"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2010/07/IMG_0111-225x300.jpg" alt="" title="Dolphin sushi" width="225" height="300" class="size-medium wp-image-870" /></a>[/caption]
+  <div class="entry-content"><p>I’m not quite sure what the message here is.
+[caption id=”attachment_870” align=”aligncenter” width=”225” caption=”Freshest dolphin in town?”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2010/07/IMG_0111.jpg"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2010/07/IMG_0111-225x300.jpg" alt="" title="Dolphin sushi" width="225" height="300" class="size-medium wp-image-870" /></a>[/caption]</p>
 </div>
   
   
@@ -416,234 +601,125 @@ Computers aren&#8217;t perfect, but they are experts at remembering the details.
   </header>
 
 
-  <div class="entry-content">I&#8217;m not a &#8220;network guy.&#8221;  I still don&#8217;t know what exactly the subnet mask means, and I am often thankful that OS X is so willing to automatically configure network settings for me well.
-
-That said, recently I&#8217;ve been finding myself doing a lot of programming with sockets.  They provide a low-level network interface to communicate between computers, and are used like other file descriptors.  On the C side of things there&#8217;s a little more work than I&#8217;d like, and as such, I&#8217;ve found Python an invaluable tool.
-
-In fact, I think any time you&#8217;re working with a new concept, technique or algorithm it&#8217;s extremely helpful to use a scripting language.  Like others, Python offers an interactive session where you can develop code fragments by trial and error with each step, rather than trying to debug a chunk of code you&#8217;ve written with only a vague notion of what&#8217;s going on behind the scenes.  It allows you to pause between steps and see the effects and results of each function.
-
-Interestingly enough, another tool has come in extremely handy - netcat.  It&#8217;s designed to print to stdout everything that it hears on the socket, and then it sends everything it receives on stdin through the socket.  It allows you to examine some of the specifics of a protocol without worrying about the details of your own code or whether or not your code works.  Netcat is tried and true, and will tell you exactly what&#8217;s happening.
-
-This all came up in the context of WebSockets.  They&#8217;re a part of the HTML5 spec and provide a JavaScript interface for real socket communication (there are of course some caveats, especially with respect to how to handle binary data).  We&#8217;ve been using them for a project where we&#8217;d like the client to not need a special program to interact with a piece of software, and so instead implemented the protocol in JavaScript.
-
-There was, however, some trouble at the offset.  I had a bit of difficulty finding out why exactly the WebSocket client would seem to start to make a connection but then immediately complain about handshakes.  What would have been much easier is to just open up netcat on the same port and have a conversation with the WebSocket itself.
-<code>
-# First off, I was running SimpleHTTPServer from a directory with a dummy html file
-$> python -m SimpleHTTPServer 8888
-# On the terminal, listen on port 35000
-$> netcat -l 35000
-</code>
-
-And then try to make a connection from the JavaScript side
-<code>
-# From a JavaScript terminal from that dummy html file, in Chrome or Safari for example
-ws = new WebSocket("ws://localhost:35000");
-ws.onopen = function() { window.console.log("Hello!"); };
-ws.onmessage = function(event) { window.console.log("Received " + event.data); };
-ws.onclose = function() { window.console.log("Goodbye!"); };
-</code>
-
-I had figured (incorrectly) that WebSockets would work in essentially the exact same way that sockets would.  This is what we&#8217;d then expect to receive:
-<code>
-GET / HTTP/1.1
-Upgrade: WebSocket
-Connection: Upgrade
-Host: localhost:35000
-Origin: http://localhost:8888
-
-</code>
-
-It was only after realizing that this is what the WebSocket was sending that it became clear that the reason that no connection was actually happening was because the browser wasn&#8217;t getting the rest of <a href="http://www.whatwg.org/specs/web-socket-protocol/">the handshake</a>:
-<code>
-HTTP/1.1 101 Web Socket Protocol Handshake\r
-Upgrade: WebSocket\r
-Connection: Upgrade\r
-WebSocket-Origin: http://localhost:8888\r
-WebSocket-Location: ws://localhost:35000/\r
-WebSocket-Protocol: sample\r\n\r\n
-</code>
-
-Oddly enough, I can&#8217;t seem to get netcat to play nice sending the response code, but it can easily-enough give us an indication of what was happening at first.  Python can handle the rest for us:
-<code>
-$> python
->>> import socket
->>> s = socket.socket()
->>> s.bind(('', 35000))
->>> s.listen(1)
->>> client, info = s.accept()
->>> client.recv(1024)
-'GET / HTTP/1.1\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nHost: localhost:35000\r\nOrigin: http://localhost:8888\r\n\r\n'
->>> client.send('HTTP/1.1 101 Web Socket Protocol Handshake\r\nUpgrade: WebSocket\r\nConnection: Upgrade\r\nWebSocket-Origin: http://localhost:8888\r\nWebSocket-Location: ws://localhost:35000/\r\nWebSocket-Protocol: sample\r\n\r\n')
-199
-</code>
-
-And notice that it&#8217;s not until the listening socket sends its response portion of the handshake that the JavaScript console will print the &#8220;hello&#8221; we told it to upon opening the connection.  Now that we have the two talking, let&#8217;s actually send and receive a couple of messages:
-<code>
-# Again from the JavaScript console
-ws.send("Hello from JavaScript!")
-</code>
-
-And then we receive the message in Python:
-<code>
->>> client.recv(1024)
-'\x00Hello from JavaScript!\xff'
-</code>
-
-And here we find another oddity of WebSockets.  All messages seem to be prepended with \x00 and appended with \xff (though this is also mentioned in the specification).  If we try to send a message from Python without these two extra characters, we&#8217;ll get nothing out on the JavaScript side (go ahead and give it a try!):
-<code>
-# We get nothing on the JavaScript side :-/
-client.send('hello')
-# Magic happens!
-client.send('\x00hello\xff');
-</code>
-
-Of course I&#8217;m sure there are other robust tools the real &#8220;networking guys&#8221; use to make their lives easier.  But outside of pulling up WireShark or trying to figure this out by writing C code, netcat and Python definitely saved the day.
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2010/07/10/new-york-city-a-nice-place-to-live-but-i-wouldnt-want-to-visit/">New York City - a Nice Place to Live, but I Wouldn&#8217;t Want to Visit</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-07-10T00:00:00-07:00" pubdate data-updated="true">Jul 10<span>th</span>, 2010</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content">I&#8217;m living in New York, New York this summer while I work at IBM Research.  From the offset, I was skeptical of the city.  Any city, really.  I grew up in Colorado, where the population of the entire state is less than a third of that of the NYC metro area.
-
-The first week was a little rocky, but mostly because I was unfamiliar with my neighborhood and wasn&#8217;t sure where people went to do their grocery shopping, to eat, grab a drink and so forth.  By Monday of the following week, I knew my commute to work like the back of my hand, blending in among the real New Yorkers with the disaffected forward-looking stare that says, &#8220;I just want to get where I&#8217;m going, pal.&#8221;
-
-When I first arrived, I was on a red-eye flight and got in around 9.  I had contemplated taking a taxi to my place, both wanting to have ridden in a New York City Yellowcab and not wanting to deal with public transit, but when I got there I felt like I ought to hit the ground running.  Riding on the bus, I examined the faces and demeanors of all those around me, wondering to myself which best embodied the New Yorker.  On the bus, off the bus, transfer to another bus in Harlem.  The name of the neighborhood brought to mind poverty and violence, and frankly, as a wet-behind-the-ears exhausted-and-irritable honkey with luggage, I had no idea what to expect.  Getting off the bus and walking to the transfer, I passed the undeniable odor of marijuana, urine, drunk and irate homeless people and so forth.  Bear in mind this was about 10 am on a Sunday.  But while waiting, I realized something sort of magical about the city &#8211; no one cares.  If you don&#8217;t get in anyone&#8217;s way or make yourself particularly noticeable, but just wear that look of just wanting to get where you&#8217;re going, no one will notice you&#8217;re there.
-
-I had imagined that it would be a city of all kinds (which, it really is) but also a city of all kinds of rude.  This was a major misconception.  Though most citizens would not return a &#8220;hello&#8221; from a stranger on the street, most will help with directions when asked and apologize when they bump into you.  I had hoped that at some point during the summer I would accidentally bump into someone who would then call back at me &#8220;hey, I&#8217;m walkin&#8217; here!&#8221;  This seems unlikely to happen at this point.
-
-There are some stereotypes that are true to TV life.  Attractive, busy and exasperated professional women are in abundance, a la Liz Lemon of 30 Rock, for example.  There is a certain level of dress that seems to be expected here, even on the street.  Most men wear shirts and resort to jeans as their most casual and most women, at least this time of year, wear dresses, though I think that might be because of how outrageously hot it can get.
-
-The New Yorker&#8217;s hatred of tourists is a uniting factor, and something that I began to understand almost immediately.  It can be easy to get distracted by the enormous buildings, and visual stimuli, but most inhabitants pass these things every day and are just on their way to work, or dinner, or a friend&#8217;s.  I&#8217;m gaining a sense of what parts of the city to avoid for this reason - it&#8217;s very frustrating to get stuck behind a slow-walking tourist who&#8217;s aloofness makes him meander windingly down the sidewalk, impossible to pass.  Times Square is a death trap &#8211; three blocks of fanny-pack-wearing fathers trying to decide what to see next, keep track of lagging children and generally getting in everyone&#8217;s way.  But, let the tourists have Times Square.
-
-Don&#8217;t take too long here.  A friend who shall remain nameless visited me here, and used to the slower-paced life in Boulder, CO, she pondered what she wanted from a pizza place only after we had gotten to the front of the line.  On another occasion, she flip-flopped on her order.  To be fair, these places weren&#8217;t extremely busy, but it brought to light the fact that there&#8217;s an expectation here that you have been to a place before, know exactly what you want, and can complete your transaction in less than a minute.  In some ways, this is a charm that I like; there are many places to eat here, but I&#8217;ve quickly developed preferences and can walk into my favorite pizza place and make my order like a regular.
-
-My favorite things about New York couldn&#8217;t be experienced in a vacation here.  When I first moved in, for example, I was so pleased with the view from my place.  Not that it&#8217;s particularly incredible (I live on the Upper East Side and I don&#8217;t know what sort of reputation the neighborhood holds as far as views), but I like it all the same.  I look out my window and I see dozens of different buildings that I would call skyscrapers, all designed differently, peppered with garden terraces and charming signs of age.  The jagged horizon is somehow enchanting, and my curtains always stay open.  At night the neighboring buildings provide a soft and diffuse light, and different patterns of lit windows.
-
-I love walking down certain streets and being able to see down the avenues, the tiny separations between giant buildings.  Properly positioned, you can sometimes see a mile or so before a hill obstructs the view.  It reminds me of a project I saw to create a <a href="http://berglondon.com/projects/hat/">horizonless map of Manhattan</a>.
-
-The last few hours of sunlight in the day are perfect.  People talk about the Colorado sky, or the sunsets we have, but I&#8217;ve never seen light quality quite like this.  It&#8217;s a beautiful golden warmth every day without fail.  It makes me want to curl up and take a nap, or stretch out on the lawn and enjoy the end of the day.  In the park, this deliciousness is only compounded by the reservoirs, the heavy trees and residents playing frisbee, picnicking and taking walks along the paths.  It&#8217;s a beautiful time, and there&#8217;s an odd sense of community to it.  I&#8217;ve often wondered if such a place existed, where there isn&#8217;t any one group that&#8217;s out and enjoying the place, or even a tight-knit group of neighbors.  But there is a dense packing of total strangers who can come to the same place and enjoy the grass and the outdoors.
-
-Almost most of all, I love Central Park.  I was excited when I found my place because it&#8217;s a mere three cross-town blocks from Central Park.  I bike around there almost every day, and it&#8217;s almost always a treat.  There are hordes of runners, cyclists, rollerbladers and even a few cross-country skiers.  As a cyclist, you have to keep a watchful eye on the bipeds you&#8217;re passing as they sometimes have a tendency to step out in front of you.  We largely ignore crosswalks, and only the few cars on the road observe them.  There are some sections that are filled with horse-drawn carriages, bikeshaws and more adventurous tourists who decided to rent a bike and ride around the park, but you make do.  Sometimes it&#8217;s actually quite a thrill to be riding as fast as you can and dodging these obstacles and having a little friendly battle with other riders.  This, too, is a nice feature about riding here &#8211; no matter what your level, you can always find an equivalent cyclist for a little friendly competition and motivation.
-
-Biking in the city is also a pretty big rush.  In the morning hours, most of the usually-busy roads are ghost-towns, but seventh avenue at 7 in the evening is a sea of taxis.  I was riding down one day to Penn Station in the evening, catching a train out to Long Island to see a friend.  A bicyclist will make it down there faster than a taxi, but it&#8217;s not for the faint of heart.  Sprint, breaks, sprint, dodge pedestrian, coast, zip between cars, breaks, sprint.  There are no bike lanes, but rather only the spaces between cars.  The upside of this game of Frogger is that you can zip out between any two lanes where there&#8217;s space.  I&#8217;m not quite sure how cab drivers feel about us, but I imagine that if nothing else, they&#8217;re quite used to people with a death-wish.
-
-Had I never spent more than several weeks here, I never would have discovered what I love about the city.  These are the things one does and notices not when trying to visit the Met or Times Square or the Empire State Building, but only when you&#8217;ve enough time to be alright with not packing every waking hour or weekend with a trip to somewhere new and exciting.  This is the meandering life, and enjoying it.
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2010/07/02/shared-objects/">Shared Objects</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-07-02T00:00:00-07:00" pubdate data-updated="true">Jul 2<span>nd</span>, 2010</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content">Shared objects are great.  Imagine you have several programs running that all make use of the same library.  If they are all statically linked against that library, then there will be several copies of essentially the same code in memory.  Shared objects allow all these programs to reference the same code, held in memory in only one spot.
-
-I&#8217;ve recently been spending a lot of time trying to get a few key libraries compiled on a cluster, where the idea is to run jobs based on these libraries in parallel.  As memory is particularly limited, and there are several cores per node, I figured it would particularly make sense to compile everything as a shared object.  Also, a subsequent library depended on it.
-
-A lot of different packages configure, build and install themselves in a number of ways and often don&#8217;t adhere to conventions.  Despite trying every flag known to man into the configuration tools, I was unable to get a particular piece to build as a shared object.  But I happened upon a <a href="http://www.tipcache.com/tip/Convert_a_static_library_(.a)_to_a_shared_object_(.so)_12.html">particularly useful code snippet</a> to save the day:
-<code>
-ar -x mylib.a
-gcc -shared *.o -o mylib.so
-</code>
-</div>
-  
-  
-
-
-    </article>
-  
-  
-    <article>
-      
-  <header>
-    
-      <h1 class="entry-title"><a href="/blog/2010/07/02/colbert-report/">Colbert Report</a></h1>
-    
-    
-      <p class="meta">
-        
-
-
-
-
-
-
-
-
-  
-
-
-<time datetime="2010-07-02T00:00:00-07:00" pubdate data-updated="true">Jul 2<span>nd</span>, 2010</time>
-        
-      </p>
-    
-  </header>
-
-
-  <div class="entry-content">One of the joys I was hoping to experience here in New York City was to go to a filming of The Colbert Report.  Unfortunately, getting a ticket can be tricky.  There are rarely tickets available, and so you have to sign up to receive notifications when they become available.
-
-If you do not constantly sit on your email, your chances of going are greatly diminished.  I&#8217;ve been trying for about a month, because as a computer scientist, I am often on my email and can usually respond pretty quickly (< 5 minutes).  Today&#8230; was my lucky day.  Sort of.
-
-I responded within a minute of receiving a notification, and was pleased that today I had been fast enough.  There were still 40 tickets left!  By the time I had finished filling out the form, there were a mere 28 left.  I&#8217;m sure that in a couple of minutes the whole thing had closed off.  It would seem that Colbert&#8217;s a popular guy.
-
-So, here&#8217;s the trouble&#8230; the filming is on August 23rd, about a week and a half after I leave the city, and mere days before returning to Saudi Arabia.  Just&#8230; my&#8230; luck.
+  <div class="entry-content"><p>I’m not a “network guy.”  I still don’t know what exactly the subnet mask means, and I am often thankful that OS X is so willing to automatically configure network settings for me well.</p>
+
+<p>That said, recently I’ve been finding myself doing a lot of programming with sockets.  They provide a low-level network interface to communicate between computers, and are used like other file descriptors.  On the C side of things there’s a little more work than I’d like, and as such, I’ve found Python an invaluable tool.</p>
+
+<p>In fact, I think any time you’re working with a new concept, technique or algorithm it’s extremely helpful to use a scripting language.  Like others, Python offers an interactive session where you can develop code fragments by trial and error with each step, rather than trying to debug a chunk of code you’ve written with only a vague notion of what’s going on behind the scenes.  It allows you to pause between steps and see the effects and results of each function.</p>
+
+<p>Interestingly enough, another tool has come in extremely handy - netcat.  It’s designed to print to stdout everything that it hears on the socket, and then it sends everything it receives on stdin through the socket.  It allows you to examine some of the specifics of a protocol without worrying about the details of your own code or whether or not your code works.  Netcat is tried and true, and will tell you exactly what’s happening.</p>
+
+<p>This all came up in the context of WebSockets.  They’re a part of the HTML5 spec and provide a JavaScript interface for real socket communication (there are of course some caveats, especially with respect to how to handle binary data).  We’ve been using them for a project where we’d like the client to not need a special program to interact with a piece of software, and so instead implemented the protocol in JavaScript.</p>
+
+<p>There was, however, some trouble at the offset.  I had a bit of difficulty finding out why exactly the WebSocket client would seem to start to make a connection but then immediately complain about handshakes.  What would have been much easier is to just open up netcat on the same port and have a conversation with the WebSocket itself.</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="python"><span class="line"><span class="c"># First off, I was running SimpleHTTPServer from a directory with a dummy html file</span>
+</span><span class="line"><span class="err">$</span><span class="o">&gt;</span> <span class="n">python</span> <span class="o">-</span><span class="n">m</span> <span class="n">SimpleHTTPServer</span> <span class="mi">8888</span>
+</span><span class="line"><span class="c"># On the terminal, listen on port 35000</span>
+</span><span class="line"><span class="err">$</span><span class="o">&gt;</span> <span class="n">netcat</span> <span class="o">-</span><span class="n">l</span> <span class="mi">35000</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>And then try to make a connection from the JavaScript side</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="err">#</span> <span class="nx">From</span> <span class="nx">a</span> <span class="nx">JavaScript</span> <span class="nx">terminal</span> <span class="nx">from</span> <span class="nx">that</span> <span class="nx">dummy</span> <span class="nx">html</span> <span class="nx">file</span><span class="p">,</span> <span class="k">in</span> <span class="nx">Chrome</span> <span class="nx">or</span> <span class="nx">Safari</span> <span class="k">for</span> <span class="nx">example</span>
+</span><span class="line"><span class="nx">ws</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">WebSocket</span><span class="p">(</span><span class="s2">&quot;ws://localhost:35000&quot;</span><span class="p">);</span>
+</span><span class="line"><span class="nx">ws</span><span class="p">.</span><span class="nx">onopen</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nb">window</span><span class="p">.</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Hello!&quot;</span><span class="p">);</span> <span class="p">};</span>
+</span><span class="line"><span class="nx">ws</span><span class="p">.</span><span class="nx">onmessage</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">)</span> <span class="p">{</span> <span class="nb">window</span><span class="p">.</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Received &quot;</span> <span class="o">+</span> <span class="nx">event</span><span class="p">.</span><span class="nx">data</span><span class="p">);</span> <span class="p">};</span>
+</span><span class="line"><span class="nx">ws</span><span class="p">.</span><span class="nx">onclose</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span> <span class="nb">window</span><span class="p">.</span><span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s2">&quot;Goodbye!&quot;</span><span class="p">);</span> <span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>I had figured (incorrectly) that WebSockets would work in essentially the exact same way that sockets would.  This is what we’d then expect to receive:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="nx">GET</span> <span class="o">/</span> <span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.1</span>
+</span><span class="line"><span class="nx">Upgrade</span><span class="o">:</span> <span class="nx">WebSocket</span>
+</span><span class="line"><span class="nx">Connection</span><span class="o">:</span> <span class="nx">Upgrade</span>
+</span><span class="line"><span class="nx">Host</span><span class="o">:</span> <span class="nx">localhost</span><span class="o">:</span><span class="mi">35000</span>
+</span><span class="line"><span class="nx">Origin</span><span class="o">:</span> <span class="nx">http</span><span class="o">:</span><span class="c1">//localhost:8888</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>It was only after realizing that this is what the WebSocket was sending that it became clear that the reason that no connection was actually happening was because the browser wasn’t getting the rest of <a href="http://www.whatwg.org/specs/web-socket-protocol/">the handshake</a>:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="nx">HTTP</span><span class="o">/</span><span class="mf">1.1</span> <span class="mi">101</span> <span class="nx">Web</span> <span class="nx">Socket</span> <span class="nx">Protocol</span> <span class="nx">Handshake</span><span class="err">\</span><span class="nx">r</span>
+</span><span class="line"><span class="nx">Upgrade</span><span class="o">:</span> <span class="nx">WebSocket</span><span class="err">\</span><span class="nx">r</span>
+</span><span class="line"><span class="nx">Connection</span><span class="o">:</span> <span class="nx">Upgrade</span><span class="err">\</span><span class="nx">r</span>
+</span><span class="line"><span class="nx">WebSocket</span><span class="o">-</span><span class="nx">Origin</span><span class="o">:</span> <span class="nx">http</span><span class="o">:</span><span class="c1">//localhost:8888\r</span>
+</span><span class="line"><span class="nx">WebSocket</span><span class="o">-</span><span class="nx">Location</span><span class="o">:</span> <span class="nx">ws</span><span class="o">:</span><span class="c1">//localhost:35000/\r</span>
+</span><span class="line"><span class="nx">WebSocket</span><span class="o">-</span><span class="nx">Protocol</span><span class="o">:</span> <span class="nx">sample</span><span class="err">\</span><span class="nx">r</span><span class="err">\</span><span class="nx">n</span><span class="err">\</span><span class="nx">r</span><span class="err">\</span><span class="nx">n</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Oddly enough, I can’t seem to get netcat to play nice sending the response code, but it can easily-enough give us an indication of what was happening at first.  Python can handle the rest for us:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+</pre></td><td class="code"><pre><code class="python"><span class="line"><span class="err">$</span><span class="o">&gt;</span> <span class="n">python</span>
+</span><span class="line"><span class="o">&gt;&gt;&gt;</span> <span class="kn">import</span> <span class="nn">socket</span>
+</span><span class="line"><span class="o">&gt;&gt;&gt;</span> <span class="n">s</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">()</span>
+</span><span class="line"><span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">bind</span><span class="p">((</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="mi">35000</span><span class="p">))</span>
+</span><span class="line"><span class="o">&gt;&gt;&gt;</span> <span class="n">s</span><span class="o">.</span><span class="n">listen</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</span><span class="line"><span class="o">&gt;&gt;&gt;</span> <span class="n">client</span><span class="p">,</span> <span class="n">info</span> <span class="o">=</span> <span class="n">s</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+</span><span class="line"><span class="o">&gt;&gt;&gt;</span> <span class="n">client</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+</span><span class="line"><span class="s">&#39;GET / HTTP/1.1</span><span class="se">\r\n</span><span class="s">Upgrade: WebSocket</span><span class="se">\r\n</span><span class="s">Connection: Upgrade</span><span class="se">\r\n</span><span class="s">Host: localhost:35000</span><span class="se">\r\n</span><span class="s">Origin: http://localhost:8888</span><span class="se">\r\n\r\n</span><span class="s">&#39;</span>
+</span><span class="line"><span class="o">&gt;&gt;&gt;</span> <span class="n">client</span><span class="o">.</span><span class="n">send</span><span class="p">(</span><span class="s">&#39;HTTP/1.1 101 Web Socket Protocol Handshake</span><span class="se">\r\n</span><span class="s">Upgrade: WebSocket</span><span class="se">\r\n</span><span class="s">Connection: Upgrade</span><span class="se">\r\n</span><span class="s">WebSocket-Origin: http://localhost:8888</span><span class="se">\r\n</span><span class="s">WebSocket-Location: ws://localhost:35000/</span><span class="se">\r\n</span><span class="s">WebSocket-Protocol: sample</span><span class="se">\r\n\r\n</span><span class="s">&#39;</span><span class="p">)</span>
+</span><span class="line"><span class="mi">199</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>And notice that it’s not until the listening socket sends its response portion of the handshake that the JavaScript console will print the “hello” we told it to upon opening the connection.  Now that we have the two talking, let’s actually send and receive a couple of messages:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="err">#</span> <span class="nx">Again</span> <span class="nx">from</span> <span class="nx">the</span> <span class="nx">JavaScript</span> <span class="nx">console</span>
+</span><span class="line"><span class="nx">ws</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="s2">&quot;Hello from JavaScript!&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>And then we receive the message in Python:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="python"><span class="line"><span class="o">&gt;&gt;&gt;</span> <span class="n">client</span><span class="o">.</span><span class="n">recv</span><span class="p">(</span><span class="mi">1024</span><span class="p">)</span>
+</span><span class="line"><span class="s">&#39;</span><span class="se">\x00</span><span class="s">Hello from JavaScript!</span><span class="se">\xff</span><span class="s">&#39;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>And here we find another oddity of WebSockets.  All messages seem to be prepended with \x00 and appended with \xff (though this is also mentioned in the specification).  If we try to send a message from Python without these two extra characters, we’ll get nothing out on the JavaScript side (go ahead and give it a try!):</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="javascript"><span class="line"><span class="err">#</span> <span class="nx">We</span> <span class="nx">get</span> <span class="nx">nothing</span> <span class="nx">on</span> <span class="nx">the</span> <span class="nx">JavaScript</span> <span class="nx">side</span> <span class="o">:-</span><span class="err">/</span>
+</span><span class="line"><span class="nx">client</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="s1">&#39;hello&#39;</span><span class="p">)</span>
+</span><span class="line"><span class="err">#</span> <span class="nx">Magic</span> <span class="nx">happens</span><span class="o">!</span>
+</span><span class="line"><span class="nx">client</span><span class="p">.</span><span class="nx">send</span><span class="p">(</span><span class="s1">&#39;\x00hello\xff&#39;</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Of course I’m sure there are other robust tools the real “networking guys” use to make their lives easier.  But outside of pulling up WireShark or trying to figure this out by writing C code, netcat and Python definitely saved the day.</p>
 </div>
   
   

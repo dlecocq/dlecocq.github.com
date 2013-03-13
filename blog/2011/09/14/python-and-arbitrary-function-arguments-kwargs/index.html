@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="Python has a pretty useful policy: named arguments. When you call a function, you can explicitly say that such-and-such value is what you&#8217;re &hellip;">
+  <meta name="description" content="Python has a pretty useful policy: named arguments. When you call a function, you can explicitly say that such-and-such value is what you’re &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,37 +134,37 @@
   </header>
 
 
-<div class="entry-content">Python has a pretty useful policy: named arguments. When you call a function, you can explicitly say that such-and-such value is what you&#8217;re providing for a particular argument, and can even include them in any order:
+<div class="entry-content"><p>Python has a pretty useful policy: named arguments. When you call a function, you can explicitly say that such-and-such value is what you’re providing for a particular argument, and can even include them in any order:</p>
 
-<pre lang='python'>
+<pre lang="python">
 def hello(first, last):
 	print 'Hello %s %s' % (first, last)
 
 hello(last='Lecocq', first='Dan')
 </pre>
 
-In fact, you can programmatically gain insight into functions with the <a href="http://docs.python.org/library/inspect.html" title="inspect" target="_blank">inspect module</a>. But suppose you want to be able to accept an arbitrary number of parameters. For example, for a printf equivalent. Or where I encountered it in wanting to read a module name from a configuration file, as well as the arguments to instantiate it. In this case, you&#8217;d get the module and class as a string and then a dictionary of the arguments to make an instance of it. Of course, Python always has a way. In this case, **kwargs.
+<p>In fact, you can programmatically gain insight into functions with the <a href="http://docs.python.org/library/inspect.html" title="inspect" target="_blank">inspect module</a>. But suppose you want to be able to accept an arbitrary number of parameters. For example, for a printf equivalent. Or where I encountered it in wanting to read a module name from a configuration file, as well as the arguments to instantiate it. In this case, you’d get the module and class as a string and then a dictionary of the arguments to make an instance of it. Of course, Python always has a way. In this case, **kwargs.</p>
 
-This is actually dictionary unpacking, taking all the keys in a dictionary and mapping them to argument names. For example, in the above example, I could say:
+<p>This is actually dictionary unpacking, taking all the keys in a dictionary and mapping them to argument names. For example, in the above example, I could say:</p>
 
-<pre lang='python'>
+<pre lang="python">
 hello(**{'last':'Lecocq', 'first':'Dan'})
 </pre>
 
-Of course, in that case it&#8217;s a little verbose, but if you&#8217;re getting a dictionary of arguments programmatically, then it&#8217;s invaluable. But wait, there&#8217;s more! Not only can you use the **dict operator to map a dictionary into parameters, but you can accept arbitrary parameters with it, too!
+<p>Of course, in that case it’s a little verbose, but if you’re getting a dictionary of arguments programmatically, then it’s invaluable. But wait, there’s more! Not only can you use the **dict operator to map a dictionary into parameters, but you can accept arbitrary parameters with it, too!</p>
 
-<pre lang='python'>
+<pre lang="python">
 def kw(**kwargs):
 	for key, value in kwargs.items():
-		print '%s => %s' % (key, value)
+		print '%s =&gt; %s' % (key, value)
 
 kw(**{'hello':'Howdy!', 'first':'Dan'})
 kw(hello='Howdy!', first='Dan')
 </pre>
 
-Magic! <strong>No matter how you invoke the function, it has access to the parameters.</strong>  You can even split the difference, making some parameters named and some parameters variable. For example, if you wanted to create an instance of a class that you passed a name in for, initialized with the arguments you give it:
+<p>Magic! <strong>No matter how you invoke the function, it has access to the parameters.</strong>  You can even split the difference, making some parameters named and some parameters variable. For example, if you wanted to create an instance of a class that you passed a name in for, initialized with the arguments you give it:</p>
 
-<pre lang='python'>
+<pre lang="python">
 def factory(module, cls, **kwargs):
 	# The built-in __import__ does just what it sounds like
 	m = __import__(module)
@@ -146,7 +177,7 @@ factory('datetime', 'datetime', year=2011, month=11, day=8)
 factory('decimal', 'Decimal', value=7)
 </pre>
 
-This is one place where Python&#8217;s flexibility is extremely useful.
+<p>This is one place where Python’s flexibility is extremely useful.</p>
 </div>
 
 

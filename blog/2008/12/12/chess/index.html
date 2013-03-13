@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="For Artificial Intelligence, in order to satisfy the final project requirement, I wrote a small chess-playing agent. It&#8217;s not horrible, but it &hellip;">
+  <meta name="description" content="For Artificial Intelligence, in order to satisfy the final project requirement, I wrote a small chess-playing agent. It’s not horrible, but it’s not &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,12 +134,12 @@
   </header>
 
 
-<div class="entry-content">For Artificial Intelligence, in order to satisfy the final project requirement, I wrote a small chess-playing agent.  It&#8217;s not horrible, but it&#8217;s not going to win any awards.  Still, despite its simplicity, I&#8217;ve noticed that in games against itself, it exhibits some seemingly second-order behaviors, like forks, pins, skewers and so on.  I found that interesting.
+<div class="entry-content"><p>For Artificial Intelligence, in order to satisfy the final project requirement, I wrote a small chess-playing agent.  It’s not horrible, but it’s not going to win any awards.  Still, despite its simplicity, I’ve noticed that in games against itself, it exhibits some seemingly second-order behaviors, like forks, pins, skewers and so on.  I found that interesting.</p>
 
-I did write a text-based interface for playing against it, but it&#8217;s tedious to actually use, and so, having done well in graphics, I decided to write a simple GUI in OpenGL.  You can click-and-drag your pieces to where you want them, and then wait for the computer to play.  Here&#8217;s a screenshot of a game&#8217;s conclusion:
-[caption id=&#8221;attachment_213&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A game&#8217;s conclusion&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/12/board.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/12/board-300x300.png" alt="A game&#039;s conclusion" title="Board" width="300" height="300" class="size-medium wp-image-213" /></a>[/caption]
+<p>I did write a text-based interface for playing against it, but it’s tedious to actually use, and so, having done well in graphics, I decided to write a simple GUI in OpenGL.  You can click-and-drag your pieces to where you want them, and then wait for the computer to play.  Here’s a screenshot of a game’s conclusion:
+[caption id=”attachment_213” align=”aligncenter” width=”300” caption=”A game’s conclusion”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/12/board.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/12/board-300x300.png" alt="A game&#039;s conclusion" title="Board" width="300" height="300" class="size-medium wp-image-213" /></a>[/caption]</p>
 
-I&#8217;d like to give the piece icons transparency on the border so that you can see the underlying square, but that will be a job for tomorrow.  Even as it is, I&#8217;m pleased with it.
+<p>I’d like to give the piece icons transparency on the border so that you can see the underlying square, but that will be a job for tomorrow.  Even as it is, I’m pleased with it.</p>
 </div>
 
 

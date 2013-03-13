@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="It has been a while since I&#8217;ve had to work with MPI, but recently I had to learn a new trick with it. MPI provides ways to convey data between &hellip;">
+  <meta name="description" content="It has been a while since I’ve had to work with MPI, but recently I had to learn a new trick with it. MPI provides ways to convey data between &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,41 +134,53 @@
   </header>
 
 
-<div class="entry-content">It has been a while since I&#8217;ve had to work with MPI, but recently I had to learn a new trick with it.  MPI provides ways to convey data between processes in a number of ways, from broadcasts to scatters to all-gathers.  But obviously you have to provide a certain amount of information about the structure of the data, not the least of which is the datatype.
+<div class="entry-content"><p>It has been a while since I’ve had to work with MPI, but recently I had to learn a new trick with it.  MPI provides ways to convey data between processes in a number of ways, from broadcasts to scatters to all-gathers.  But obviously you have to provide a certain amount of information about the structure of the data, not the least of which is the datatype.</p>
 
-MPI defines enumerated constants for the basic data types in C: MPI_CHAR, MPI_INT, etc., and for the most part these will suffice.  But what if you want to scatter your own struct?  This can be done through a number of utility functions, but the most versatile seems to be MPI_Type_struct().
+<p>MPI defines enumerated constants for the basic data types in C: MPI_CHAR, MPI_INT, etc., and for the most part these will suffice.  But what if you want to scatter your own struct?  This can be done through a number of utility functions, but the most versatile seems to be MPI_Type_struct().</p>
 
-You let MPI know how many different blocks, or chunks of memory there are, their lengths, their offsets and types, and then what variable to store the resulting integer handle in.  So if we had a struct:
+<p>You let MPI know how many different blocks, or chunks of memory there are, their lengths, their offsets and types, and then what variable to store the resulting integer handle in.  So if we had a struct:</p>
 
-<code>
-typedef struct {
-    int var;
-    char string[STRING_LENGTH];
-    double foo;
-} bar;
-</code>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+</pre></td><td class="code"><pre><code class="c++"><span class="line"><span class="k">typedef</span> <span class="k">struct</span> <span class="p">{</span>
+</span><span class="line">    <span class="kt">int</span> <span class="n">var</span><span class="p">;</span>
+</span><span class="line">    <span class="kt">char</span> <span class="n">string</span><span class="p">[</span><span class="n">STRING_LENGTH</span><span class="p">];</span>
+</span><span class="line">    <span class="kt">double</span> <span class="n">foo</span><span class="p">;</span>
+</span><span class="line"><span class="p">}</span> <span class="n">bar</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-We would first indicate that there are three blocks, of lengths 1, STRING_LENGTH and 1:
-<code>
-int count = 3;
-int lengths[3] = {1, STRING_LENGTH, 1};
-</code>
+<p>We would first indicate that there are three blocks, of lengths 1, STRING_LENGTH and 1:</p>
 
-The offsets indicate the byte offsets from the base address of each of the types in the structure.  For this example, the &#8220;var&#8221; variable is the first, and thus has offset 0.  On the other hand, &#8220;string&#8221; will have an offset that is sizeof(int), and &#8220;foo&#8221; will appear after the int and the string of length STRING_LENGTH:
-<code>
-MPI_Aint offsets[3] = {0, sizeof(int), sizeof(int) + STRING_LENGTH};
-MPI_Dataype types[3] = {MPI_INT, MPI_CHAR, MPI_DOUBLE};
-</code>
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="c++"><span class="line"><span class="kt">int</span> <span class="n">count</span> <span class="o">=</span> <span class="mi">3</span><span class="p">;</span>
+</span><span class="line"><span class="kt">int</span> <span class="n">lengths</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">1</span><span class="p">,</span> <span class="n">STRING_LENGTH</span><span class="p">,</span> <span class="mi">1</span><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-To finish up, we ask MPI to fill an integer we declare with the handle that will hereafter refer to this struct for the purposes of MPI.  Then, we commit it, and it&#8217;s ready for use!
-<code>
-/* Corrected by commenter `tinku`: int -> MPI_Datatype */
-MPI_Datatype barDatatype;
-MPI_Type_struct(count, lengths, offsets, types, &barDatatype);
-MPI_Type_commit(&barDatatype);
-</code>
+<p>The offsets indicate the byte offsets from the base address of each of the types in the structure.  For this example, the “var” variable is the first, and thus has offset 0.  On the other hand, “string” will have an offset that is sizeof(int), and “foo” will appear after the int and the string of length STRING_LENGTH:</p>
 
-Now if you have an array of bar structs, you can use scatterv with it and your new datatype, or bcast for that matter.  It&#8217;s business as usual, as if it were any of the include base datatypes in MPI.
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="c++"><span class="line"><span class="n">MPI_Aint</span> <span class="n">offsets</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="mi">0</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">),</span> <span class="k">sizeof</span><span class="p">(</span><span class="kt">int</span><span class="p">)</span> <span class="o">+</span> <span class="n">STRING_LENGTH</span><span class="p">};</span>
+</span><span class="line"><span class="n">MPI_Dataype</span> <span class="n">types</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span><span class="n">MPI_INT</span><span class="p">,</span> <span class="n">MPI_CHAR</span><span class="p">,</span> <span class="n">MPI_DOUBLE</span><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>To finish up, we ask MPI to fill an integer we declare with the handle that will hereafter refer to this struct for the purposes of MPI.  Then, we commit it, and it’s ready for use!</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+</pre></td><td class="code"><pre><code class="c++"><span class="line"><span class="cm">/* Corrected by commenter `tinku`: int -&gt; MPI_Datatype */</span>
+</span><span class="line"><span class="n">MPI_Datatype</span> <span class="n">barDatatype</span><span class="p">;</span>
+</span><span class="line"><span class="n">MPI_Type_struct</span><span class="p">(</span><span class="n">count</span><span class="p">,</span> <span class="n">lengths</span><span class="p">,</span> <span class="n">offsets</span><span class="p">,</span> <span class="n">types</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">barDatatype</span><span class="p">);</span>
+</span><span class="line"><span class="n">MPI_Type_commit</span><span class="p">(</span><span class="o">&amp;</span><span class="n">barDatatype</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+
+<p>Now if you have an array of bar structs, you can use scatterv with it and your new datatype, or bcast for that matter.  It’s business as usual, as if it were any of the include base datatypes in MPI.</p>
 </div>
 
 

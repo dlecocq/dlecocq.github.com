@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,11 +134,11 @@
   </header>
 
 
-<div class="entry-content">This afternoon I was able to successfully parallelize the ray tracer I wrote for Graphics II to run on the Alamode cluster at Mines.  Using 17 machines, I was able to render a 4,096 x 4,096 pixel image with 25 passes and up to 5 reflections.  It took only 1 minute and 20 seconds.
-[caption id=&#8221;attachment_481&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Reflective spheres rendered at high resolution on a small cluster.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output-300x300.png" alt="Reflective spheres rendered at high resolution on a small cluster." title="Spheres" width="300" height="300" class="size-medium wp-image-481" /></a>[/caption]
-[caption id=&#8221;&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Another image rendered on the same cluster&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output1.png"><img alt="Another image rendered on the same cluster" src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output8-300x300.png" title="Sphere and Triangles" width="300" height="300" /></a>[/caption]
+<div class="entry-content"><p>This afternoon I was able to successfully parallelize the ray tracer I wrote for Graphics II to run on the Alamode cluster at Mines.  Using 17 machines, I was able to render a 4,096 x 4,096 pixel image with 25 passes and up to 5 reflections.  It took only 1 minute and 20 seconds.
+[caption id=”attachment_481” align=”aligncenter” width=”300” caption=”Reflective spheres rendered at high resolution on a small cluster.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output-300x300.png" alt="Reflective spheres rendered at high resolution on a small cluster." title="Spheres" width="300" height="300" class="size-medium wp-image-481" /></a>[/caption]
+[caption id=”” align=”aligncenter” width=”300” caption=”Another image rendered on the same cluster”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output1.png"><img alt="Another image rendered on the same cluster" src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/output8-300x300.png" title="Sphere and Triangles" width="300" height="300" /></a>[/caption]</p>
 
-For the benefit of those who are not computer scientists, this is what the input file looks like:
+<p>For the benefit of those who are not computer scientists, this is what the input file looks like:
 <code>
 8192 8192
 0 0 20
@@ -165,7 +196,7 @@ T
 S
 0 0 0 0.5
 1 0 1 1 0 1 0 1 0.3
-</code>
+</code></p>
 </div>
 
 

@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,17 +134,17 @@
   </header>
 
 
-<div class="entry-content">When asked recently about why I began in computer science, I realized that it owes a lot to the mother of a friend who worked as a software engineer at Ball Aerospace.  It was my junior year of high school when we spoke at a barbeque:
+<div class="entry-content"><p>When asked recently about why I began in computer science, I realized that it owes a lot to the mother of a friend who worked as a software engineer at Ball Aerospace.  It was my junior year of high school when we spoke at a barbeque:</p>
 
-Katja has M.S. and although I&#8217;m afraid I&#8217;m uncertain of the specifics, she was confined to a wheelchair at this point.  She asked the powers that be to make the entrance of the building where she worked more wheelchair accessible, and they suggested that when she arrived at work that she could just call the front desk or get the attention of the security guard to have the door opened for her.  She tried to explain to me that, &#8220;it was the door&#8217;s job to open itself.&#8221;
+<p>Katja has M.S. and although I’m afraid I’m uncertain of the specifics, she was confined to a wheelchair at this point.  She asked the powers that be to make the entrance of the building where she worked more wheelchair accessible, and they suggested that when she arrived at work that she could just call the front desk or get the attention of the security guard to have the door opened for her.  She tried to explain to me that, “it was the door’s job to open itself.”</p>
 
-I didn&#8217;t understand what she meant then, but she assured me that someday I would.  She wasn&#8217;t referring to the automatic opener, but rather that it&#8217;s the door&#8217;s responsibility to provide a way to open it.  Whether that&#8217;s a handle, a latch or a button, there shouldn&#8217;t be outside resources that enter into the equation of opening the door.  I don&#8217;t remember the day that I understood it, but it came after taking Data Structures (it seems like a lifetime ago at this point).
+<p>I didn’t understand what she meant then, but she assured me that someday I would.  She wasn’t referring to the automatic opener, but rather that it’s the door’s responsibility to provide a way to open it.  Whether that’s a handle, a latch or a button, there shouldn’t be outside resources that enter into the equation of opening the door.  I don’t remember the day that I understood it, but it came after taking Data Structures (it seems like a lifetime ago at this point).</p>
 
-During today&#8217;s <a href="http://npar.org">NPAR</a> sessions, it cemented what I had been coming to realize - computer scientists are really philosophers.  We argue about what it means to be a door and by what metrics art should be judged.  We&#8217;re made uncomfortable by hacks that do not obey a cohesive design philosophy and if you talk to any computer scientist worth his weight in gold, he has a sense of the &#8220;right&#8221; way to design something and can substantiate that claim.
+<p>During today’s <a href="http://npar.org">NPAR</a> sessions, it cemented what I had been coming to realize - computer scientists are really philosophers.  We argue about what it means to be a door and by what metrics art should be judged.  We’re made uncomfortable by hacks that do not obey a cohesive design philosophy and if you talk to any computer scientist worth his weight in gold, he has a sense of the “right” way to design something and can substantiate that claim.</p>
 
-All this is especially true of people in graphics, I&#8217;ve found.  The people at NPAR are often concerned with visualization and communicating an idea (after all, our eyes are our highest bandwidth sense).  It&#8217;s one thing to know facts, like the population and GDP of countries over the last 40 years, but it&#8217;s another thing entirely to <a href="http://www.ted.com/index.php/talks/hans_rosling_shows_the_best_stats_you_ve_ever_seen.html">have a feel for the trends</a> they describe.  It&#8217;s been said before that &#8220;a picture is worth a thousand words,&#8221; and the goal of any good visualization should be to convey <em>understanding</em>.  We seek to reveal the truth, the &#8220;chairness of the chair,&#8221; and this is goal I feel very strongly about and take to heart at every chance.
+<p>All this is especially true of people in graphics, I’ve found.  The people at NPAR are often concerned with visualization and communicating an idea (after all, our eyes are our highest bandwidth sense).  It’s one thing to know facts, like the population and GDP of countries over the last 40 years, but it’s another thing entirely to <a href="http://www.ted.com/index.php/talks/hans_rosling_shows_the_best_stats_you_ve_ever_seen.html">have a feel for the trends</a> they describe.  It’s been said before that “a picture is worth a thousand words,” and the goal of any good visualization should be to convey <em>understanding</em>.  We seek to reveal the truth, the “chairness of the chair,” and this is goal I feel very strongly about and take to heart at every chance.</p>
 
-This concept is well-summarized by a quote one of the presenters mentioned:
+<p>This concept is well-summarized by a quote one of the presenters mentioned:</p>
 
 <blockquote>Drawing is not following a line on the model, it is drawing your sense of the thing. - Robert Henri</blockquote>
 

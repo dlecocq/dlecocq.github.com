@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,9 +134,9 @@
   </header>
 
 
-<div class="entry-content">I was notified today that I was not accepted into the CLS program for Intermediate Arabic.  While I am disappointed and frankly a little surprised, it is a competitive scholarship with acceptance rates under 10%.
+<div class="entry-content"><p>I was notified today that I was not accepted into the CLS program for Intermediate Arabic.  While I am disappointed and frankly a little surprised, it is a competitive scholarship with acceptance rates under 10%.</p>
 
-To those of you who were accepted, congratulations.
+<p>To those of you who were accepted, congratulations.</p>
 </div>
 
 

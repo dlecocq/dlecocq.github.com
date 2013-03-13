@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="If you find yourself with a terminal and you need a stopwatch: $> time cat Cat(1) by default waits on stdin if no arguments are provided, until an &hellip;">
+  <meta name="description" content="If you find yourself with a terminal and you need a stopwatch: $&gt; time cat Cat(1) by default waits on stdin if no arguments are provided, until an &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,12 +134,12 @@
   </header>
 
 
-<div class="entry-content">If you find yourself with a terminal and you need a stopwatch:
+<div class="entry-content"><p>If you find yourself with a terminal and you need a stopwatch:
 <code>
-$> time cat
-</code>
+$&gt; time cat
+</code></p>
 
-Cat(1) by default waits on stdin if no arguments are provided, until an EOF is reached (Ctrl+d). Time(1) waits until the run command terminates, so in effect, it&#8217;s a stopwatch that runs until you press ctrl+d.
+<p>Cat(1) by default waits on stdin if no arguments are provided, until an EOF is reached (Ctrl+d). Time(1) waits until the run command terminates, so in effect, it’s a stopwatch that runs until you press ctrl+d.</p>
 </div>
 
 

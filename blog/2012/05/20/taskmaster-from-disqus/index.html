@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="I have been waiting for an occasion to use dcramer&#8217;s taskmaster, which is a queueing system meant for large, infrequently-invoked (even one-off &hellip;">
+  <meta name="description" content="I have been waiting for an occasion to use dcramer’s taskmaster, which is a queueing system meant for large, infrequently-invoked (even one-off) &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,11 +134,11 @@
   </header>
 
 
-<div class="entry-content">I have been waiting for an occasion to use <a href="https://github.com/dcramer/taskmaster" target="_blank">dcramer&#8217;s taskmaster</a>, which is a queueing system meant for large, infrequently-invoked (even one-off) tasks. In his <a href="http://justcramer.com/2012/05/04/distributing-work-without-celery/" target="_blank">original blog post</a> brings up one of the features that was particularly striking to me &#8211; you don&#8217;t put jobs into the queue per se, but you describe a generator that yields all the jobs that should be put in the queue.
+<div class="entry-content"><p>I have been waiting for an occasion to use <a href="https://github.com/dcramer/taskmaster" target="_blank">dcramer’s taskmaster</a>, which is a queueing system meant for large, infrequently-invoked (even one-off) tasks. In his <a href="http://justcramer.com/2012/05/04/distributing-work-without-celery/" target="_blank">original blog post</a> brings up one of the features that was particularly striking to me – you don’t put jobs into the queue per se, but you describe a generator that yields all the jobs that should be put in the queue.</p>
 
-Occasionally at SEOmoz, we want to perform sanity checks on customer accounts, or transitioning from one backend to another, etc. In particular, we&#8217;ve been transitioning to a new queueing system, and we wanted to go through every customer and ensure that they had a recent crawl, and further, were definitely in the new system. Unfortunately, much of the data we have to check involves a lookup into Cassandra (that can&#8217;t be turned into a bulk operation very easily). Cassandra&#8217;s not necessarily the problem, but just the latency between requests. So, spawn off 20 or so workers with taskmaster, each given the details about the customer that we needed to verify.
+<p>Occasionally at SEOmoz, we want to perform sanity checks on customer accounts, or transitioning from one backend to another, etc. In particular, we’ve been transitioning to a new queueing system, and we wanted to go through every customer and ensure that they had a recent crawl, and further, were definitely in the new system. Unfortunately, much of the data we have to check involves a lookup into Cassandra (that can’t be turned into a bulk operation very easily). Cassandra’s not necessarily the problem, but just the latency between requests. So, spawn off 20 or so workers with taskmaster, each given the details about the customer that we needed to verify.</p>
 
-The serial version takes 4-5 hours. It took 15 minutes to get taskmaster installed and grokked, and then the task itself took an hour. Already a win!
+<p>The serial version takes 4-5 hours. It took 15 minutes to get taskmaster installed and grokked, and then the task itself took an hour. Already a win!</p>
 </div>
 
 

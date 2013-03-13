@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="I&#8217;ve mentioned WebGL before, and I think it could be very important. There is a competitor from Google, but like OpenGL and OpenCL, this API is &hellip;">
+  <meta name="description" content="I’ve mentioned WebGL before, and I think it could be very important. There is a competitor from Google, but like OpenGL and OpenCL, this API is &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,23 +134,23 @@
   </header>
 
 
-<div class="entry-content">I&#8217;ve <a href="http://dan.lecocq.us/wordpress/2009/09/22/the-future-of-the-internet/">mentioned WebGL before</a>, and I think it could be very important.  There is a <a href="http://code.google.com/apis/o3d/">competitor from Google</a>, but like OpenGL and OpenCL, this API is managed by the <a href="http://www.khronos.org/">Khronos Group</a> and that fact appeals to me.  Perhaps it&#8217;s that I&#8217;ve used it fairly extensively, but I really like OpenGL.  Despite its quirks, it&#8217;s quite powerful.
+<div class="entry-content"><p>I’ve <a href="http://dan.lecocq.us/wordpress/2009/09/22/the-future-of-the-internet/">mentioned WebGL before</a>, and I think it could be very important.  There is a <a href="http://code.google.com/apis/o3d/">competitor from Google</a>, but like OpenGL and OpenCL, this API is managed by the <a href="http://www.khronos.org/">Khronos Group</a> and that fact appeals to me.  Perhaps it’s that I’ve used it fairly extensively, but I really like OpenGL.  Despite its quirks, it’s quite powerful.</p>
 
-The big &#8220;get&#8221; is that it gives programmers access to hardware-accelerated graphics from directly within the browser.  There&#8217;s a lot of interest in this arena for game development as it would obviate much of the need for separate distributions based on operating system.  (Skip to the end for more of an opinion on this subject.)
+<p>The big “get” is that it gives programmers access to hardware-accelerated graphics from directly within the browser.  There’s a lot of interest in this arena for game development as it would obviate much of the need for separate distributions based on operating system.  (Skip to the end for more of an opinion on this subject.)</p>
 
-As such, I&#8217;ve been working with WebGL as opposed to the Google-proposed O3D.  (I have every intention to explore O3D, time permitting, as there are some jagged edges to the current specification.)  The result of this recent toil is a budding WebGL implementation of my OpenGLot project.  It&#8217;s still in early stages, but in the coming weeks, it should develop even further.  To whet appetites, I have a few pictures.
+<p>As such, I’ve been working with WebGL as opposed to the Google-proposed O3D.  (I have every intention to explore O3D, time permitting, as there are some jagged edges to the current specification.)  The result of this recent toil is a budding WebGL implementation of my OpenGLot project.  It’s still in early stages, but in the coming weeks, it should develop even further.  To whet appetites, I have a few pictures.</p>
 
-[caption id=&#8221;attachment_788&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A scalar field, my persistent test function.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/12/Picture-105.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/12/Picture-105-300x182.png" alt="A scalar field, my persistent test function." title="Picture 105" width="300" height="182" class="size-medium wp-image-788" /></a>[/caption]
+<p>[caption id=”attachment_788” align=”aligncenter” width=”300” caption=”A scalar field, my persistent test function.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/12/Picture-105.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/12/Picture-105-300x182.png" alt="A scalar field, my persistent test function." title="Picture 105" width="300" height="182" class="size-medium wp-image-788" /></a>[/caption]</p>
 
-[caption id=&#8221;attachment_789&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A 3D surface, again one of my usual test functions.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/12/Picture-111.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/12/Picture-111-300x215.png" alt="A 3D surface, again one of my usual test functions." title="Picture 111" width="300" height="215" class="size-medium wp-image-789" /></a>[/caption]
+<p>[caption id=”attachment_789” align=”aligncenter” width=”300” caption=”A 3D surface, again one of my usual test functions.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/12/Picture-111.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/12/Picture-111-300x215.png" alt="A 3D surface, again one of my usual test functions." title="Picture 111" width="300" height="215" class="size-medium wp-image-789" /></a>[/caption]</p>
 
-I seriously doubt that WebGL will every match the performance of OpenGL.  Even though JavaScript interpreters are getting faster at a somewhat alarming rate, they won&#8217;t match the speed of C or C++.  That said, if one can appropriately offload work onto the GPU, it won&#8217;t matter as much, but there will always be that overhead.
+<p>I seriously doubt that WebGL will every match the performance of OpenGL.  Even though JavaScript interpreters are getting faster at a somewhat alarming rate, they won’t match the speed of C or C++.  That said, if one can appropriately offload work onto the GPU, it won’t matter as much, but there will always be that overhead.</p>
 
-It won&#8217;t so much be a matter of having the same performance, but <em>enough</em> performance.  If a person can go to a single webpage and get 60 frames per second performance in a game or tool without having to install software, that&#8217;s tremendous.  Currently I&#8217;ve been getting between 60 and 90 frames per second with WebGLot, and I&#8217;m sure I can keep that number up as more features are added.
+<p>It won’t so much be a matter of having the same performance, but <em>enough</em> performance.  If a person can go to a single webpage and get 60 frames per second performance in a game or tool without having to install software, that’s tremendous.  Currently I’ve been getting between 60 and 90 frames per second with WebGLot, and I’m sure I can keep that number up as more features are added.</p>
 
-My hope is that this will be a tool and library that has a wide-enough feature set by the time WebGL is widely adopted that becomes often-used.  But that&#8217;s just ego.  The purer motivation is that if you&#8217;re a math teacher, and you want to have interactive demonstrations of Newton&#8217;s method, or parametric surfaces, or even flow fields, you can write an application in 20 minutes that does all the heavy lifting of graphing it for you.  As long as you can describe the mathematical primitives, you should be able to render it.  Of course there will be a general-purpose grapher available for any calculus student who&#8217;s having trouble visualizing this or that, too.  Or a resourceful PDE student who need to solve his homework (the GPU-based PDE solver will take a little bit more time, but it&#8217;s very nearly complete).
+<p>My hope is that this will be a tool and library that has a wide-enough feature set by the time WebGL is widely adopted that becomes often-used.  But that’s just ego.  The purer motivation is that if you’re a math teacher, and you want to have interactive demonstrations of Newton’s method, or parametric surfaces, or even flow fields, you can write an application in 20 minutes that does all the heavy lifting of graphing it for you.  As long as you can describe the mathematical primitives, you should be able to render it.  Of course there will be a general-purpose grapher available for any calculus student who’s having trouble visualizing this or that, too.  Or a resourceful PDE student who need to solve his homework (the GPU-based PDE solver will take a little bit more time, but it’s very nearly complete).</p>
 
-In short, the strength of WebGL is that is has respectable performance, and in a year&#8217;s time, half the browsers (well maybe not half) on computers will support it, giving the average internet-user access to a wealth of media.
+<p>In short, the strength of WebGL is that is has respectable performance, and in a year’s time, half the browsers (well maybe not half) on computers will support it, giving the average internet-user access to a wealth of media.</p>
 </div>
 
 

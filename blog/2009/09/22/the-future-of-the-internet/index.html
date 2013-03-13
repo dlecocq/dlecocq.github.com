@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="In the far-off year of 2009, there will be a series of tubes that connects people over great distances at tremendous speeds. You&#8217;ll interact &hellip;">
+  <meta name="description" content="In the far-off year of 2009, there will be a series of tubes that connects people over great distances at tremendous speeds. You’ll interact with it &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,11 +134,11 @@
   </header>
 
 
-<div class="entry-content">In the far-off year of 2009, there will be a series of tubes that connects people over great distances at tremendous speeds.  You&#8217;ll interact with it with a browser - a veritable portal to the world.  And it will be able to render 3D graphics efficiently.
+<div class="entry-content"><p>In the far-off year of 2009, there will be a series of tubes that connects people over great distances at tremendous speeds.  You’ll interact with it with a browser - a veritable portal to the world.  And it will be able to render 3D graphics efficiently.</p>
 
-WebGL is the future of the internet.  I&#8217;ve been hoping for something like this to come out for a while, and in Firefox&#8217;s latest nightly builds, it&#8217;s included.  You should read more about it <a href="http://blog.vlad1.com/2009/09/18/webgl-in-firefox-nightly-builds/">straight from the horse&#8217;s mouth</a>, but this is going to be amazing.
+<p>WebGL is the future of the internet.  I’ve been hoping for something like this to come out for a while, and in Firefox’s latest nightly builds, it’s included.  You should read more about it <a href="http://blog.vlad1.com/2009/09/18/webgl-in-firefox-nightly-builds/">straight from the horse’s mouth</a>, but this is going to be amazing.</p>
 
-I love OpenGL, and to have a framework from which to call these commands I know and love for the web will be fantastic.  No need to worry about system requirements beyond whether or not WebKit runs on your computer&#8230; no need to download the latest versions of some piece of software&#8230;
+<p>I love OpenGL, and to have a framework from which to call these commands I know and love for the web will be fantastic.  No need to worry about system requirements beyond whether or not WebKit runs on your computer… no need to download the latest versions of some piece of software…</p>
 </div>
 
 

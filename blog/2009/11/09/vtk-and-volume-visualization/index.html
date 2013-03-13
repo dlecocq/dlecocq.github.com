@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="This week for Scientific Visualization, we&#8217;re talking about volume rendering and using VTK to explore some data. I got some datasets from The &hellip;">
+  <meta name="description" content="This week for Scientific Visualization, we’re talking about volume rendering and using VTK to explore some data. I got some datasets from The Volume &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,44 +134,60 @@
   </header>
 
 
-<div class="entry-content">This week for Scientific Visualization, we&#8217;re talking about volume rendering and using VTK to explore some data.  I got some datasets from <a href="http://www9.informatik.uni-erlangen.de/External/vollib/">The Volume Library</a> and after a little tinkering, got VTK to render them. (And now a quick aside on how to do this as I didn&#8217;t find much information on the subject).
+<div class="entry-content"><p>This week for Scientific Visualization, we’re talking about volume rendering and using VTK to explore some data.  I got some datasets from <a href="http://www9.informatik.uni-erlangen.de/External/vollib/">The Volume Library</a> and after a little tinkering, got VTK to render them. (And now a quick aside on how to do this as I didn’t find much information on the subject).</p>
 
-I used a tool (pvm2raw) available as part of the <a href="http://www.stereofx.org/volume.html">V^3</a> library to convert the pvm files to raw, but VTK requires its own simple <a href="http://www.eichberger.de/2005/10/how-to-convert-raw-file-to-vtk.html">header</a>.  I actually found that this particular header didn&#8217;t work (perhaps a VTK versioning problem?) and so taking guidance from this, checked the header of one of the VTK-included volumes:
-<code>
-bash $> head VTKData/ironProt.vk
-</code>
+<p>I used a tool (pvm2raw) available as part of the <a href="http://www.stereofx.org/volume.html">V^3</a> library to convert the pvm files to raw, but VTK requires its own simple <a href="http://www.eichberger.de/2005/10/how-to-convert-raw-file-to-vtk.html">header</a>.  I actually found that this particular header didn’t work (perhaps a VTK versioning problem?) and so taking guidance from this, checked the header of one of the VTK-included volumes:</p>
 
-This header more or less included a little information on the grid size, spacing and representation of the data:
-<code>
-# vtk DataFile Version 1.0
-&lt;Name of File&gt;
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line">head VTKData/ironProt.vk
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-BINARY
+<p>This header more or less included a little information on the grid size, spacing and representation of the data:</p>
 
-DATASET STRUCTURED_POINTS
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+<span class="line-number">9</span>
+<span class="line-number">10</span>
+<span class="line-number">11</span>
+<span class="line-number">12</span>
+<span class="line-number">13</span>
+<span class="line-number">14</span>
+<span class="line-number">15</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># vtk DataFile Version 1.0</span>
+</span><span class="line">&amp;lt;Name of File&amp;gt;
+</span><span class="line">
+</span><span class="line">BINARY
+</span><span class="line">
+</span><span class="line">DATASET STRUCTURED_POINTS
+</span><span class="line">
+</span><span class="line">DIMENSIONS &amp;lt;x&amp;gt; &amp;lt;y&amp;gt; &amp;lt;z&amp;gt;
+</span><span class="line">ASPECT_RATIO 1 &amp;lt;y/x&amp;gt; &amp;lt;z/x&amp;gt;
+</span><span class="line">ORIGIN 0 0 0
+</span><span class="line">
+</span><span class="line">POINT_DATA &amp;lt;x * y * z&amp;gt;
+</span><span class="line">SCALARS scalars &amp;lt;unsigned_char|unsigned_short&amp;gt;
+</span><span class="line">LOOKUP_TABLE default
+</span><span class="line">&amp;lt;remember to include a newline here&amp;gt;
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-DIMENSIONS &lt;x&gt; &lt;y&gt; &lt;z&gt;
-ASPECT_RATIO 1 &lt;y/x&gt; &lt;z/x&gt;
-ORIGIN 0 0 0
+<p>Concatenating the header with the raw:
+&lt;div class=&#8217;bogus-wrapper&#8217;&gt;<notextile><figure class="code">&lt;figcaption&gt;<span></span>&lt;/figcaption&gt;&lt;div class=&#8221;highlight&#8221;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&#8221;gutter&#8221;&gt;&lt;pre class=&#8221;line-numbers&#8221;&gt;<span class="line-number">1</span>
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&#8217;code&#8217;&gt;&lt;pre&gt;<code class="bash"><span class="line">bash <span class="nv">$&gt;</span> cat header CT-Head.raw &gt; CT-Head.vtk
+</span></code>&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/div&gt;</figure></notextile>&lt;/div&gt;</p>
 
-POINT_DATA &lt;x * y * z&gt;
-SCALARS scalars &lt;unsigned_char|unsigned_short&gt;
-LOOKUP_TABLE default
-&lt;remember to include a newline here&gt;
-</code>
+<p>At that point, I was in business and was able to move on to generating pretty pictures.  Granted, these datasets are pretty sparse, but still VTK did a pretty reasonable job.  <strong>Update:</strong> a comment asked for a little bit more detail on this assignment, and so I’m including <a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/report.pdf">my report</a> for the project.</p>
 
-Concatenating the header with the raw:
-<code>
-bash $> cat header CT-Head.raw > CT-Head.vtk
-</code>
+<p>[gallery link=”file” orderby=”ID”]</p>
 
-At that point, I was in business and was able to move on to generating pretty pictures.  Granted, these datasets are pretty sparse, but still VTK did a pretty reasonable job.  <strong>Update:</strong> a comment asked for a little bit more detail on this assignment, and so I&#8217;m including <a href='http://dan.lecocq.us/wordpress/wp-content/uploads/2009/11/report.pdf'>my report</a> for the project.
+<p>I was amazed today that we can see inside of things… without taking them apart.  What an age to live in.  Especially the <a href="http://www.visualiseringscenter.se/1/1.0.1.0/230/1/">virtual autopsy table</a> I read about recently.  In 20 years, we’ll have Firefly-style real-time holographic body scans (ignore music, skip to 0:45):</p>
 
-[gallery link=&#8221;file&#8221; orderby=&#8221;ID&#8221;]
-
-I was amazed today that we can see inside of things&#8230; without taking them apart.  What an age to live in.  Especially the <a href="http://www.visualiseringscenter.se/1/1.0.1.0/230/1/">virtual autopsy table</a> I read about recently.  In 20 years, we&#8217;ll have Firefly-style real-time holographic body scans (ignore music, skip to 0:45):
-
-<object width="480" height="385" class="aligncenter"><param name="movie" value="http://www.youtube.com/v/Kgq_Psl9N6Q&hl=en&fs=1&"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/Kgq_Psl9N6Q&hl=en&fs=1&" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="480" height="385"></embed></object>
+<object width="480" height="385" class="aligncenter"><param name="movie" value="http://www.youtube.com/v/Kgq_Psl9N6Q&amp;hl=en&amp;fs=1&amp;" /><param name="allowFullScreen" value="true" /><param name="allowscriptaccess" value="always" /><embed src="http://www.youtube.com/v/Kgq_Psl9N6Q&amp;hl=en&amp;fs=1&amp;" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="480" height="385" /></object>
 </div>
 
 

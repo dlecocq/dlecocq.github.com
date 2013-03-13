@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="A professor of mine mentioned that he didn&#8217;t use bash but Z shell (zsh). I asked him about his choice and he said that it happened years ago &hellip;">
+  <meta name="description" content="A professor of mine mentioned that he didn’t use bash but Z shell (zsh). I asked him about his choice and he said that it happened years ago when he &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,15 +134,15 @@
   </header>
 
 
-<div class="entry-content">A professor of mine mentioned that he didn&#8217;t use bash but Z shell (zsh).  I asked him about his choice and he said that it happened years ago when he asked a system administrator how to accomplish a task in bash and the guy replied that it was really easy in zsh.  There have been worse reasons to switch, I suppose.
+<div class="entry-content"><p>A professor of mine mentioned that he didn’t use bash but Z shell (zsh).  I asked him about his choice and he said that it happened years ago when he asked a system administrator how to accomplish a task in bash and the guy replied that it was really easy in zsh.  There have been worse reasons to switch, I suppose.</p>
 
-(Incidentally, the best way I&#8217;ve found to improve your command-line-fu is to work near system administrators.  They have the most amazing bits of command line ninja magic you&#8217;ll ever see.)
+<p>(Incidentally, the best way I’ve found to improve your command-line-fu is to work near system administrators.  They have the most amazing bits of command line ninja magic you’ll ever see.)</p>
 
-I decided to give it a shot this evening and after 30 minutes of use, I&#8217;m switching.  The features I&#8217;ve liked thus far as that when you want to search for a command you recently ran, you don&#8217;t need any of the ctrl-r nonsense.  One simply begins the command as he remembers it and presses up.  Old functionality mapped to the intuitive keystroke.  You can scroll through your command history by pressing the up arrow key in bash, but to search, it&#8217;s a different story.
+<p>I decided to give it a shot this evening and after 30 minutes of use, I’m switching.  The features I’ve liked thus far as that when you want to search for a command you recently ran, you don’t need any of the ctrl-r nonsense.  One simply begins the command as he remembers it and presses up.  Old functionality mapped to the intuitive keystroke.  You can scroll through your command history by pressing the up arrow key in bash, but to search, it’s a different story.</p>
 
-The feature that clinched it for me is that it has better autocompletion.  If you are not using tabs to autocomplete, you are wasting keystrokes and make typos, but something I find frustrating is that when I want to ssh into some computer with some long and difficult-to-type name, I had to search my history for it.  Or, in zsh, you can tab complete the name.  It remembers that stuff!  Imagine that!
+<p>The feature that clinched it for me is that it has better autocompletion.  If you are not using tabs to autocomplete, you are wasting keystrokes and make typos, but something I find frustrating is that when I want to ssh into some computer with some long and difficult-to-type name, I had to search my history for it.  Or, in zsh, you can tab complete the name.  It remembers that stuff!  Imagine that!</p>
 
-Of course, there&#8217;s a very real possibility I&#8217;ll switch back if I run into too many gotchas, but this many niceties this soon in make mean think that the good will outweigh the bad.
+<p>Of course, there’s a very real possibility I’ll switch back if I run into too many gotchas, but this many niceties this soon in make mean think that the good will outweigh the bad.</p>
 </div>
 
 

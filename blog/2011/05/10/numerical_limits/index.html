@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="I&#8217;m working on a C++ class that encapsulates changes to a &#8220;steerable&#8221; variable. It&#8217;s part of a system that allows trusted &hellip;">
+  <meta name="description" content="I’m working on a C++ class that encapsulates changes to a “steerable” variable. It’s part of a system that allows trusted commands from a socket &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,31 +134,45 @@
   </header>
 
 
-<div class="entry-content">I&#8217;m working on a C++ class that encapsulates changes to a &#8220;steerable&#8221; variable. It&#8217;s part of a system that allows trusted commands from a socket library to change the value of registered variables. For example, a client might:
-<code>
-int sInt(0);
-float sFloat(0.3);
-registerParam("someSteerableInteger", &sInt);
-registerParam("someSteerableFloat", &sFloat);
-...
-// Library makes these calls after receiving remote commands:
-setParam("someSteerableInteger", 5);
-setParam("someSteerableFloat", 3.4);
-</code>
+<div class="entry-content"><p>I’m working on a C++ class that encapsulates changes to a “steerable” variable. It’s part of a system that allows trusted commands from a socket library to change the value of registered variables. For example, a client might:</p>
 
-There&#8217;s some intelligence in the class to ensure integrity of the data. For example, it will cast the value past into <em>setParam(&#8230;)</em> correctly, so that a call to <em>setParam(&#8220;someSteerableInteger&#8221;, 5.3)</em> results in the 5.3 cast as an integer and then used to set the integer&#8217;s value.
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+<span class="line-number">8</span>
+</pre></td><td class="code"><pre><code class="c++"><span class="line"><span class="kt">int</span> <span class="n">sInt</span><span class="p">(</span><span class="mi">0</span><span class="p">);</span>
+</span><span class="line"><span class="kt">float</span> <span class="n">sFloat</span><span class="p">(</span><span class="mf">0.3</span><span class="p">);</span>
+</span><span class="line"><span class="n">registerParam</span><span class="p">(</span><span class="s">&quot;someSteerableInteger&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">sInt</span><span class="p">);</span>
+</span><span class="line"><span class="n">registerParam</span><span class="p">(</span><span class="s">&quot;someSteerableFloat&quot;</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">sFloat</span><span class="p">);</span>
+</span><span class="line"><span class="p">...</span>
+</span><span class="line"><span class="c1">// Library makes these calls after receiving remote commands:</span>
+</span><span class="line"><span class="n">setParam</span><span class="p">(</span><span class="s">&quot;someSteerableInteger&quot;</span><span class="p">,</span> <span class="mi">5</span><span class="p">);</span>
+</span><span class="line"><span class="n">setParam</span><span class="p">(</span><span class="s">&quot;someSteerableFloat&quot;</span><span class="p">,</span> <span class="mf">3.4</span><span class="p">);</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 
-Some of the other intelligence needed is that the user might specify the minimum and maximum valid values the variable might take on. Or he or she might not. If not, it would be nice to have a convenient way of specifying a reasonable default minimum and maximum.
+<p>There’s some intelligence in the class to ensure integrity of the data. For example, it will cast the value passed into <code>setParam(...)</code> correctly, so that a call to <code>setParam("someSteerableInteger", 5.3)</code> results in the 5.3 cast as an integer and then used to set the integer’s value.</p>
 
-Enter <em><a href="http://www.cplusplus.com/reference/std/limits/numeric_limits/">numerical_limits</a></em>. It&#8217;s a static templated class that can give you some insight into the built-in types. For example:
-<code>
-#include &lt;iostream&gt;
-#include &lt;limits&gt;
-using namespace std;
-...
-cout &lt;&lt; "Min unsigned int: " &lt;&lt; numerical_limits&lt;unsigned int&gt;::min() &lt;&lt; endl;
-cout &lt;&lt; "Max float: " &lt;&lt; numerical_limits&lt;float&gt;::max() &lt;&lt; endl;
-</code>
+<p>Some of the other intelligence needed is that the user might specify the minimum and maximum valid values the variable might take on. Or he or she might not. If not, it would be nice to have a convenient way of specifying a reasonable default minimum and maximum.</p>
+
+<p>Enter <em><a href="http://www.cplusplus.com/reference/std/limits/numeric_limits/">numerical_limits</a></em>. It’s a static templated class that can give you some insight into the built-in types. For example:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+</pre></td><td class="code"><pre><code class="c++"><span class="line"><span class="cp">#include &amp;lt;iostream&amp;gt;</span>
+</span><span class="line"><span class="cp">#include &amp;lt;limits&amp;gt;</span>
+</span><span class="line"><span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+</span><span class="line"><span class="p">...</span>
+</span><span class="line"><span class="n">cout</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="s">&quot;Min unsigned int: &quot;</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="n">numerical_limits</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="kt">unsigned</span> <span class="kt">int</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">::</span><span class="n">min</span><span class="p">()</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="n">endl</span><span class="p">;</span>
+</span><span class="line"><span class="n">cout</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="s">&quot;Max float: &quot;</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="n">numerical_limits</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="kt">float</span><span class="o">&amp;</span><span class="n">gt</span><span class="p">;</span><span class="o">::</span><span class="n">max</span><span class="p">()</span> <span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span><span class="o">&amp;</span><span class="n">lt</span><span class="p">;</span> <span class="n">endl</span><span class="p">;</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
 
 
@@ -167,7 +212,7 @@ cout &lt;&lt; "Max float: " &lt;&lt; numerical_limits&lt;float&gt;::max() &lt;&l
     
     <p class="meta">
       
-        <a class="basic-alignment left" href="/blog/2011/02/24/wrapping-printf/" title="Previous Post: Wrapping printf(1)">&laquo; Wrapping printf(1)</a>
+        <a class="basic-alignment left" href="/blog/2011/03/03/efficient-anagrams-with-python/" title="Previous Post: Efficient Anagrams with Python">&laquo; Efficient Anagrams with Python</a>
       
       
         <a class="basic-alignment right" href="/blog/2011/05/10/sum-of-dice/" title="Next Post: Sum of Dice">Sum of Dice &raquo;</a>

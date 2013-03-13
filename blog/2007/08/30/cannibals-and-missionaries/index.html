@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="This is our first assignment (due this coming Wednesday), and seems relatively appropriate. I&#8217;ll let Wikipedia give you background. I pounded &hellip;">
+  <meta name="description" content="This is our first assignment (due this coming Wednesday), and seems relatively appropriate. I’ll let Wikipedia give you background. I pounded it out &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,11 +134,11 @@
   </header>
 
 
-<div class="entry-content">This is our first assignment (due this coming Wednesday), and seems relatively appropriate.  I&#8217;ll let <a href="http://en.wikipedia.org/wiki/Missionaries_and_cannibals_problem">Wikipedia</a> give you background.
+<div class="entry-content"><p>This is our first assignment (due this coming Wednesday), and seems relatively appropriate.  I’ll let <a href="http://en.wikipedia.org/wiki/Missionaries_and_cannibals_problem">Wikipedia</a> give you background.</p>
 
-I pounded it out in about 10-20 minutes in Ruby, and seems like a good chance for me to refresh my Dr. Scheme (it&#8217;s been about a year, except for a pop quiz from Matt Matteson).  Although it&#8217;s really not a difficult problem to solve nor that much of a feat to code for it, I really enjoy the simplicity of the solution.  It reminded me a lot of a really elegant solution to the <a href="http://en.wikipedia.org/wiki/Tower_of_Hanoi">Tower Of Hanoi</a> problem that Prof. Rader showed us in Data Structures.
+<p>I pounded it out in about 10-20 minutes in Ruby, and seems like a good chance for me to refresh my Dr. Scheme (it’s been about a year, except for a pop quiz from Matt Matteson).  Although it’s really not a difficult problem to solve nor that much of a feat to code for it, I really enjoy the simplicity of the solution.  It reminded me a lot of a really elegant solution to the <a href="http://en.wikipedia.org/wiki/Tower_of_Hanoi">Tower Of Hanoi</a> problem that Prof. Rader showed us in Data Structures.</p>
 
-Additionally, it&#8217;s always fun to take first steps in a buzz-word-titled class: Artificial Intelligence.
+<p>Additionally, it’s always fun to take first steps in a buzz-word-titled class: Artificial Intelligence.</p>
 </div>
 
 

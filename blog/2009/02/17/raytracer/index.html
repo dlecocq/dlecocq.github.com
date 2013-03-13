@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="Last semester for Graphics, we each wrote raytracers, and this semester for Graphics II, we&#8217;ve been asked to add more advanced features to them &hellip;">
+  <meta name="description" content="Last semester for Graphics, we each wrote raytracers, and this semester for Graphics II, we’ve been asked to add more advanced features to them. I &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,11 +134,11 @@
   </header>
 
 
-<div class="entry-content">Last semester for Graphics, we each wrote raytracers, and this semester for Graphics II, we&#8217;ve been asked to add more advanced features to them.
+<div class="entry-content"><p>Last semester for Graphics, we each wrote raytracers, and this semester for Graphics II, we’ve been asked to add more advanced features to them.</p>
 
-I had written mine in Ruby for its short development cycle, but raytracers aren&#8217;t the most efficient renderers on the planet, and it would take hours to run on a single input on occasion.  So, not wanting to deal with that this semester, I rewrote it in C++.  Much faster.  The most difficult input (same set) now takes about a minute.  I finished it up today, and here are some pretty pictures to sate you:
+<p>I had written mine in Ruby for its short development cycle, but raytracers aren’t the most efficient renderers on the planet, and it would take hours to run on a single input on occasion.  So, not wanting to deal with that this semester, I rewrote it in C++.  Much faster.  The most difficult input (same set) now takes about a minute.  I finished it up today, and here are some pretty pictures to sate you:</p>
 
-[gallery link=&#8221;file&#8221; orderby=&#8221;ID&#8221;]
+<p>[gallery link=”file” orderby=”ID”]</p>
 
 </div>
 

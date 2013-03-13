@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="My friends are not computer science, but I&#8217;ve talked about NP-Completeness enough for them to know to zone out when the phrase comes up. I find &hellip;">
+  <meta name="description" content="My friends are not computer science, but I’ve talked about NP-Completeness enough for them to know to zone out when the phrase comes up. I find the &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,17 +134,17 @@
   </header>
 
 
-<div class="entry-content">My friends are not computer science, but I&#8217;ve talked about NP-Completeness enough for them to know to zone out when the phrase comes up.  I find the topic extremely fascinating, as at some level I feel like Algorithms courses are where math best meets computer science.  Well, outside of scientific computing.  Or graphics.  Regardless, the two disciplines meet here.
+<div class="entry-content"><p>My friends are not computer science, but I’ve talked about NP-Completeness enough for them to know to zone out when the phrase comes up.  I find the topic extremely fascinating, as at some level I feel like Algorithms courses are where math best meets computer science.  Well, outside of scientific computing.  Or graphics.  Regardless, the two disciplines meet here.</p>
 
-Reading <a href="http://www.codinghorror.com/blog/archives/001187.html">Coding Horror</a>, I found this gem:
+<p>Reading <a href="http://www.codinghorror.com/blog/archives/001187.html">Coding Horror</a>, I found this gem:</p>
 
 <blockquote>
 NP-complete problems are like hardcore pornography. Nobody can define what makes a problem NP-complete, exactly, but you&#8217;ll know it when you see it. Just this once, I&#8217;ll refrain from my usual practice of inserting images to illustrate my point.
 </blockquote>
 
-Hilarious.  The rest of the article is good, too.
+<p>Hilarious.  The rest of the article is good, too.</p>
 
-Recently, my friends and I were at my school&#8217;s Divali festival.  It was very crowded, and it was tough to find a set of three consecutive chairs at any table for us to all sit at.  I recognized this immediately as <a href="http://en.wikipedia.org/wiki/Bin_packing">bin-packing</a>, an NP-hard problem.  Basically, the tables are bins, and you have groups of various sizes (some people came alone, some in pairs, etc.) that you want to fit into these bins wasting as little space as possible / using as few tables as possible.  Another example of this problem might be going to the movie theatre with your friends / family.  My friends got bored pretty quickly when I brought this up.
+<p>Recently, my friends and I were at my school’s Divali festival.  It was very crowded, and it was tough to find a set of three consecutive chairs at any table for us to all sit at.  I recognized this immediately as <a href="http://en.wikipedia.org/wiki/Bin_packing">bin-packing</a>, an NP-hard problem.  Basically, the tables are bins, and you have groups of various sizes (some people came alone, some in pairs, etc.) that you want to fit into these bins wasting as little space as possible / using as few tables as possible.  Another example of this problem might be going to the movie theatre with your friends / family.  My friends got bored pretty quickly when I brought this up.</p>
 </div>
 
 

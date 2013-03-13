@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="As I read in a lecture recently, Richard Hamming described his philosophy of computing with, &#8220;the purpose of computing is insight, not numbers &hellip;">
+  <meta name="description" content="As I read in a lecture recently, Richard Hamming described his philosophy of computing with, “the purpose of computing is insight, not numbers.” On a &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,15 +134,15 @@
   </header>
 
 
-<div class="entry-content">As I read in a lecture recently, Richard Hamming described his philosophy of computing with, &#8220;the purpose of computing is insight, not numbers.&#8221;
+<div class="entry-content"><p>As I read in a lecture recently, Richard Hamming described his philosophy of computing with, “the purpose of computing is insight, not numbers.”</p>
 
-On a relatively regular basis, I use numerical methods to verify an analytical solution I&#8217;ve reached and occasionally, to reach an analytical result.  At <a href="http://dan.lecocq.us/wordpress/2008/06/24/heapsort/">one point</a>, I was playing around with the time complexity of heapsort, and I came across a statement about which I was unsure.  I verified that it was the case, but it brought about other questions about a more general case.
+<p>On a relatively regular basis, I use numerical methods to verify an analytical solution I’ve reached and occasionally, to reach an analytical result.  At <a href="http://dan.lecocq.us/wordpress/2008/06/24/heapsort/">one point</a>, I was playing around with the time complexity of heapsort, and I came across a statement about which I was unsure.  I verified that it was the case, but it brought about other questions about a more general case.</p>
 
-$$\sum_{h=0}^{\infty}{\frac{h}{n^h}}$$
+<script type="math/tex; mode=display">\sum_{h=0}^{\infty}{\frac{h}{n^h}}</script>
 
-How does this converge for different $$n$$&#8217;s?
+<p>How does this converge for different <script type="math/tex">n</script>’s?</p>
 
-I played around with it for a little bit to see if I saw any pattern that emerged, like with a geometric series or an arithmetic sum, but I came up with nothing.  So, I decided to explore the numbers a little bit, writing a short little Ruby script to take the first 100-or-so elements.  It turns out that even this approximation provided the insight to get the general expression:
+<p>I played around with it for a little bit to see if I saw any pattern that emerged, like with a geometric series or an arithmetic sum, but I came up with nothing.  So, I decided to explore the numbers a little bit, writing a short little Ruby script to take the first 100-or-so elements.  It turns out that even this approximation provided the insight to get the general expression:</p>
 
 <ul>
 	<li>$$n=2 \Rightarrow 2$$</li>
@@ -119,11 +150,11 @@ I played around with it for a little bit to see if I saw any pattern that emerge
 	<li>$$n=4 \Rightarrow 0.4444&#8230; = \frac{4}{9}$$</li>
 </ul>
 
-The expression thus seemed to be:
+<p>The expression thus seemed to be:</p>
 
-$$\sum_{h=0}^{\infty}{\frac{h}{n^h}} = \frac{n}{(n-1)^2}$$
+<script type="math/tex; mode=display">\sum_{h=0}^{\infty}{\frac{h}{n^h}} = \frac{n}{(n-1)^2}</script>
 
-Of course this needed to be verified, but that task is <a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/06/heap.pdf">easy enough</a>.  The point is, that sometimes the numerical approximation can give you the exploratory insight needed to solve a problem.  Sure, it&#8217;s rough around the edges, and isn&#8217;t as elegant as I would necessarily like, but it&#8217;s very useful.
+<p>Of course this needed to be verified, but that task is <a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/06/heap.pdf">easy enough</a>.  The point is, that sometimes the numerical approximation can give you the exploratory insight needed to solve a problem.  Sure, it’s rough around the edges, and isn’t as elegant as I would necessarily like, but it’s very useful.</p>
 </div>
 
 

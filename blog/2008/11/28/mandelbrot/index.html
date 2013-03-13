@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="The Mandelbrot set is one of those things you&#8217;ve always seen on posters or in your math book, but never knew what it was actually. Well, it was &hellip;">
+  <meta name="description" content="The Mandelbrot set is one of those things you’ve always seen on posters or in your math book, but never knew what it was actually. Well, it was that &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,16 +134,16 @@
   </header>
 
 
-<div class="entry-content">The <a href="http://en.wikipedia.org/wiki/Mandelbrot_set">Mandelbrot set</a> is one of those things you&#8217;ve always seen on posters or in your math book, but never knew what it was actually.  Well, it was that way for me, until recently.
+<div class="entry-content"><p>The <a href="http://en.wikipedia.org/wiki/Mandelbrot_set">Mandelbrot set</a> is one of those things you’ve always seen on posters or in your math book, but never knew what it was actually.  Well, it was that way for me, until recently.</p>
 
-It&#8217;s a graph of the <a href="http://en.wikipedia.org/wiki/Complex_plane">complex plane</a>, in which each point has an associated value.  This value is determined by the series:
+<p>It’s a graph of the <a href="http://en.wikipedia.org/wiki/Complex_plane">complex plane</a>, in which each point has an associated value.  This value is determined by the series:</p>
 
-$$ x_{n+1} = x_{n}^{2} + c$$
+<script type="math/tex; mode=display"> x_{n+1} = x_{n}^{2} + c</script>
 
-where c is the point in question.  If this value does not approach infinity, then it&#8217;s contained in the set, and is colored in black.  Otherwise, its color is determined by how fast it grows (and there are a number of ways of doing this).
+<p>where c is the point in question.  If this value does not approach infinity, then it’s contained in the set, and is colored in black.  Otherwise, its color is determined by how fast it grows (and there are a number of ways of doing this).</p>
 
-A new friend of mine, Johnny, adapted code from one of our graphics projects to render the set, and so I had to do the same.  Not one-upsmanship, but how awesome is that for a project.  That said, this is the result of my work so far, but I plan to develop a better coloring scheme, as well as adding interactivity and exploratory tools to the interface.
-[caption id=&#8221;attachment_179&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;My rendered version of the Mandelbrot set&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/mandelbrot.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/mandelbrot-300x271.png" alt="My rendered version of the Mandelbrot set" title="Mandelbrot Set" width="300" height="271" class="size-medium wp-image-179" /></a>[/caption]
+<p>A new friend of mine, Johnny, adapted code from one of our graphics projects to render the set, and so I had to do the same.  Not one-upsmanship, but how awesome is that for a project.  That said, this is the result of my work so far, but I plan to develop a better coloring scheme, as well as adding interactivity and exploratory tools to the interface.
+[caption id=”attachment_179” align=”aligncenter” width=”300” caption=”My rendered version of the Mandelbrot set”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/mandelbrot.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/mandelbrot-300x271.png" alt="My rendered version of the Mandelbrot set" title="Mandelbrot Set" width="300" height="271" class="size-medium wp-image-179" /></a>[/caption]</p>
 
 </div>
 

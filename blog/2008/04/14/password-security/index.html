@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="One of my favorite things is when websites show me this when I register: It&#8217;s almost as if they&#8217;re saying - &#8220;we hate strong &hellip;">
+  <meta name="description" content="One of my favorite things is when websites show me this when I register: It’s almost as if they’re saying - “we hate strong passwords.” And it makes &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,11 +134,11 @@
   </header>
 
 
-<div class="entry-content">One of my favorite things is when websites show me this when I register:
+<div class="entry-content"><p>One of my favorite things is when websites show me this when I register:</p>
 
-<a href='http://dan.lecocq.us/wordpress/wp-content/uploads/2008/04/picture-3.png' title='I hate security'><img src='http://dan.lecocq.us/wordpress/wp-content/uploads/2008/04/picture-3.png' alt='I hate security' /></a>
+<p><a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/04/picture-3.png" title="I hate security"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/04/picture-3.png" alt="I hate security" /></a></p>
 
-It&#8217;s almost as if they&#8217;re saying - &#8220;we hate strong passwords.&#8221;  And it makes me trust even more that they&#8217;re actually hashing it in their database.
+<p>It’s almost as if they’re saying - “we hate strong passwords.”  And it makes me trust even more that they’re actually hashing it in their database.</p>
 </div>
 
 

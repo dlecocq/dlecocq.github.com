@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,21 +134,21 @@
   </header>
 
 
-<div class="entry-content">Not long ago we got our third graphics project assigned.  In the first we wrote our own raytracer, and in the second we got familiar with OpenGL and implemented a trackball interface that would load a model and allow the user to rotate it around to see it from different angles.  This third project deals with texturing, however.
+<div class="entry-content"><p>Not long ago we got our third graphics project assigned.  In the first we wrote our own raytracer, and in the second we got familiar with OpenGL and implemented a trackball interface that would load a model and allow the user to rotate it around to see it from different angles.  This third project deals with texturing, however.</p>
 
-The first part was to generate a torus and texture it with a tile-able pattern (we were given a few wood textures and one brick).  Same trackball interface applies.
+<p>The first part was to generate a torus and texture it with a tile-able pattern (we were given a few wood textures and one brick).  Same trackball interface applies.</p>
 
-[caption id=&#8221;attachment_130&#8221; align=&#8221;alignnone&#8221; width=&#8221;300&#8221; caption=&#8221;A torus made of bricks&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/brick_torus.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/brick_torus-300x282.png" alt="A torus made of bricks" title="Brick Torus" width="300" height="282" class="size-medium wp-image-130" /></a>[/caption]
+<p>[caption id=”attachment_130” align=”alignnone” width=”300” caption=”A torus made of bricks”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/brick_torus.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/brick_torus-300x282.png" alt="A torus made of bricks" title="Brick Torus" width="300" height="282" class="size-medium wp-image-130" /></a>[/caption]</p>
 
-Next up was to add a way to render a model that&#8217;s seemingly made out of mirror, reflecting a virtual environment, provided to us by a teacher.  This one seems to be the inside of a building near a window.
+<p>Next up was to add a way to render a model that’s seemingly made out of mirror, reflecting a virtual environment, provided to us by a teacher.  This one seems to be the inside of a building near a window.</p>
 
-[caption id=&#8221;attachment_131&#8221; align=&#8221;alignnone&#8221; width=&#8221;300&#8221; caption=&#8221;Bunny of mirrors&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/mirror_bunny.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/mirror_bunny-300x282.png" alt="Bunny of mirrors" title="Mirrored Bunny" width="300" height="282" class="size-medium wp-image-131" /></a>[/caption]
+<p>[caption id=”attachment_131” align=”alignnone” width=”300” caption=”Bunny of mirrors”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/mirror_bunny.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/mirror_bunny-300x282.png" alt="Bunny of mirrors" title="Mirrored Bunny" width="300" height="282" class="size-medium wp-image-131" /></a>[/caption]</p>
 
-Lastly, given a 3D texture (marble), we were to &#8220;carve&#8221; a model out of that material.  See Isis and the shark made of marble.
+<p>Lastly, given a 3D texture (marble), we were to “carve” a model out of that material.  See Isis and the shark made of marble.</p>
 
-<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/marble_isis.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/marble_isis-300x282.png" alt="" title="Marble Isis" width="300" height="282" class="alignnone size-medium wp-image-132" /></a>
+<p><a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/marble_isis.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/marble_isis-300x282.png" alt="" title="Marble Isis" width="300" height="282" class="alignnone size-medium wp-image-132" /></a></p>
 
-<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/marble_shark.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/marble_shark-300x282.png" alt="" title="Marble Shark" width="300" height="282" class="alignnone size-medium wp-image-133" /></a>
+<p><a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/marble_shark.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/11/marble_shark-300x282.png" alt="" title="Marble Shark" width="300" height="282" class="alignnone size-medium wp-image-133" /></a></p>
 </div>
 
 

@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="For a recent project, we were looking for an issue tracker. Our biggest criteria was something that was free &#8211; we weren&#8217;t planning on &hellip;">
+  <meta name="description" content="For a recent project, we were looking for an issue tracker. Our biggest criteria was something that was free – we weren’t planning on doing anything &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,11 +134,11 @@
   </header>
 
 
-<div class="entry-content">For a recent project, we were looking for an issue tracker. Our biggest criteria was something that was free &#8211; we weren&#8217;t planning on doing anything complicated, and so available issue trackers were essentially equal in our eyes. We ended up going with <a href="http://unfuddle.com/">Unfuddle</a>, but it wasn&#8217;t until after signing up that we discovered its biggest strength: an API.
+<div class="entry-content"><p>For a recent project, we were looking for an issue tracker. Our biggest criteria was something that was free – we weren’t planning on doing anything complicated, and so available issue trackers were essentially equal in our eyes. We ended up going with <a href="http://unfuddle.com/">Unfuddle</a>, but it wasn’t until after signing up that we discovered its biggest strength: an API.</p>
 
-There are other issue trackers with an API, but this one seemed reasonable enough so we used it. The big get for us in building a web-based app, is that it <strong>lowers the barrier for reporting bugs</strong>. We set up our development server to include a bug-reporting button that collected a little report that then sent it to our server, which uses the Unfuddle API to add a ticket. It also records and submits a little information about the user&#8217;s browser, current session, etc. that might help in debugging their problem.
- 
-Not the most complicated or profound system in the world, but it does put user-reported (and tester-reported) bugs in the same place we check our to-dos and other issues. No checking a support email account we remember once a month. Just puts bugs right were we&#8217;re looking anyway. I hope to share a little bit of the backend code soon!
+<p>There are other issue trackers with an API, but this one seemed reasonable enough so we used it. The big get for us in building a web-based app, is that it <strong>lowers the barrier for reporting bugs</strong>. We set up our development server to include a bug-reporting button that collected a little report that then sent it to our server, which uses the Unfuddle API to add a ticket. It also records and submits a little information about the user’s browser, current session, etc. that might help in debugging their problem.</p>
+
+<p>Not the most complicated or profound system in the world, but it does put user-reported (and tester-reported) bugs in the same place we check our to-dos and other issues. No checking a support email account we remember once a month. Just puts bugs right were we’re looking anyway. I hope to share a little bit of the backend code soon!</p>
 </div>
 
 

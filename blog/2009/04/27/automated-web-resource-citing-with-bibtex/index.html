@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="I find myself constantly citing web resources that I need to cite, and I think it&#8217;s a huge hassle. They&#8217;ve all got the same format, and &hellip;">
+  <meta name="description" content="I find myself constantly citing web resources that I need to cite, and I think it’s a huge hassle. They’ve all got the same format, and though Bibtex &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,26 +134,26 @@
   </header>
 
 
-<div class="entry-content">I find myself constantly citing web resources that I need to cite, and I think it&#8217;s a huge hassle.  They&#8217;ve all got the same format, and though Bibtex does a lot of the formatting heavy lifting for you, it&#8217;s still a pain.
+<div class="entry-content"><p>I find myself constantly citing web resources that I need to cite, and I think it’s a huge hassle.  They’ve all got the same format, and though Bibtex does a lot of the formatting heavy lifting for you, it’s still a pain.</p>
 
-Enter laziness.
+<p>Enter laziness.</p>
 
-From Safari, I drag a web location onto my desktop, or keep them in a references folder:
-[caption id=&#8221;attachment_514&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Drag a link onto the desktop from Safari.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/2.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/2-300x187.png" alt="Drag a link onto the desktop from Safari." title="Drag from Safari" width="300" height="187" class="size-medium wp-image-514" /></a>[/caption]
+<p>From Safari, I drag a web location onto my desktop, or keep them in a references folder:
+[caption id=”attachment_514” align=”aligncenter” width=”300” caption=”Drag a link onto the desktop from Safari.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/2.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/2-300x187.png" alt="Drag a link onto the desktop from Safari." title="Drag from Safari" width="300" height="187" class="size-medium wp-image-514" /></a>[/caption]</p>
 
-And then drag the web location onto the droplet to get results.  You can drag several files or folders on at once:
-[caption id=&#8221;attachment_515&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Rejoice in the output.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/3.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/3-300x187.png" alt="Rejoice in the output." title="Output" width="300" height="187" class="size-medium wp-image-515" /></a>[/caption]
+<p>And then drag the web location onto the droplet to get results.  You can drag several files or folders on at once:
+[caption id=”attachment_515” align=”aligncenter” width=”300” caption=”Rejoice in the output.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/3.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/3-300x187.png" alt="Rejoice in the output." title="Output" width="300" height="187" class="size-medium wp-image-515" /></a>[/caption]</p>
 
-[caption id=&#8221;attachment_516&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Running on a directory.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/4.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/4-300x187.png" alt="Running on a directory." title="Directory Output" width="300" height="187" class="size-medium wp-image-516" /></a>[/caption]
+<p>[caption id=”attachment_516” align=”aligncenter” width=”300” caption=”Running on a directory.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/4.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/4-300x187.png" alt="Running on a directory." title="Directory Output" width="300" height="187" class="size-medium wp-image-516" /></a>[/caption]</p>
 
-Or from the command line tool (see the install tool):
-[caption id=&#8221;attachment_518&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Using it from the command line.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/command.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/command-300x187.png" alt="Using it from the command line." title="command" width="300" height="187" class="size-medium wp-image-518" /></a>[/caption]
+<p>Or from the command line tool (see the install tool):
+[caption id=”attachment_518” align=”aligncenter” width=”300” caption=”Using it from the command line.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/command.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/command-300x187.png" alt="Using it from the command line." title="command" width="300" height="187" class="size-medium wp-image-518" /></a>[/caption]</p>
 
-Installation:
-[caption id=&#8221;attachment_519&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Disk image contents&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/contents1.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/contents1-300x186.png" alt="Disk image contents" title="contents" width="300" height="186" class="size-medium wp-image-519" /></a>[/caption]
+<p>Installation:
+[caption id=”attachment_519” align=”aligncenter” width=”300” caption=”Disk image contents”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/contents1.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/contents1-300x186.png" alt="Disk image contents" title="contents" width="300" height="186" class="size-medium wp-image-519" /></a>[/caption]</p>
 
-Files:
-<a href='http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/webdoc.tar'>webdoc-0.1</a>
+<p>Files:
+<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/04/webdoc.tar">webdoc-0.1</a></p>
 </div>
 
 

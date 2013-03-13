@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,16 +134,16 @@
   </header>
 
 
-<div class="entry-content">I recently finished up school, and part of that was finishing up my ray tracing project.  At the last minute, I implemented Gouraud shading which is a technique to try to smooth out a triangulated surface.  What it really does is just linearly interpolate the normal vectors, where the normal of a vertex is calculated as a weighted average of the normals of the triangles using that vertex.
+<div class="entry-content"><p>I recently finished up school, and part of that was finishing up my ray tracing project.  At the last minute, I implemented Gouraud shading which is a technique to try to smooth out a triangulated surface.  What it really does is just linearly interpolate the normal vectors, where the normal of a vertex is calculated as a weighted average of the normals of the triangles using that vertex.</p>
 
-Long story short:
-[caption id=&#8221;attachment_542&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A render of the Stanford bunny with my raytracer without Gouraud shading.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/05/bunny1.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/05/bunny1-300x300.png" alt="A render of the Stanford bunny with my raytracer without Gouraud shading." title="bunny_flat" width="300" height="300" class="size-medium wp-image-542" /></a>[/caption]
+<p>Long story short:
+[caption id=”attachment_542” align=”aligncenter” width=”300” caption=”A render of the Stanford bunny with my raytracer without Gouraud shading.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/05/bunny1.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/05/bunny1-300x300.png" alt="A render of the Stanford bunny with my raytracer without Gouraud shading." title="bunny_flat" width="300" height="300" class="size-medium wp-image-542" /></a>[/caption]</p>
 
-[caption id=&#8221;attachment_543&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A render of the Stanford bunny with smooth Gouraud shading.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/05/bunnysmooth.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/05/bunnysmooth-300x300.png" alt="A render of the Stanford bunny with smooth Gouraud shading." title="bunnysmooth" width="300" height="300" class="size-medium wp-image-543" /></a>[/caption]
+<p>[caption id=”attachment_543” align=”aligncenter” width=”300” caption=”A render of the Stanford bunny with smooth Gouraud shading.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/05/bunnysmooth.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/05/bunnysmooth-300x300.png" alt="A render of the Stanford bunny with smooth Gouraud shading." title="bunnysmooth" width="300" height="300" class="size-medium wp-image-543" /></a>[/caption]</p>
 
-Also, thanks to an improvement in my parallelization of the problem and a speedup in octtree traversal, I was able to render the Stanford dragon model (~1 million triangles):
+<p>Also, thanks to an improvement in my parallelization of the problem and a speedup in octtree traversal, I was able to render the Stanford dragon model (~1 million triangles):</p>
 
-[caption id=&#8221;attachment_544&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;The Stanford dragon model.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/05/dragon.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/05/dragon-300x168.png" alt="The Stanford dragon model." title="dragon" width="300" height="168" class="size-medium wp-image-544" /></a>[/caption]
+<p>[caption id=”attachment_544” align=”aligncenter” width=”300” caption=”The Stanford dragon model.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/05/dragon.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/05/dragon-300x168.png" alt="The Stanford dragon model." title="dragon" width="300" height="168" class="size-medium wp-image-544" /></a>[/caption]</p>
 </div>
 
 

@@ -1,0 +1,315 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Efficient Anagrams with Python - My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="I love anagrams. I used to play an anagram game so often that I started to have trouble reading, as I would just automatically try to find anagrams &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://dlecocq.github.com/blog/2011/03/03/efficient-anagrams-with-python">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39246569-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:dlecocq.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Efficient Anagrams With Python</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-03T00:00:00-08:00" pubdate data-updated="true">Mar 3<span>rd</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p>I love anagrams. I used to play an anagram game so often that I started to have trouble reading, as I would just automatically try to find anagrams of words. One way I’m able to stop playing an addictive game altogether is to write code that will solve the problem at hand for me. For example, at one point I had to do just that with Sudoku so I could reclaim my time.</p>
+
+<p>There are a few thoughts that I’ve seen on finding anagrams with python, including some pretty concise examples. They center around finding all the permutations of a provided set of letters, and then checking these against known words. While this can be extremely concisely done with python’s <a href="http://docs.python.org/library/itertools.html">itertools</a>, it quickly becomes prohibitively slow for longer strings. That’s because the number of permutations it must calculate for a word of length ‘n’ is n!, much too large for reasonable n’s.</p>
+
+<p>To clarify, in this discussion, by ‘anagram,’ we will mean any word made with the letters, of any length 1 to n. So, for the word “foobar,” then “fob” or “boo” would be valid.</p>
+
+<p>There is some good news here. Pruning. With some intelligence and time up front, we can skip all permutations that begin with “fb,” as no word in our dictionary begin with those letters. We use a tree, with each node representing a string. A node marked as ‘valid,’ indicates that its associated string is a word. This string is obtained by the traversal from the root to the node.</p>
+
+<p>[caption id=”attachment_920” align=”aligncenter” width=”323” caption=”Anagram tree structure”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2011/03/anagrams.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2011/03/anagrams.png" alt="Tree structure" title="anagrams" width="323" height="369" class="size-full wp-image-920" /></a>[/caption]</p>
+
+<p>So, if we have the letters “uueeq,” we have a set of permutations beginning with “u”, a set with “e” and a set with “q.” We’ll begin with the root node, and for ease, we’ll examine permutations beginning with “q.” Of the remaining letters, “uuee,” there are only children from “q” to “u,” and so we can prune permutations beginning “qe.” We get words by keeping track of the string we have as we traverse the tree - each time we descend to a child node, we append that character, and when we return up a letter, we remove it.</p>
+
+<p>As we traverse in this way, we check all intermediate nodes to see if they themselves are words. For example, in finding “batting,” we should also find that the word “bat” is valid. Or similar, in finding “quotable,” we should find “quota.”</p>
+
+<p>If you don’t feel like working out the details yourself, I have some <a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2011/03/gramana.py">sample code</a> for you. To use:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+<span class="line-number">3</span>
+<span class="line-number">4</span>
+<span class="line-number">5</span>
+<span class="line-number">6</span>
+<span class="line-number">7</span>
+</pre></td><td class="code"><pre><code class="python"><span class="line"><span class="kn">from</span> <span class="nn">gramana</span> <span class="kn">import</span> <span class="n">gramana</span>
+</span><span class="line"><span class="c"># Read a list of valid words</span>
+</span><span class="line"><span class="n">words</span> <span class="o">=</span> <span class="nb">file</span><span class="p">(</span><span class="s">&#39;dictionary.txt&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">read</span><span class="p">()</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="p">)</span>
+</span><span class="line"><span class="c"># Parse it into a tree</span>
+</span><span class="line"><span class="n">root</span> <span class="o">=</span> <span class="n">gramana</span><span class="p">(</span><span class="n">words</span><span class="p">)</span>
+</span><span class="line"><span class="c"># Look for words:</span>
+</span><span class="line"><span class="n">anagrams</span> <span class="o">=</span> <span class="n">root</span><span class="o">.</span><span class="n">search</span><span class="p">(</span><span class="s">&quot;testingsomeverylongstring&quot;</span><span class="p">)</span>
+</span></code></pre></td></tr></table></div></figure></notextile></div>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-03-03T00:00:00-08:00" pubdate data-updated="true">Mar 3<span>rd</span>, 2011</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://dlecocq.github.com/blog/2011/03/03/efficient-anagrams-with-python/" data-via="danlecocq" data-counturl="http://dlecocq.github.com/blog/2011/03/03/efficient-anagrams-with-python/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/02/24/wrapping-printf/" title="Previous Post: Wrapping printf(1)">&laquo; Wrapping printf(1)</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2011/05/10/numerical_limits/" title="Next Post: numerical_limits">numerical_limits &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/11/running-sudo-with-pssh/">Running sudo with pssh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/21/rough-array-hash-benchmark/">Rough Array Hash Benchmark</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/20/taskmaster-from-disqus/">Taskmaster from DISQUS</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/18/seomoz-blog-post-introducing-qless/">SEOmoz Blog Post -- Introducing qless</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/11/redis-and-lua-for-robust-portable-libraries/">Redis and Lua for Robust, Portable Libraries</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/dlecocq">@dlecocq</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'dlecocq',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

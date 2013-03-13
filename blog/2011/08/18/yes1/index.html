@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,11 +134,13 @@
   </header>
 
 
-<div class="entry-content">Yes, yes(1) is built-in to Mac and Linux (at least OS X Lion and Ubuntu 11.04). And, as you might guess, it repeatedly prints a string of your choice (&#8216;y&#8217; by default) followed by a newline to stdout. Its sole purpose in life is to automate agreeing to prompts. I encountered it recently in a script that was automating RAID array deployment on EC2 ephemeral disks:
-<code>
-# mdadm doesn't let you automate by default, so pipe in 'y'!
-yes | mdadm ...
-</code>
+<div class="entry-content"><p>Yes, yes(1) is built-in to Mac and Linux (at least OS X Lion and Ubuntu 11.04). And, as you might guess, it repeatedly prints a string of your choice (‘y’ by default) followed by a newline to stdout. Its sole purpose in life is to automate agreeing to prompts. I encountered it recently in a script that was automating RAID array deployment on EC2 ephemeral disks:</p>
+
+<div class="bogus-wrapper"><notextile><figure class="code"><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class="line-number">1</span>
+<span class="line-number">2</span>
+</pre></td><td class="code"><pre><code class="bash"><span class="line"><span class="c"># mdadm doesn&#39;t let you automate by default, so pipe in &#39;y&#39;!</span>
+</span><span class="line">yes | mdadm ...
+</span></code></pre></td></tr></table></div></figure></notextile></div>
 </div>
 
 

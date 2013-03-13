@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="In the vein of relentless self-improvement, one of the neatest things I&#8217;ve come across lately is Project Euler. It&#8217;s a list of now 251 &hellip;">
+  <meta name="description" content="In the vein of relentless self-improvement, one of the neatest things I’ve come across lately is Project Euler. It’s a list of now 251 problems in &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,17 +134,17 @@
   </header>
 
 
-<div class="entry-content">In the vein of relentless self-improvement, one of the neatest things I&#8217;ve come across lately is <a href="http://projecteuler.net/">Project Euler</a>.  It&#8217;s a list of now 251 problems in math, programming, scripting and algorithms.  Sometimes the problems are more in the vein of what Doctor Who called &#8220;recreational mathematics:&#8221;
+<div class="entry-content"><p>In the vein of relentless self-improvement, one of the neatest things I’ve come across lately is <a href="http://projecteuler.net/">Project Euler</a>.  It’s a list of now 251 problems in math, programming, scripting and algorithms.  Sometimes the problems are more in the vein of what Doctor Who called “recreational mathematics:”</p>
 <blockquote>
 Find the sum of all products whose multiplicand/multiplier/product identity can be written as a 1 through 9 pandigital.
 </blockquote>
 
-to more lexicographical things:
+<p>to more lexicographical things:</p>
 <blockquote>
 If all the numbers from 1 to 1000 (one thousand) inclusive were written out in words, how many letters would be used?
 </blockquote>
 
-At any rate, it&#8217;s a really great set of problems and good programmatic and analytical practice.  Like <a href="http://projecteuler.net/index.php?section=problems&id=67">Problem 67</a> where the difference between a brute force attack and an efficient solution could easily be &#8220;over twenty billion years.&#8221;
+<p>At any rate, it’s a really great set of problems and good programmatic and analytical practice.  Like <a href="http://projecteuler.net/index.php?section=problems&amp;id=67">Problem 67</a> where the difference between a brute force attack and an efficient solution could easily be “over twenty billion years.”</p>
 </div>
 
 

@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="In my OS class, we&#8217;ve started talking about some page-replacement algorithms, including FIFO, LRU, and clock. These are going to be on an &hellip;">
+  <meta name="description" content="In my OS class, we’ve started talking about some page-replacement algorithms, including FIFO, LRU, and clock. These are going to be on an upcoming &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,22 +134,22 @@
   </header>
 
 
-<div class="entry-content">In my OS class, we&#8217;ve started talking about some page-replacement algorithms, including FIFO, LRU, and clock.  These are going to be on an upcoming exam, and so Mike (our prof) suggested that we make up our own page access sequences, and then run the algorithm.  That&#8217;s all well and good, but without knowing whether or not you got it right, problems might arise.
+<div class="entry-content"><p>In my OS class, we’ve started talking about some page-replacement algorithms, including FIFO, LRU, and clock.  These are going to be on an upcoming exam, and so Mike (our prof) suggested that we make up our own page access sequences, and then run the algorithm.  That’s all well and good, but without knowing whether or not you got it right, problems might arise.</p>
 
-Enter Ruby - make a quick little script that will run the algorithm for you, so as to check your results.
+<p>Enter Ruby - make a quick little script that will run the algorithm for you, so as to check your results.</p>
 
-<a href='http://dan.lecocq.us/wordpress/wp-content/uploads/2008/04/fifo.rb' title='First-in First-out'>fifo.rb</a>
-<a href='http://dan.lecocq.us/wordpress/wp-content/uploads/2008/04/lru.rb' title='Least-Recently-Used'>lru.rb</a>
+<p><a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/04/fifo.rb" title="First-in First-out">fifo.rb</a>
+<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/04/lru.rb" title="Least-Recently-Used">lru.rb</a></p>
 
-Usage:
+<p>Usage:
 <code>
 fifo.rb "123412512345" 3 # Run the sequence provided with a queue size of 3
 lru.rb "293847101928" 5 # Run the provided sequence with a stack size of 5
-</code>
+</code></p>
 
-All the page numbers do have to be single characters, but letters and symbols are also accepted.
+<p>All the page numbers do have to be single characters, but letters and symbols are also accepted.</p>
 
-Sample output:
+<p>Sample output:
 <code>
 Dan-Lecocqs-Mac:Desktop dlecocq$ ./lru.rb "123412512345" 4
 1 * 1
@@ -134,11 +165,11 @@ Dan-Lecocqs-Mac:Desktop dlecocq$ ./lru.rb "123412512345" 4
 4 * 4	3	2	1
 5 * 5	4	3	2
 Page faults: 8 / 12
-</code>
+</code></p>
 
-Please note that you&#8217;ll have to change your shebang line to point to the path of your Ruby interpreter.  I found Ruby in lots of places on my system, but check in your path.  (Note: I&#8217;m using Ruby 1.8.4, but I don&#8217;t think I&#8217;m using a lot, or any, recent-version specific functionality)
+<p>Please note that you’ll have to change your shebang line to point to the path of your Ruby interpreter.  I found Ruby in lots of places on my system, but check in your path.  (Note: I’m using Ruby 1.8.4, but I don’t think I’m using a lot, or any, recent-version specific functionality)</p>
 
-If you&#8217;re not running it with &#8220;ruby fifo.rb &#8230;&#8221;, make sure you&#8217;ve chmod&#8217;d it to be executable.
+<p>If you’re not running it with “ruby fifo.rb …”, make sure you’ve chmod’d it to be executable.</p>
 </div>
 
 

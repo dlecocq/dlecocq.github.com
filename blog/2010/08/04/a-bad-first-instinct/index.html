@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="It&#8217;s an itch. A compulsion. Sometimes when working with a new library I get a very strong impulse to do a very bad thing &#8211; reinvent the &hellip;">
+  <meta name="description" content="It’s an itch. A compulsion. Sometimes when working with a new library I get a very strong impulse to do a very bad thing – reinvent the wheel. Or, in &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,13 +134,13 @@
   </header>
 
 
-<div class="entry-content">It&#8217;s an itch.  A compulsion.  Sometimes when working with a new library I get a very strong impulse to do a very bad thing &#8211; reinvent the wheel.  Or, in this case, re-write the wheel.
+<div class="entry-content"><p>It’s an itch.  A compulsion.  Sometimes when working with a new library I get a very strong impulse to do a very bad thing – reinvent the wheel.  Or, in this case, re-write the wheel.</p>
 
-It&#8217;s easy to object to the way code is organized, and can cause a certain amount of discomfort.  Whether it&#8217;s the desire to go through and reformat code (braces belong on the same line as the if statement!) or the pain of hacking together relatively incompatible library designs, it can be unpleasant.
+<p>It’s easy to object to the way code is organized, and can cause a certain amount of discomfort.  Whether it’s the desire to go through and reformat code (braces belong on the same line as the if statement!) or the pain of hacking together relatively incompatible library designs, it can be unpleasant.</p>
 
-Something that I&#8217;ve been pushing myself to do, and slowly learning to do is to be comfortable with that discomfort.  To resist the urge to rewrite code, as it&#8217;s never just a matter of rewriting it, but also testing it, an so forth.  I&#8217;m slowly beginning to accept the painful truth: no code is perfect.
+<p>Something that I’ve been pushing myself to do, and slowly learning to do is to be comfortable with that discomfort.  To resist the urge to rewrite code, as it’s never just a matter of rewriting it, but also testing it, an so forth.  I’m slowly beginning to accept the painful truth: no code is perfect.</p>
 
-That said, there are times when I do rewrite libraries.  Sometimes you&#8217;re handed code from ten years ago that&#8217;s no longer applicable, or antiquated, or just plain ugly.  In these scenarios it&#8217;s perfectly justified to make large sweeping structural changes (with the protection of your favorite version control, of course).  Just, hold off.  Wait, and try to use the library, and the first-pass issues will either grow into systemic problems or wither and recede into the cracks.
+<p>That said, there are times when I do rewrite libraries.  Sometimes you’re handed code from ten years ago that’s no longer applicable, or antiquated, or just plain ugly.  In these scenarios it’s perfectly justified to make large sweeping structural changes (with the protection of your favorite version control, of course).  Just, hold off.  Wait, and try to use the library, and the first-pass issues will either grow into systemic problems or wither and recede into the cracks.</p>
 </div>
 
 

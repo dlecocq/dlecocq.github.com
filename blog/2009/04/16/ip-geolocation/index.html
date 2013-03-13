@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,11 +134,11 @@
   </header>
 
 
-<div class="entry-content">There are a million services out there where you type in an IP address and get an estimate as to its location.  A few months ago I stumbled across a free IP geolocation database because I find myself using online services from time to time - I was sort of surprised how often it&#8217;s helpful to know where traffic is coming from (outside of Google Analytics, etc.).
+<div class="entry-content"><p>There are a million services out there where you type in an IP address and get an estimate as to its location.  A few months ago I stumbled across a free IP geolocation database because I find myself using online services from time to time - I was sort of surprised how often it’s helpful to know where traffic is coming from (outside of Google Analytics, etc.).</p>
 
-Using the <a href="http://www.iplocationtools.com/sql_database.php">database</a> I found, I threw together a script that takes a list of domain names and / or IP addresses and gives you an idea of where it lives:
+<p>Using the <a href="http://www.iplocationtools.com/sql_database.php">database</a> I found, I threw together a script that takes a list of domain names and / or IP addresses and gives you an idea of where it lives:</p>
 
-<code>
+<p><code>
 dan-lecocqs-macbook:~ dlecocq$ ipquery google.com
  209.85.171.100        Mountain View, US 94043 37.4192 -122.0570
 dan-lecocqs-macbook:~ dlecocq$ ipquery yahoo.com
@@ -116,7 +147,7 @@ dan-lecocqs-macbook:~ dlecocq$ ipquery apple.com
   17.251.200.70            Cupertino, US 95014 37.3042 -122.0950
 dan-lecocqs-macbook:~ dlecocq$ ipquery mines.edu
      138.67.1.8               Golden, US 80401 39.7146 -105.2430
-</code>
+</code></p>
 </div>
 
 

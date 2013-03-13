@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,11 +134,11 @@
   </header>
 
 
-<div class="entry-content">I was reading about <a href="http://groups.google.com/group/algogeeks">Algorithm Geeks</a>, a Google Group dedicated to algorithm-related questions apparently.  I looked at one of the topics, <a href="http://groups.google.com/group/algogeeks/web/unique-elements-in-an-array">Unique Elements in an Array</a>, wondering what the chatter looked like.
+<div class="entry-content"><p>I was reading about <a href="http://groups.google.com/group/algogeeks">Algorithm Geeks</a>, a Google Group dedicated to algorithm-related questions apparently.  I looked at one of the topics, <a href="http://groups.google.com/group/algogeeks/web/unique-elements-in-an-array">Unique Elements in an Array</a>, wondering what the chatter looked like.</p>
 
-To remove duplicate elements of an array, the best way I know is to sort your array, and then do a linear traversal, comparing each to its successor, and when they match, deleting the one of them.  Quicksort is generally the algorithm-of-choice in large part because of its simplicity, but someone on this thread suggested <a href="http://en.wikipedia.org/wiki/Heapsort">heapsort</a> - an algorithm of which I had never heard.  I looked it over, and was drawn to the article on <a href="http://en.wikipedia.org/wiki/Binary_heap">heaps</a>.  On that page, I was looking at an analysis of the time complexity for building the heap, and I got curious about the summation they present (h/2^h).  So, I took some time and proved its convergence:
+<p>To remove duplicate elements of an array, the best way I know is to sort your array, and then do a linear traversal, comparing each to its successor, and when they match, deleting the one of them.  Quicksort is generally the algorithm-of-choice in large part because of its simplicity, but someone on this thread suggested <a href="http://en.wikipedia.org/wiki/Heapsort">heapsort</a> - an algorithm of which I had never heard.  I looked it over, and was drawn to the article on <a href="http://en.wikipedia.org/wiki/Binary_heap">heaps</a>.  On that page, I was looking at an analysis of the time complexity for building the heap, and I got curious about the summation they present (h/2^h).  So, I took some time and proved its convergence:</p>
 
-<a href='http://dan.lecocq.us/wordpress/wp-content/uploads/2008/06/heap.pdf' title='Convergence of Infinite Sum'>Convergence of Infinite Sum</a>
+<p><a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2008/06/heap.pdf" title="Convergence of Infinite Sum">Convergence of Infinite Sum</a></p>
 </div>
 
 

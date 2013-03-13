@@ -1,0 +1,354 @@
+
+<!DOCTYPE html>
+<!--[if IEMobile 7 ]><html class="no-js iem7"><![endif]-->
+<!--[if lt IE 9]><html class="no-js lte-ie8"><![endif]-->
+<!--[if (gt IE 8)|(gt IEMobile 7)|!(IEMobile)|!(IE)]><!--><html class="no-js" lang="en"><!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <title>Libcurl, curl_multi, and Endless DNS Pain - My Octopress Blog</title>
+  <meta name="author" content="Your Name">
+
+  
+  <meta name="description" content="Curl is an awesome tool. Awesome. For example, suppose we want to fetch a bunch of urls as quickly as possible from code. Enter curl_multi, which &hellip;">
+  
+
+  <!-- http://t.co/dKP3o1e -->
+  <meta name="HandheldFriendly" content="True">
+  <meta name="MobileOptimized" content="320">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  
+  <link rel="canonical" href="http://dlecocq.github.com/blog/2011/09/01/libcurl-curl_multi-and-endless-dns-pain">
+  <link href="/favicon.png" rel="icon">
+  <link href="/stylesheets/screen.css" media="screen, projection" rel="stylesheet" type="text/css">
+  <link href="/atom.xml" rel="alternate" title="My Octopress Blog" type="application/atom+xml">
+  <script src="/javascripts/modernizr-2.0.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  <script>!window.jQuery && document.write(unescape('%3Cscript src="./javascripts/lib/jquery.min.js"%3E%3C/script%3E'))</script>
+  <script src="/javascripts/octopress.js" type="text/javascript"></script>
+  <!--Fonts from Google"s Web font directory at http://google.com/webfonts -->
+<link href="http://fonts.googleapis.com/css?family=PT+Serif:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+<link href="http://fonts.googleapis.com/css?family=PT+Sans:regular,italic,bold,bolditalic" rel="stylesheet" type="text/css">
+
+  
+  <script type="text/javascript">
+    var _gaq = _gaq || [];
+    _gaq.push(['_setAccount', 'UA-39246569-1']);
+    _gaq.push(['_trackPageview']);
+
+    (function() {
+      var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+      ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+      var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+  </script>
+
+
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
+</head>
+
+<body   >
+  <header role="banner"><hgroup>
+  <h1><a href="/">My Octopress Blog</a></h1>
+  
+    <h2>A blogging framework for hackers.</h2>
+  
+</hgroup>
+
+</header>
+  <nav role="navigation"><ul class="subscription" data-subscription="rss">
+  <li><a href="/atom.xml" rel="subscribe-rss" title="subscribe via RSS">RSS</a></li>
+  
+</ul>
+  
+<form action="http://google.com/search" method="get">
+  <fieldset role="search">
+    <input type="hidden" name="q" value="site:dlecocq.github.com" />
+    <input class="search" type="text" name="q" results="0" placeholder="Search"/>
+  </fieldset>
+</form>
+  
+<ul class="main-navigation">
+  <li><a href="/">Blog</a></li>
+  <li><a href="/blog/archives">Archives</a></li>
+</ul>
+
+</nav>
+  <div id="main">
+    <div id="content">
+      <div>
+<article class="hentry" role="article">
+  
+  <header>
+    
+      <h1 class="entry-title">Libcurl, Curl_multi, and Endless DNS Pain</h1>
+    
+    
+      <p class="meta">
+        
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-09-01T00:00:00-07:00" pubdate data-updated="true">Sep 1<span>st</span>, 2011</time>
+        
+      </p>
+    
+  </header>
+
+
+<div class="entry-content"><p><strong>Curl is an awesome tool.</strong> Awesome. For example, suppose we want to fetch a <em>bunch</em> of urls as quickly as possible from code. Enter <a href="http://curl.haxx.se/libcurl/c/libcurl-multi.html" title="curl_multi" target="_blank">curl_multi</a>, which allows you to manage several requests in flight at the same time. You periodically make a request to curl to see which handles are finished successfully and which are in error, and then add those handles back into a pool that can handle requests.</p>
+
+<p>Any code that I use in this post will be in Python, using <a href="http://pycurl.sourceforge.net/" title="pycURL" target="_blank">pycurl</a> as, well, that’s what we’re using it in. The main flow of this has been (based on the <a href="http://pycurl.cvs.sourceforge.net/pycurl/pycurl/examples/retriever-multi.py?view=markup" title="pycURL Multi Example" target="_blank">example provided by pycurl</a>):
+&lt;pre lang=&#8221;python&#8221;&gt;
+import pycurl
+# Declare a queue 
+queue = [ url1, url2, … ]
+inFlight = 0
+# Make a multi handle
+multi = pycurl.CurlMulti()
+multi.handles = []
+# Allocate a bunch of individual handlers
+for i in range(poolSize):
+	c = pycurl.Curl()
+	# …
+	multi.handles.append(c)
+# Pool of our free handles
+pool = multi.handles[:]
+# Now, go through our requests:
+while len(queue) or inFlight:
+	c = pool.pop()
+	# Make your request
+	inFlight += 1
+while True:
+	ret, numHandles = multi.perform()
+	if ret != pycurl.E_CALL_MULI_PERFORM:
+		break
+while True:
+	numQ, ok, err = multi.info_read()
+	# ok is a list of completed requests
+	for c in ok:
+		# Get your data out
+		inFlight -= 1
+	# err is a list of errored requests
+	for c in err:
+		# Maybe report an error
+		inFlight -= 1
+&lt;/pre&gt;</p>
+
+<p>This is great – we get to make a bunch of requests and they respond quickly. But… there are some problems. When you start using thousands of handles, libcurl won’t miss a beat. Depending on how you have libcurl built, it may not have support for asynchronous DNS requests, and may in fact… <strong>use blocking DNS requests</strong>. So this high throughput means a lot of contention. Libcurl <em>can</em> do this, but it needs to be compiled against <a href="http://c-ares.haxx.se/" title="c-ares" target="_blank">c-ares</a>. Curl provides a quick way of telling you what it has support for:</p>
+
+<pre lang="bash">
+$&gt; curl --version
+curl 7.21.4 (universal-apple-darwin11.0) libcurl/7.21.4 OpenSSL/0.9.8r zlib/1.2.5
+Protocols: dict file ftp ftps gopher http https imap imaps ldap ldaps pop3 pop3s rtsp smtp smtps telnet tftp 
+Features: AsynchDNS GSS-Negotiate IPv6 Largefile NTLM SSL libz
+</pre>
+
+<p>If you don’t see AsynchDNS listed among those features, and you want to add support, this means DNS unpleasantness can ensue. Unfortunately, building and installing the c-ares library library isn’t the only concern. You may have gotten curl with your OS, or you may have gotten it through your package manager. But if you find you <em>need</em> this support, you’ll have to <strong>build libcurl from source.</strong> First, install some generic dependencies you’ll probably want to include:</p>
+
+<pre lang="bash">
+# On Ubuntu, it's pretty simple:
+sudo apt-get install zlib1g-dev libssh2-dev libssl-dev libc-ares2 libc-ares-dev libidn11-dev libldab2-dev
+# On Mac, you can 1) build from source, 2) use port
+sudo port install libidn openssl libssh2 zlib c-ares
+</pre>
+
+<p>Then, you’ll just have to download, configure, compile and install libcurl:
+&lt;pre lang=&#8221;bash&#8221;&gt;
+# First, get the source:
+curl -O http://curl.haxx.se/download/curl-7.21.7.tar.gz
+tar xf curl-7.21.7.tar.gz
+cd curl-7.21.7
+# Now, build everything. This assumes that you installed stuff in /usr
+./configure –with-{ssl,libss2,zlib,libidn}=/usr –enable-{ares,ldap}
+make
+sudo make install
+&lt;/pre&gt;</p>
+
+<p>And now, we have asynchronous DNS in libcurl! It’s really not a feature that’s mission critical for many / most applications of curl. I have invoked curl hundreds of time, and used libcurl on occasion, and have not found it to be an issue until this scale. There are some <a href="http://devblog.seomoz.org/2011/02/high-performance-libcurl-tips/" title="High-Performance Libcurl Tips" target="_blank">other issues</a> that a former SEOmoz’zer wrote about earlier this year, which we intend to include. For example, we may find that the curl-internal multi perform may be based heavily on select, in which case we’ll have to adapt our code to make use of epoll or kqueue. In all likelihood, we’d probably rather use <a href="http://monkey.org/~provos/libevent/" title="libevent" target="_blank">libevent</a>, which has <a href="http://code.google.com/p/pyevent/" title="pyevent" target="_blank">bindings</a> in python and helps to abstract the differences between BSD’s kqueue and epoll on Linux.</p>
+</div>
+
+
+  <footer>
+    <p class="meta">
+      
+  
+
+<span class="byline author vcard">Posted by <span class="fn">Your Name</span></span>
+
+      
+
+
+
+
+
+
+
+
+  
+
+
+<time datetime="2011-09-01T00:00:00-07:00" pubdate data-updated="true">Sep 1<span>st</span>, 2011</time>
+      
+
+
+    </p>
+    
+      <div class="sharing">
+  
+  <a href="http://twitter.com/share" class="twitter-share-button" data-url="http://dlecocq.github.com/blog/2011/09/01/libcurl-curl_multi-and-endless-dns-pain/" data-via="danlecocq" data-counturl="http://dlecocq.github.com/blog/2011/09/01/libcurl-curl_multi-and-endless-dns-pain/" >Tweet</a>
+  
+  
+  
+</div>
+
+    
+    <p class="meta">
+      
+        <a class="basic-alignment left" href="/blog/2011/08/31/seomoz-and-dev-blog-post/" title="Previous Post: SEOmoz and Dev Blog Post">&laquo; SEOmoz and Dev Blog Post</a>
+      
+      
+        <a class="basic-alignment right" href="/blog/2011/09/07/system-stats-in-python/" title="Next Post: System Stats in Python">System Stats in Python &raquo;</a>
+      
+    </p>
+  </footer>
+</article>
+
+</div>
+
+<aside class="sidebar">
+  
+    <section>
+  <h1>Recent Posts</h1>
+  <ul id="recent_posts">
+    
+      <li class="post">
+        <a href="/blog/2012/10/11/running-sudo-with-pssh/">Running sudo with pssh</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/07/21/rough-array-hash-benchmark/">Rough Array Hash Benchmark</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/20/taskmaster-from-disqus/">Taskmaster from DISQUS</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/05/18/seomoz-blog-post-introducing-qless/">SEOmoz Blog Post -- Introducing qless</a>
+      </li>
+    
+      <li class="post">
+        <a href="/blog/2012/03/11/redis-and-lua-for-robust-portable-libraries/">Redis and Lua for Robust, Portable Libraries</a>
+      </li>
+    
+  </ul>
+</section>
+
+<section>
+  <h1>GitHub Repos</h1>
+  <ul id="gh_repos">
+    <li class="loading">Status updating...</li>
+  </ul>
+  
+  <a href="https://github.com/dlecocq">@dlecocq</a> on GitHub
+  
+  <script type="text/javascript">
+    $(document).ready(function(){
+        if (!window.jXHR){
+            var jxhr = document.createElement('script');
+            jxhr.type = 'text/javascript';
+            jxhr.src = '/javascripts/libs/jXHR.js';
+            var s = document.getElementsByTagName('script')[0];
+            s.parentNode.insertBefore(jxhr, s);
+        }
+
+        github.showRepos({
+            user: 'dlecocq',
+            count: 0,
+            skip_forks: true,
+            target: '#gh_repos'
+        });
+    });
+  </script>
+  <script src="/javascripts/github.js" type="text/javascript"> </script>
+</section>
+
+
+
+
+
+  
+</aside>
+
+
+    </div>
+  </div>
+  <footer role="contentinfo"><p>
+  Copyright &copy; 2013 - Your Name -
+  <span class="credit">Powered by <a href="http://octopress.org">Octopress</a></span>
+</p>
+
+</footer>
+  
+
+
+
+
+
+
+
+  <script type="text/javascript">
+    (function(){
+      var twitterWidgets = document.createElement('script');
+      twitterWidgets.type = 'text/javascript';
+      twitterWidgets.async = true;
+      twitterWidgets.src = 'http://platform.twitter.com/widgets.js';
+      document.getElementsByTagName('head')[0].appendChild(twitterWidgets);
+    })();
+  </script>
+
+
+
+
+
+</body>
+</html>

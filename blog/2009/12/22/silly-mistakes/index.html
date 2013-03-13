@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="Every programmer has had this, or at least I like to think that every programmer has experienced this - you compile, press &#8220;go,&#8221; and epic &hellip;">
+  <meta name="description" content="Every programmer has had this, or at least I like to think that every programmer has experienced this - you compile, press “go,” and epic failure. &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,19 +134,19 @@
   </header>
 
 
-<div class="entry-content">Every programmer has had this, or at least I like to think that every programmer has experienced this - you compile, press &#8220;go,&#8221; and epic failure.  And the joy doesn&#8217;t stop there - then the debugging begins.  Occasionally, one encounters a bug that gets the better of them, sometimes for hours, sometimes for days, and sometimes for <a href="http://en.wikipedia.org/wiki/Pentium_FDIV_bug">months</a>.
+<div class="entry-content"><p>Every programmer has had this, or at least I like to think that every programmer has experienced this - you compile, press “go,” and epic failure.  And the joy doesn’t stop there - then the debugging begins.  Occasionally, one encounters a bug that gets the better of them, sometimes for hours, sometimes for days, and sometimes for <a href="http://en.wikipedia.org/wiki/Pentium_FDIV_bug">months</a>.</p>
 
-Hairs is pulled, teeth are gnashed, and eyeballs strain, scouring line after line.  You try to convince yourself that your algorithm is correct, and that each line of code is justified.  And yet, it still gets the better of you.
+<p>Hairs is pulled, teeth are gnashed, and eyeballs strain, scouring line after line.  You try to convince yourself that your algorithm is correct, and that each line of code is justified.  And yet, it still gets the better of you.</p>
 
-After perhaps eight hours, you swallow your pride, and ask a trusted friend to take a look.  Often the very act of explaining things to another human being is helpful, but sometimes you both have to dig into the code.  Maybe a third friend happens upon the two of you, and joins in.
+<p>After perhaps eight hours, you swallow your pride, and ask a trusted friend to take a look.  Often the very act of explaining things to another human being is helpful, but sometimes you both have to dig into the code.  Maybe a third friend happens upon the two of you, and joins in.</p>
 
-Then, a light bulb goes off.  If you&#8217;re lucky, it&#8217;s a massive structural change that&#8217;s required, but sometimes, it&#8217;s a single line, or a single word or character, and you suddenly find yourself embarrassed.  But do not be.  Every programmer I&#8217;ve ever met, no matter how qualified has run into these problems.  Still, I find it easy to doubt my competence afterwards.
+<p>Then, a light bulb goes off.  If you’re lucky, it’s a massive structural change that’s required, but sometimes, it’s a single line, or a single word or character, and you suddenly find yourself embarrassed.  But do not be.  Every programmer I’ve ever met, no matter how qualified has run into these problems.  Still, I find it easy to doubt my competence afterwards.</p>
 
-There are rare and beautiful moments when not only does code compile on the first try, but it runs as expected.  Few and far between, cherish these when they come.
+<p>There are rare and beautiful moments when not only does code compile on the first try, but it runs as expected.  Few and far between, cherish these when they come.</p>
 
-This is all inspired from a recent bug I tracked down.  An embarrassing one.  Sure, had I read the 350 or so pages of the OpenGL ES 2.0 specification, I may have caught it earlier, but this was one of those times when it was a single word that had to change.  <strong>I tell myself that I won&#8217;t keep making these kinds of mistakes, and with each conquered bug I gain a tool, an experience point, and that&#8217;s what makes one&#8217;s craft.</strong>
+<p>This is all inspired from a recent bug I tracked down.  An embarrassing one.  Sure, had I read the 350 or so pages of the OpenGL ES 2.0 specification, I may have caught it earlier, but this was one of those times when it was a single word that had to change.  <strong>I tell myself that I won’t keep making these kinds of mistakes, and with each conquered bug I gain a tool, an experience point, and that’s what makes one’s craft.</strong></p>
 
-I&#8217;ve looked at the time I spend debugging, and I&#8217;ve noticed that the time it takes to solve a bug can often be reduced by leaving the problem for a bit.  Taking a walk, getting a cup of coffee, or sometimes watching an episode of Arrested Development.  <strong>The desire to find and fix a bug is a siren&#8217;s song - nearly impossible to walk away from, but often a bad idea.</strong>
+<p>I’ve looked at the time I spend debugging, and I’ve noticed that the time it takes to solve a bug can often be reduced by leaving the problem for a bit.  Taking a walk, getting a cup of coffee, or sometimes watching an episode of Arrested Development.  <strong>The desire to find and fix a bug is a siren’s song - nearly impossible to walk away from, but often a bad idea.</strong></p>
 </div>
 
 

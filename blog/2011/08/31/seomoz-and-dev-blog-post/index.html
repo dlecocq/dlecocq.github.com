@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,7 +134,7 @@
   </header>
 
 
-<div class="entry-content">I began work almost a month ago at a Seattle company, <a href="http://www.seomoz.org/" title="SEOmoz" target="_blank">SEOmoz</a>. Interesting projects, talented people, and a good place to be. Today I posted my first contribution to their <a href="http://devblog.seomoz.org/" title="Dev Blog" target="_blank">Dev Blog</a> talking about <a href="http://devblog.seomoz.org/2011/08/launching-and-deploying-instances-with-boto-and-fabric/" title="Launching and Deploying Instances with Boto and Fabric" target="_blank">scripting the launching  and deployment of EC2 instances with boto and frabric</a>.
+<div class="entry-content"><p>I began work almost a month ago at a Seattle company, <a href="http://www.seomoz.org/" title="SEOmoz" target="_blank">SEOmoz</a>. Interesting projects, talented people, and a good place to be. Today I posted my first contribution to their <a href="http://devblog.seomoz.org/" title="Dev Blog" target="_blank">Dev Blog</a> talking about <a href="http://devblog.seomoz.org/2011/08/launching-and-deploying-instances-with-boto-and-fabric/" title="Launching and Deploying Instances with Boto and Fabric" target="_blank">scripting the launching  and deployment of EC2 instances with boto and frabric</a>.</p>
 </div>
 
 
@@ -146,7 +177,7 @@
         <a class="basic-alignment left" href="/blog/2011/08/18/yes1/" title="Previous Post: yes(1)">&laquo; yes(1)</a>
       
       
-        <a class="basic-alignment right" href="/blog/2011/09/07/system-stats-in-python/" title="Next Post: System Stats in Python">System Stats in Python &raquo;</a>
+        <a class="basic-alignment right" href="/blog/2011/09/01/libcurl-curl_multi-and-endless-dns-pain/" title="Next Post: Libcurl, curl_multi, and Endless DNS Pain">Libcurl, curl_multi, and Endless DNS Pain &raquo;</a>
       
     </p>
   </footer>

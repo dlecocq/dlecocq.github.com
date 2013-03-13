@@ -9,7 +9,7 @@
   <meta name="author" content="Your Name">
 
   
-  <meta name="description" content="Until recently, I bore the burden of a dirty little secret: I didn&#8217;t use unit testing. I don&#8217;t know if this has been other students&#8217 &hellip;">
+  <meta name="description" content="Until recently, I bore the burden of a dirty little secret: I didn’t use unit testing. I don’t know if this has been other students’ experience, but &hellip;">
   
 
   <!-- http://t.co/dKP3o1e -->
@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,14 +134,14 @@
   </header>
 
 
-<div class="entry-content">Until recently, I bore the burden of a dirty little secret: I didn&#8217;t use unit testing. I don&#8217;t know if this has been other students&#8217; experience, but my software engineering course could have been a lot better. Perhaps it&#8217;s a topic that requires students to determine their own level of involvement, but particularly, I am irked that these issues were not as developed as they could have been:
+<div class="entry-content"><p>Until recently, I bore the burden of a dirty little secret: I didn’t use unit testing. I don’t know if this has been other students’ experience, but my software engineering course could have been a lot better. Perhaps it’s a topic that requires students to determine their own level of involvement, but particularly, I am irked that these issues were not as developed as they could have been:</p>
 <ol>	
 	<li>Version control - svn, git, something! Anything, really! Just use something!</li>
 	<li>Unit testing - sure we talked about it, but its utility isn&#8217;t clear until you use it in earnest</li>
 	<li>Documentation - always felt more like a chore than a tool</li>
 	<li>Issue tracking - <a href="http://www.joelonsoftware.com/articles/fog0000000029.html">Joel on Software</a> said it best: &#8220;I was born with only two bug-storing-slots in my brain.&#8221;</li>
 	<li>More best practices - <a href="http://www.aristeia.com/books.html">Effective C++</a> (it&#8217;s worth it &#8211; get it and read it) alone was worth more than the course was.
-</ol>
+
 
 I concede that these are things whose utility might be hard to convey to college students who may or may not be working on projects they really believe in. Still, very important.
 
@@ -121,6 +152,7 @@ When working with other people, while it&#8217;s nice to be able to talk face-to
 I find that when I&#8217;m fixing a bug, the functionality of that chunk of code gets reduced to that particular feature in my mind. So, if when I try using it, if that bug is fixed, then my job is done. But we&#8217;ve all experienced unintended side effects, where in fixing one thing, we break another. Having a list of features to check is a step up from trying to remember the things that need to work, but it&#8217;s much less than the power of unit testing. I&#8217;ve recently been using <a href="http://unittest-cpp.sourceforge.net/UnitTest++.html">UnitTest++</a> for C++ applications, and <a href="http://docs.jquery.com/QUnit">QUnit</a> from the jQuery people, and have been pleased to thrilled. It allows you to <strong>check functionality exhaustively and quickly on a whim</strong>. Even the task of <strong>writing the tests forces you to define the functional requirements of your code</strong>, and I find it helps to clarify a lot.
 
 Version control lets you try crazy new approaches and track changes, isn&#8217;t that great? I was helping a friend last semester with some of his code, and he was trying to make code changes with copy, paste, and the undo buffer. In the end, he ended up introducing more bugs into the code than he was fixing. <strong>It&#8217;s intractable to keep these kinds of code changes in your brain-RAM.</strong> Use something, use anything. I have a qualm with svn because it was something I used so rarely, I could never remember how to set it up. <strong>Even a barrier as small as that was enough to prevent me from using version control at all.</strong> I love git because it&#8217;s so easy to set up, I use it for almost anything: from a report (if using LaTeX), to a weekend project, to my thesis. There are tons of tools out there, but <strong>just use something.</strong>
+</li></ol>
 </div>
 
 

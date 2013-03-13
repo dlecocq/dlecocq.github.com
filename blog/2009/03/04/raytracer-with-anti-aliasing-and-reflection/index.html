@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,19 +134,19 @@
   </header>
 
 
-<div class="entry-content">For Graphics II, we had to implement a raytracer, and then add anti-aliasing and a feature of our choice.  I selected mirrored surfaces.
+<div class="entry-content"><p>For Graphics II, we had to implement a raytracer, and then add anti-aliasing and a feature of our choice.  I selected mirrored surfaces.</p>
 
-First, anti-aliasing.  Here are a few pictures of the same image rendered with a different number of passes to change the smoothness.
+<p>First, anti-aliasing.  Here are a few pictures of the same image rendered with a different number of passes to change the smoothness.</p>
 
-[caption id=&#8221;attachment_459&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Using one pass&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/anti-alias-1.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/anti-alias-1-300x300.png" alt="Using one pass" title="anti-alias-1" width="300" height="300" class="size-medium wp-image-459" /></a>[/caption]
-[caption id=&#8221;attachment_460&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Using 5 passes.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/anti-alias-5.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/anti-alias-5-300x300.png" alt="Using 5 passes." title="anti-alias-5" width="300" height="300" class="size-medium wp-image-460" /></a>[/caption]
-[caption id=&#8221;attachment_461&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;Using 50 passes.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/anti-alias-50.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/anti-alias-50-300x300.png" alt="Using 50 passes." title="anti-alias-50" width="300" height="300" class="size-medium wp-image-461" /></a>[/caption]
+<p>[caption id=”attachment<em>459” align=”aligncenter” width=”300” caption=”Using one pass”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/anti-alias-1.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/anti-alias-1-300x300.png" alt="Using one pass" title="anti-alias-1" width="300" height="300" class="size-medium wp-image-459" /></a>[/caption]
+[caption id=”attachment</em>460” align=”aligncenter” width=”300” caption=”Using 5 passes.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/anti-alias-5.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/anti-alias-5-300x300.png" alt="Using 5 passes." title="anti-alias-5" width="300" height="300" class="size-medium wp-image-460" /></a>[/caption]
+[caption id=”attachment_461” align=”aligncenter” width=”300” caption=”Using 50 passes.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/anti-alias-50.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/anti-alias-50-300x300.png" alt="Using 50 passes." title="anti-alias-50" width="300" height="300" class="size-medium wp-image-461" /></a>[/caption]</p>
 
-And lastly, here&#8217;s a scene of several spheres, some of which are reflective.
-[caption id=&#8221;attachment_462&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A set of spheres, some of which are mirror-like.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/output.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/output-300x300.png" alt="A set of spheres, some of which are mirror-like." title="Spheres" width="300" height="300" class="size-medium wp-image-462" /></a>[/caption]
-[caption id=&#8221;attachment_467&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A reflective sphere next to some triangles.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/input8r.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/input8r-300x300.png" alt="A reflective sphere next to some triangles." title="input8r" width="300" height="300" class="size-medium wp-image-467" /></a>[/caption]
-[caption id=&#8221;attachment_469&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;A mirrored sphere in the center of four other sphere.&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/input12r.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/input12r-300x300.png" alt="A mirrored sphere in the center of four other sphere." title="input12r" width="300" height="300" class="size-medium wp-image-469" /></a>[/caption]
-[caption id=&#8221;attachment_470&#8221; align=&#8221;aligncenter&#8221; width=&#8221;300&#8221; caption=&#8221;More spheres!&#8221;]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/input16r.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/input16r-300x300.png" alt="More spheres!" title="input16r" width="300" height="300" class="size-medium wp-image-470" /></a>[/caption]
+<p>And lastly, here’s a scene of several spheres, some of which are reflective.
+[caption id=”attachment<em>462” align=”aligncenter” width=”300” caption=”A set of spheres, some of which are mirror-like.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/output.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/output-300x300.png" alt="A set of spheres, some of which are mirror-like." title="Spheres" width="300" height="300" class="size-medium wp-image-462" /></a>[/caption]
+[caption id=”attachment</em>467” align=”aligncenter” width=”300” caption=”A reflective sphere next to some triangles.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/input8r.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/input8r-300x300.png" alt="A reflective sphere next to some triangles." title="input8r" width="300" height="300" class="size-medium wp-image-467" /></a>[/caption]
+[caption id=”attachment<em>469” align=”aligncenter” width=”300” caption=”A mirrored sphere in the center of four other sphere.”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/input12r.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/input12r-300x300.png" alt="A mirrored sphere in the center of four other sphere." title="input12r" width="300" height="300" class="size-medium wp-image-469" /></a>[/caption]
+[caption id=”attachment</em>470” align=”aligncenter” width=”300” caption=”More spheres!”]<a href="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/input16r.png"><img src="http://dan.lecocq.us/wordpress/wp-content/uploads/2009/03/input16r-300x300.png" alt="More spheres!" title="input16r" width="300" height="300" class="size-medium wp-image-470" /></a>[/caption]</p>
 </div>
 
 

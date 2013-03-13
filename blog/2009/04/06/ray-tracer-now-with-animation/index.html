@@ -44,6 +44,37 @@
   </script>
 
 
+
+  <!-- MathJax -->
+  <script type="text/x-mathjax-config">
+    MathJax.Hub.Config({
+      tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"] ],
+        processEscapes: true
+      }
+    });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+  </script>
+
+  <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+          var all = MathJax.Hub.getAllJax(), i;
+          for(i=0; i < all.length; i += 1) {
+              all[i].SourceElement().parentNode.className += ' has-jax';
+          }
+      });
+  </script>
+
+  <script type="text/javascript"
+     src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+  </script>
 </head>
 
 <body   >
@@ -103,9 +134,9 @@
   </header>
 
 
-<div class="entry-content">It occurred to me today that I could render a scene several times with slight perturbations and then mesh them together into a movie.  It took about 15 minutes to render on a cluster at Mines, and then about a minute to stitch together with Mencoder.  At 18 frames per second, here is the result.  Enjoy!
+<div class="entry-content"><p>It occurred to me today that I could render a scene several times with slight perturbations and then mesh them together into a movie.  It took about 15 minutes to render on a cluster at Mines, and then about a minute to stitch together with Mencoder.  At 18 frames per second, here is the result.  Enjoy!</p>
 
-<object width="425" height="344"><param name="movie" value="http://www.youtube.com/v/mWT0UOBTT5Y&hl=en&fs=1&rel=0&color1=0x006699&color2=0x54abd6"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/mWT0UOBTT5Y&hl=en&fs=1&rel=0&color1=0x006699&color2=0x54abd6" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="425" height="344"></embed></object>
+<object width="425" height="344"><param name="movie" value="http://www.youtube.com/v/mWT0UOBTT5Y&amp;hl=en&amp;fs=1&amp;rel=0&amp;color1=0x006699&amp;color2=0x54abd6" /><param name="allowFullScreen" value="true" /><param name="allowscriptaccess" value="always" /><embed src="http://www.youtube.com/v/mWT0UOBTT5Y&amp;hl=en&amp;fs=1&amp;rel=0&amp;color1=0x006699&amp;color2=0x54abd6" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="425" height="344" /></object>
 </div>
 
 
